@@ -1,0 +1,164 @@
+<?php
+error_reporting(E_ERROR | E_PARSE);
+
+include_once("../db_conn/conn.php")
+?>
+<?php
+session_start();
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Parcel Orders</title>
+	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.min.css">
+	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
+	<link rel="stylesheet" href="../assets/css/w3.css">
+	<link rel="stylesheet" href="../assets/css/style.css">
+	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+
+<body style="background-color: #E4E4E4">
+	<?php
+	$user_name="";
+	
+	if(isset($_SESSION['admin_passwd']))
+	{
+		include("admin_navigation.php");
+		$user_name=$_SESSION['admin_passwd'];
+	}
+	else{
+		include("cashier_nav.php");
+		$user_name=$_SESSION['cashier'];
+
+	}
+
+
+	?>
+	<div class="w3-main " style="margin-left:300px;margin-top:43px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
+
+		<!-- Header -->
+		<header class="w3-container " style="padding-top:22px">
+			<h5><b><i class="fa fa-shopping-bag"></i> Parcel Ordering</b></h5>			
+		</header>
+
+		<div class="col-lg-6 col-sm-12">
+			<div class="w3-col l3 s4 w3-margin-top w3-padding-right" style="margin-left: 32px;">
+				<div class="w3-container">												
+					<a class="w3-small w3-wide" href="parcel/addParcel.php?parcelBy=<?php echo $user_name; ?>" title="ADD PARCEL"><span class="fa fa-plus-circle w3-jumbo w3-text-red w3-hover-text-grey"></span></a><br>          						
+				</div>
+			</div>
+			<div id="parcel_tabs">
+				<?php 
+				$fetch_parcels="SELECT * FROM parcel_table WHERE parcel_open=1 OR new_parcel=1 ORDER BY parcel_id DESC";
+				$fetch_parcels_result=mysqli_query($conn,$fetch_parcels);
+				$count=0;
+
+				while($row = mysqli_fetch_array( $fetch_parcels_result))
+				{
+					$color="w3-red";
+					$parcelBy=$row['parcelBy'];
+					$parcel_id=$row['parcel_id'];
+
+					if (($row['new_parcel']==1)) {
+                  # code...
+						$color="w3-green";
+					}
+
+					echo '
+					<div class="w3-col l3 s4 w3-margin">
+						<button type="button" title="Delete Parcel" class="close w3-padding-tiny w3-text-black" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
+						<div class="w3-container '.$color.' w3-padding-12 w3-card-4 w3-round-large">
+							<div class="w3-center" id="'.$parcel_id.'" >
+								<a class=" w3-wide" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'"><span class="w3-large" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span></a>
+							</div>						
+						</div>
+					</div>';
+
+				}   
+
+				?>
+			</div>
+
+			
+
+		</div>
+		<div class="col-lg-6 col-sm-12">
+			<header class="w3-container ">
+				<h5><b><i class="fa fa-user"></i> Action</b></h5>			
+			</header>
+			<div id="per_parcelOrder">
+
+				<?php   
+				if(isset($_GET['parcel_id'])) {
+					include("parcel/per_parcelOrder.php"); }?>
+				</div>
+			</div>
+
+		</div>
+<!-- <script>
+		$(document).ready(function() {
+
+			$('#createKOT_btn').click(function() {
+
+        var tableID = $('#table_id_ip').val(); //where #table could be an input with the name of the table you want to truncate
+        var tableNO = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+
+        $.ajax({
+        	type: "POST",
+        	url: "createKOT.php",
+        	data: 'table_id='+ tableID +'&table_no='+ tableNO,
+        	cache: false,
+        	success: function(response) {
+        		$('#per_parcel_order').html(response);  
+        		document.getElementById('form_addOrder').style.display='block';
+        		document.getElementById('createKOT_btn').style.display='none';
+        	},
+        	error: function(xhr, textStatus, errorThrown) {
+        		alert('request failed');
+        	}
+        });
+
+    });
+		});
+	</script> -->
+	<script>
+
+		$(document).ready(function() {
+  $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+  setInterval(function() {
+  	$('#parcel_tabs').load('parcel/parcel_tabs.php');
+  }, 3000); // the "3000" 
+});
+
+</script>
+<script>
+	function delParcel(id){
+		if (confirm("Delete this Parcel permanantly? ")==0) {}
+		else{
+		var dataS = 'id='+ id;
+		$.ajax({
+        url:"parcel/delParcel.php", //the page containing php script
+        type: "POST", //request type
+        data: dataS,
+        cache: false,
+        success:function(html){
+        	alert(html);
+        	
+        }
+    });
+	}
+
+}
+
+</script>
+</body>
+</html>

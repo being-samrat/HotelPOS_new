@@ -1,0 +1,37 @@
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #0C0A07;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 407px) {
+      .row.content {height: auto;} 
+    }
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+    .container_size{
+      height: 80px;
+
+    }
+
+    .sidebar_size{
+      margin-top: 40px;
+    }
+
+    
+
+    .table_view{
+    background-image: url(adminImg/empty.png);
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-origin: content-box;
+    padding-top:15px;
+  }
+  a:hover {
+    color: #454545;
+}
