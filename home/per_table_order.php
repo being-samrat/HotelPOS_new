@@ -264,13 +264,18 @@ $json_join=json_decode($join_tabs,true);
 		$(document).ready(function(){  
 			$('#search_food').keyup(function(){  
 				var query = $(this).val();  
+				var tid = $('#table_id').val();  
+				var data = {
+                     tid:tid,
+                     query:query
+				};
 				if(query != '')  
 				{  
 					$.ajax({  
 						url:"search_food.php",  
 						method:"POST",  
 						cache:false,
-						data:{query:query},  
+						data:data,  
 						success:function(data)  
 						{  
 							$('#search_foodList').fadeIn();  

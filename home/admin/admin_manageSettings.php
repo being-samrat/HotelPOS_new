@@ -14,7 +14,7 @@ include_once("../db_conn/conn.php")
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Manage Settings</title>
 	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
@@ -35,7 +35,7 @@ include_once("../db_conn/conn.php")
 				e.preventDefault();
 				if(x < max_fields){ 
 					x++; 
-            $(wrapper).append('<div><label>Table No: </label>&nbsp;<input type="text" name="tableNO[]" style="width: 80px;" required/><a href="#" class="delete w3-grey w3-margin-small w3-text-white">Delete</a></div>'); //add input box
+            $(wrapper).append('<div><label>Table No: </label>&nbsp;<input type="text" autocomplete="off" name="tableNO[]" style="width: 80px;" required/><a href="#" class="delete w3-grey w3-margin-left fa fa-remove w3-padding-tiny w3-text-white" title="Delete table"></a></div>'); //add input box
             
         }
         else
@@ -140,166 +140,173 @@ include_once("../db_conn/conn.php")
 				<div class="modal-content col-lg-6 col-lg-offset-4">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button><br>
-												
+						<div class="w3-center">
+							<button class="add_form_field btn w3-card w3-round-xlarge w3-text-red w3-margin-bottom">Add New Table <span class="fa fa-plus"></span> <span style="font-size:10px; font-weight:bold;"> (max. 10)</span></button>
+						</div>
 					</div>
 					<div class="modal-body">
-					<form method="POST" action="add_table.php">
-						<div class="addTable_container w3-center">
-							<button class="add_form_field w3-button w3-red w3-margin-bottom">Add New Table <span style="font-size:10px; font-weight:bold;">+ (max. 10)</span></button>
+						<form method="POST" action="add_table.php">
+							<div class="addTable_container w3-center w3-margin-bottom"></div><hr>
+							
+							<center><input type="checkbox" name="tableAC" title="Make table A/C" value="1">&nbsp;<label>Check to make A/C</label>
+
+								<button class="btn w3-red w3-button form-control" type="submit" id="submit_addTab" name="submit_addTab">Submit</button></center>
+							</form>
 
 						</div>
-						<center><button class="w3-green w3-button" type="submit" id="submit_addTab" name="submit_addTab">Submit</button></center>
-					</form>
-						
 					</div>
 				</div>
 			</div>
+			<!--modal end-->
+			<div id="deleteMsg"></div>
+
+			<header class="w3-container" >
+				<hr class="w3-border">
+				<h5><b><i class="fa fa-list"></i> Manage Menu Card</b></h5>
+			</header>
+			<div>
+				<div class="col-lg-6">
+					<form class="w3-form w3-col l12 w3-col s12 " name="admin_menu_card" id="admin_menu_card" method="POST">
+
+						<select class="form-control w3-col 4 w3-margin-bottom" name="menu_category" style="" id="menu_category">
+							<option class="w3-red" selected><b>Select Category</b></option>
+							<?php 								
+							$cat_sql="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
+							$cat_sql_result=mysqli_query($conn,$cat_sql);
+
+							while($cat_sql_row = mysqli_fetch_array( $cat_sql_result))
+							{
+								echo '<option value="'.$cat_sql_row['cat_name'].'">'.strtoupper($cat_sql_row['cat_name']).'</option>';
+							}   
+
+
+							?>  
+						</select>
+					</form>	
+					<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#addCategory"><span class="fa fa-plus"></span> Add Category</button>
+
+					<button type="button" class="btn w3-card w3-round-xlarge w3-text-red" data-toggle="modal" data-target="#addMenuItem"><span class="fa fa-plus"></span> Add New Item</button>
+
+					<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#deletecategory" style="margin-top:8px"><span class="fa fa-plus"></span> Delete Category</button>
+
+					<div id="deletecategory" class="modal fade " role="dialog">
+						<div class="modal-dialog ">
+							<!-- Modal content-->
+							<div class="modal-content col-lg-8 col-lg-offset-2">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title w3-xxlarge w3-text-red">Delete Category</h4>
+								</div>
+								<div class="modal-body">
+									<form id="form_delete_category" action="delete_category.php" method="POST">
+										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
+											<option class="w3-red" selected><b>Select Category</b></option>
+											<?php 								
+											$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
+											$cat_sql_result2=mysqli_query($conn,$cat_sql2);
+
+											while($cat_sql_row2 = mysqli_fetch_array( $cat_sql_result2))
+											{
+												echo '<option value="'.$cat_sql_row2['cat_id'].'">'.strtoupper($cat_sql_row2['cat_name']).'</option>';
+											}
+											?>  
+										</select>
+										<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to delete category!');"> Delete Category </button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal -->
+					<div id="addCategory" class="modal fade " role="dialog">
+						<div class="modal-dialog ">
+							<!-- Modal content-->
+							<div class="modal-content col-lg-8 col-lg-offset-2">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title w3-xxlarge w3-text-red">Add Category</h4>
+								</div>
+								<div class="modal-body">
+									<form id="form_add_category" action="add_category.php" method="POST">
+										<input class="input form-control" type="text" id="new_category" name="new_category" placeholder="Category name" required="0"><br>
+
+										<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to add new category!');"> Add </button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--modal end-->		
+
+					<!-- Modal -->
+					<div id="addMenuItem" class="modal fade " role="dialog">
+						<div class="modal-dialog ">
+							<!-- Modal content-->
+							<div class="modal-content col-lg-8 col-lg-offset-2">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title w3-xxlarge w3-text-red">Add Menu Item</h4>
+								</div>
+								<div class="modal-body">
+									<form id="form_addItem" action="insert_menuItem.php" method="POST">
+
+										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
+											<option class="w3-red" selected><b>Select Category</b></option>
+											<?php 								
+											$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
+											$cat_sql_result2=mysqli_query($conn,$cat_sql2);
+
+											while($cat_sql_row2 = mysqli_fetch_array( $cat_sql_result2))
+											{
+												echo '<option value="'.$cat_sql_row2['cat_id'].'">'.strtoupper($cat_sql_row2['cat_name']).'</option>';
+											}
+											?>  
+										</select>
+										<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Item Name" required>
+										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Price" style="margin:0px; width: 120px;" required/><br>
+										<hr>
+
+										<input type="checkbox" name="menuAC" value="1">&nbsp;<label>Check to make A/c Menu Item</label>
+
+										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" onclick="return confirm('Confirm to add new category!');">Add <i class="fa fa-angle-double-right"></i>
+										</button>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--modal end-->				
+				</div>
+				<div class="col-lg-6">
+					<div class="col-lg-12 w3-margin" id="menu_item" name="menu_item">
+
+					</div>			
+				</div>
+			</div>
+
+
 		</div>
-		<!--modal end-->
-		<div id="deleteMsg"></div>
-		
-		<header class="w3-container" >
-			<hr class="w3-border">
-			<h5><b><i class="fa fa-list"></i> Manage Menu Card</b></h5>
-		</header>
-		<div>
+		<!--  -->
+
+
+		<div class="w3-main " style="margin-left:300px;margin-top:43px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
+			<!-- Header -->
+
+			<header class="w3-container " style="padding-top:22px">
+				<hr class="w3-border">
+				<h5><b><i class="fa fa-edit"></i> Manage Bill Structure</b></h5>
+			</header>
 			<div class="col-lg-6">
-				<form class="w3-form w3-col l12 w3-col s12 " name="admin_menu_card" id="admin_menu_card" method="POST">
+				<div class="col-lg-12 w3-margin">
 
-					<select class="form-control w3-col 4 w3-margin-bottom" name="menu_category" style="" id="menu_category">
-						<option class="w3-red" selected><b>Select Category</b></option>
-						<?php 								
-						$cat_sql="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
-						$cat_sql_result=mysqli_query($conn,$cat_sql);
+					<?php 								
+					$bill_data="SELECT * FROM bill_struct";
+					$bill_data_res=mysqli_query($conn,$bill_data);
 
-						while($cat_sql_row = mysqli_fetch_array( $cat_sql_result))
-						{
-							echo '<option value="'.$cat_sql_row['cat_name'].'">'.strtoupper($cat_sql_row['cat_name']).'</option>';
-						}   
-
-
-						?>  
-					</select>
-				</form>	
-				<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#addCategory"><span class="fa fa-plus"></span> Add Category</button>
-
-				<button type="button" class="btn w3-card w3-round-xlarge w3-text-red" data-toggle="modal" data-target="#addMenuItem"><span class="fa fa-plus"></span> Add New Item</button>
-
-				<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#deletecategory" style="margin-top:8px"><span class="fa fa-plus"></span> Delete Category</button>
-
-				<div id="deletecategory" class="modal fade " role="dialog">
-					<div class="modal-dialog ">
-						<!-- Modal content-->
-						<div class="modal-content col-lg-8 col-lg-offset-2">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title w3-xxlarge w3-text-red">Delete Category</h4>
-							</div>
-							<div class="modal-body">
-								<form id="form_delete_category" action="delete_category.php" method="POST">
-                                   <select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
-										<option class="w3-red" selected><b>Select Category</b></option>
-										<?php 								
-										$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
-										$cat_sql_result2=mysqli_query($conn,$cat_sql2);
-
-										while($cat_sql_row2 = mysqli_fetch_array( $cat_sql_result2))
-										{
-											echo '<option value="'.$cat_sql_row2['cat_id'].'">'.strtoupper($cat_sql_row2['cat_name']).'</option>';
-										}
-										?>  
-									</select>
-									<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to delete category!');"> Delete Category </button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Modal -->
-				<div id="addCategory" class="modal fade " role="dialog">
-					<div class="modal-dialog ">
-						<!-- Modal content-->
-						<div class="modal-content col-lg-8 col-lg-offset-2">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title w3-xxlarge w3-text-red">Add Category</h4>
-							</div>
-							<div class="modal-body">
-								<form id="form_add_category" action="add_category.php" method="POST">
-									<input class="input form-control" type="text" id="new_category" name="new_category" placeholder="Category name" required="0"><br>
-
-									<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to add new category!');"> Add </button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--modal end-->		
-
-				<!-- Modal -->
-				<div id="addMenuItem" class="modal fade " role="dialog">
-					<div class="modal-dialog ">
-						<!-- Modal content-->
-						<div class="modal-content col-lg-8 col-lg-offset-2">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title w3-xxlarge w3-text-red">Add Menu Item</h4>
-							</div>
-							<div class="modal-body">
-								<form id="form_addItem" action="insert_menuItem.php" method="POST">
-									<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
-										<option class="w3-red" selected><b>Select Category</b></option>
-										<?php 								
-										$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
-										$cat_sql_result2=mysqli_query($conn,$cat_sql2);
-
-										while($cat_sql_row2 = mysqli_fetch_array( $cat_sql_result2))
-										{
-											echo '<option value="'.$cat_sql_row2['cat_id'].'">'.strtoupper($cat_sql_row2['cat_name']).'</option>';
-										}
-										?>  
-									</select>
-									<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Item Name" required>
-									<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Price" style="width: 120px;" required>
-									<button class="form-control btn btn-default w3-red w3-right w3-margin-bottom" id="add_menuItem" type="submit" onclick="return confirm('Confirm to add new category!');" style="width: 120px;">Add <i class="fa fa-angle-double-right"></i>
-									</button>
-
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--modal end-->				
-			</div>
-			<div class="col-lg-6">
-				<div class="col-lg-12 w3-margin" id="menu_item" name="menu_item">
-
-				</div>			
-			</div>
-		</div>
-		
-
-	</div>
-	<!--  -->
-	
-
-	<div class="w3-main " style="margin-left:300px;margin-top:43px;">
-		<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
-		<!-- Header -->
-
-		<header class="w3-container " style="padding-top:22px">
-			<hr class="w3-border">
-			<h5><b><i class="fa fa-edit"></i> Manage Bill Structure</b></h5>
-		</header>
-		<div class="col-lg-6">
-			<div class="col-lg-12 w3-margin">
-
-				<?php 								
-				$bill_data="SELECT * FROM bill_struct";
-				$bill_data_res=mysqli_query($conn,$bill_data);
-
-				while($row = mysqli_fetch_array( $bill_data_res))
+					while($row = mysqli_fetch_array( $bill_data_res))
 					{ 
 						$chk_tax1="";
 						$chk_tax2="";
@@ -312,111 +319,94 @@ include_once("../db_conn/conn.php")
 						
 
 						?>
-				<form method="POST" action="update_bill.php">
-					<label for="hotelName" class="w3-margin-left">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom w3-margin-left" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
-					<label for="hotelAddr" class="w3-margin-left">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom w3-margin-left" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
-					<div class="col-lg-6">
-						<label for="hotelContact">Contact No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
-					</div>
-					<div class="col-lg-6">
-						<label for="hotelContact2">Mobile No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact2" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
-					</div>
-					<div class = "">    
-						<table>
-							<tr>
-								<td>
-									<label for="gst" class="">GST(in %): </label>
-									</td>
+						<form method="POST" action="update_bill.php" style="margin-left:-30px;">
+							<label for="hotelName" class="w3-margin-left">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom w3-margin-left" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
+							<label for="hotelAddr" class="w3-margin-left">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom w3-margin-left" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
+							<div class="col-lg-6">
+								<label for="hotelContact">Contact No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
+							</div>
+							<div class="col-lg-6">
+								<label for="hotelContact2">Mobile No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact2" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
+							</div>
+							<div class="col-lg-6">
+								<label for="gst">GST Name : </label><input type="text" class="form-control w3-margin-bottom" id="gstname" name="gstname" placeholder="" maxlength="10" value="<?php echo $row['gstname']; ?>">
+							</div>
+							<div class="col-lg-6">
+								<label for="gstno">GST No: </label><input type="number" name="gst" id="gst" class="form-control " maxlength="10" value="<?php echo $row['gst'];  ?>">
+							</div>
+
+							<div class="col-lg-8">
+								<table >                        
+									<tr>
+										<td>              
+											<input type="checkbox" name="servicecheck" value="1" <?php echo $chk_tax1; ?>><label for="taxname1">TAX NAME</label>
+										</td>
+									</tr>
+									<tr>
+										<td>              
+											<input type="text" name="servicetax" id="servicetax" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['servicetaxname']; ?>">
+										</td>                        
 										<td>
-											<input type="number" name="gst" id="gst" class="w3-margin-left form-control " style="width: 80px" placeholder="in %" value="<?php echo $row['gst']; ?>">
-											</td>
-											</tr>
-											<tr>
-												<td>              
-													<input type="checkbox" name="servicecheck" value="1" <?php echo $chk_tax1; ?>><label>TAX NAME</label>
-													</td>
-													</tr>
-													<tr>
-														<td>              
-															<input type="text" name="servicetax" id="servicetax" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['servicetaxname']; ?>">
-															</td>                        
-																<td>
-																	<input type="number" name="service" id="service" class="w3-margin-left form-control " style="width: 80px" placeholder="" value = "<?php echo $row['service_tax']; ?>">
-																	</td>
-																	</tr>
-																	<tr> 
-																		<td>              
-																			<input type="checkbox" name="vatcheck" value = '1' <?php echo $chk_tax2; ?>><label>TAX NAME</label>
-																			</td>
-																			</tr>
-																			<tr>
-																				<td>
-																					<input type="text" name="vatname" id="vatname" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vatname']; ?>">
-																					</td>
-																						<td>
-																							<input type="number" name="vat" id="vat" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vat']; ?>">
-																							</td>
-																							</tr>
-																						</table>
-																					</div>
-																					<button class="w3-button w3-margin-top w3-red w3-center w3-margin-left" id="add_Bill" name="add_Bill" type="submit">Update <i class="fa fa-angle-double-right"></i></button>
-																					<?php } 
-																					mysqli_close($conn);
-																					?>
-																				</form>
-																			</div>			
-																		</div>
+											<input type="number" name="service" id="service" class="w3-margin-left form-control " style="width: 80px" placeholder="" value = "<?php echo $row['service_tax']; ?>">
+										</td>
+									</tr>
+									<tr> 
+										<td>              
+											<input type="checkbox" name="vatcheck" value = '1' <?php echo $chk_tax2; ?>><label for="taxname2">TAX NAME</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="text" name="vatname" id="vatname" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vatname']; ?>">
+										</td>
+										<td>
+											<input type="number" name="vat" id="vat" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vat']; ?>">
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-lg-6">
+								<button class="w3-button w3-margin-top w3-red w3-center w3-margin-left" id="add_Bill" name="add_Bill" type="submit">Update <i class="fa fa-angle-double-right"></i></button>
+							</div>
+							<?php } 
+							mysqli_close($conn);
+							?>
+						</form>
+					</div>			
+				</div>
 
 
-																	</div>
-																	<script type="text/javascript">
-																		function add_rows() {
-																			var table = document.getElementById("table_display");
-																			var quantity=document.getElementById("table_quantity").value;
-																			var row = "";
-																			var cell1 = "";
-																			var cell2 = "";
-																			for(var i=1;i<=quantity;i++){
+			</div>
+			
+			<script>
+				$(document).ready(function()
+				{
+					$("#menu_category").change(function()
+					{
+						var id=$(this).val();
+						var dataString = 'id='+ id;
 
-																				row = table.insertRow(0);
-																				
-																				cell1.innerHTML = "<input class='form-control' type='text' name='table_no[]' value='TNO '>";								
-																				cell1 = row.insertCell(0);
-																				
-																				
-																			}
+						$.ajax
+						({
+							type: "POST",
+							url: "admin_showMenuItem.php",
+							data: dataString,
+							cache: false,
+							success: function(html)
+							{
+								$("#menu_item").html(html);
+							} 
+						});
+					});
+				});
 
-																		}
-																	</script>
-																	<script>
-																		$(document).ready(function()
-																		{
-																			$("#menu_category").change(function()
-																			{
-																				var id=$(this).val();
-																				var dataString = 'id='+ id;
+				function delTable(id){
+					if (confirm("Do you really want to delete Table ")==0) {
 
-																				$.ajax
-																				({
-																					type: "POST",
-																					url: "admin_showMenuItem.php",
-																					data: dataString,
-																					cache: false,
-																					success: function(html)
-																					{
-																						$("#menu_item").html(html);
-																					} 
-																				});
-																			});
-																		});
-
-																		function delTable(id){
-																			if (confirm("Do you really want to delete Table ")==0) {
-
-																			}
-																			else{
-																				var dataS = 'id='+ id;
-																				$.ajax({
+					}
+					else{
+						var dataS = 'id='+ id;
+						$.ajax({
         url:"delTable.php", //the page containing php script
         type: "POST", //request type
         data: dataS,
@@ -428,36 +418,37 @@ include_once("../db_conn/conn.php")
         	}, 1000);
         }
     });
-																			}
+					}
 
-																		}
+				}
 
 
 
-																	</script>
-																	<script>
-																		$("#add_menuItem").click( function() {
-																			$.post( $("#form_addItem").attr("action"), 
-																				$("#form_addItem :input").serializeArray(), 
-																				function(info){ 
-																					alert(info);
+			</script>
+			<script>
+				$("#add_menuItem").click( function() {
+					$.post( $("#form_addItem").attr("action"), 
+						$("#form_addItem :input").serializeArray(), 
+						function(info){ 
+							alert(info);
+						location.reload();
 
-																				});
-																			clearInput();
-																		});
+						});
+					clearInput();
+				});
 
-																		$("#form_addItem").submit( function() {
-																			return false;	
-																		});
+				$("#form_addItem").submit( function() {
+					return false;	
+				});
 
-																		function clearInput() {
-																			$("#form_addItem :input").each( function() {
-																				$(this).val('');
-																			});
-																		}
-																	</script>
-																	<script>
-																		$('input[name=disable_item]:unchecked').click(function(){
+				function clearInput() {
+					$("#form_addItem :input").each( function() {
+						$(this).val('');
+					});
+				}
+			</script>
+			<script>
+				$('input[name=disable_item]:unchecked').click(function(){
     //if a checkbox with name 'favorite' is clicked, do the following.
     //grab the id from the clicked box
     var item_id=$(this).attr('item_id');

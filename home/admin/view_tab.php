@@ -28,6 +28,10 @@ while($row = mysqli_fetch_array( $fetch_tables_result))
 									# code...
 		$print="w3-text-yellow";
 	}
+	$ac_Stat="NonA/C";
+	if($row['status'] == '1'){
+		$ac_Stat="A/C";
+	}
 	$table_id=$row['table_id'];
 	$kot_status="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
 	$kot_status_result=mysqli_query($conn,$kot_status);
@@ -44,7 +48,9 @@ while($row = mysqli_fetch_array( $fetch_tables_result))
 	echo '
 	<div class="w3-col l3 s6 w3-margin-bottom '.$hide.'">
 		<span class="w3-small w3-right w3-text-white w3-padding-tiny">
-						<a class="fa fa-refresh" onclick="clear_status('.$table_id.','.$table_name.')"></a>
+			<span>'.$ac_Stat.'</span>
+
+			<a class="fa fa-refresh" onclick="clear_status('.$table_id.','.$table_name.')"></a>
 		</span>
 		<div class="w3-container w3-red w3-padding-16 w3-card-4 w3-round-large">
 			<div class="w3-left w3-circle w3-padding-small" id="'.$table_id.'" style="border:4px solid'.$color.';"><span class="w3-large">#'.$table_name.'</span></div>
