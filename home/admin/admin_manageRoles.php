@@ -84,9 +84,9 @@ if(isset($_POST['submit']))
 
 				</div>
 			</div>
-			<div class="w3-col l7 w3-margin-bottom well">
+			<div class="w3-col l7 well">
 
-				<div class="w3-container w3-padding-16 w3-right" >
+				<div class="w3-container w3-padding-16" >
 					<?php 	
 
 					$sql="SELECT * FROM admin";
