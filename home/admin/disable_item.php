@@ -1,13 +1,16 @@
 <?php
 include('../db_conn/conn.php');
 //echo "hello";
-if($_POST['item_id'])
+if($_GET['item_id'])
 {
-	$id=$_POST['item_id'];
-	$disable_item=$_POST['disable_item'];
-	$sql="UPDATE menu_items SET item_status='1' WHERE item_id='$id'";
-	mysqli_query($conn,$sql);
-
+	$id=$_GET['item_id'];
+	$sql="UPDATE menu_items SET visible='0' WHERE item_id='$id'";
+	
+	if((mysqli_query($conn,$sql))==TRUE){
+		echo "<script>alert('Menu Item Deleted');
+		window.location.href='admin_manageSettings.php';
+	</script>";
+	}
 }
 	
 ?>

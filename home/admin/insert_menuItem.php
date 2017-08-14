@@ -9,19 +9,27 @@ $new_itemName=$_POST['new_itemName'];
 $new_itemPrice=$_POST['new_itemPrice'];
 $cat_id=$_POST['cat_id'];
 $check = $_POST['menuAC'];
-$item_id="0";
 
-
-$newcat_sql="INSERT INTO menu_items(item_name,item_price,cat_id,status) VALUES ('".$new_itemName."','".$new_itemPrice."','".$cat_id."','".$check."')";
-
-
-if ((mysqli_query($conn,$newcat_sql)==TRUE)) {
-	
-	echo "".$new_itemName."Category added";
+if($new_itemName=='' || $new_itemPrice=='' || $cat_id=='Select Category'){
+	echo "<script>alert('Check every Fields');</script>";
 }
 else{
-	echo "Insertion Failed"; 
+	if($check=='1'){
+		$new_itemName=$new_itemName." (A/c)";
+	}
+
+	$newcat_sql="INSERT INTO menu_items(item_name,item_price,cat_id,status) VALUES ('".$new_itemName."','".$new_itemPrice."','".$cat_id."','".$check."')";
+
+
+	if ((mysqli_query($conn,$newcat_sql)==TRUE)) {
+
+		echo "".$new_itemName." Menu added";
+	}
+	else{
+		echo "Insertion Failed"; 
+	}
 }
+
 mysqli_close($conn);
 
 

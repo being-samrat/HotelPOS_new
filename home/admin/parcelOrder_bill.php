@@ -68,23 +68,23 @@ $parcel_id=$_GET['parcel_id'];
      $gst="";
      $cno="";
      $bill_id="";
-     $servicetax = "";
-     $service = "";
-     $vatname = "";
-     $vat = "";
-     $status1 = "";
-     $status2 = "";
+     $tax1_name = "";
+     $tax1_val = "";
+     $tax2_name = "";
+     $tax2_val = "";
+     $tax1_stat = "";
+     $tax2_stat = "";
      while($row = mysqli_fetch_array( $bill_sql_res))
      { 
       $name=$row['hotel_name'];
       $addr=$row['hotel_addr'];
       $gst=$row['gst'];
-      $servicetax = $row['servicetaxname'];
-      $service = $row['service_tax'];
-      $vatname = $row['vatname'];
-      $vat = $row['vat'];
-      $status1 = $row['status1'];
-      $status2 = $row['status2'];
+      $tax1_name = $row['tax1_name'];
+      $tax1_val = $row['tax1_value'];
+      $tax2_name = $row['tax2_name'];
+      $tax2_val = $row['tax2_value'];
+      $tax1_stat = $row['tax1_status'];
+      $tax2_stat = $row['tax2_status'];
       $cno=$row['contact_no'];
       $cno2=$row['mobile_no'];
       $bill_id=$row['bill_id'];
@@ -98,8 +98,8 @@ $parcel_id=$_GET['parcel_id'];
 
       <div class = "text-center "><?php echo $addr; ?><br>
 
-       <b>phone no:</b> <?php echo $cno; ?><br>
-       <b>mobile no:</b> <?php echo $cno2; ?><br>
+       <b>Phone no:</b> <?php echo $cno; ?><br>
+       <b>Mobile no:</b> <?php echo $cno2; ?><br>
        
        
      </div>
@@ -168,54 +168,68 @@ $parcel_id=$_GET['parcel_id'];
         echo("</tr>");
 
       }
-      $servicetax_net=(($servicetax/100)*$totalp);
-      $vat_net=(($vat/100)*$totalp);
+      $tax1_net=(($tax1_val/100)*$totalp);
+      $tax2_net=(($tax2_val/100)*$totalp);
 
-      $net_total=$totalp + ($servicetax_net + $vat_net);
       $hide="";
       if(isset($_POST['discount'])){
         $hide="w3-hide";
+         $dis=0;
        $dis = $_POST['discount'];
        $final = (($dis/100)*$totalp);
 
-       $net_total  = $net_total -$final;
+       $grand_total  = $totalp -$final;
+       $net_total=$grand_total + ($tax1_net + $tax2_net);
 
       }
       echo("<tr>");
       echo("<td colspan= class='text-center'><b>SUB-TOTAL</b></td>");  
       echo ("<td></td>");
       echo ("<td></td>");
-
       echo("<td class='text-center' style ='border:0;' ><b>". $totalp." &#x20A8</b></td>");
+      echo("</tr>");
+
+      echo("<tr>");
+      echo("<td colspan= class='text-center' >Discount</td>");
+      echo ("<td></td>");
+      echo ("<td></td>");
+      echo("<td class='text-center' style = >-".$final." &#x20A8</td>");
+      echo("</tr>");
+
+      echo("<tr>");
+      echo("<td colspan= class='text-center' ><b>Grand Total</b></td>");
+      echo ("<td></td>");
+      echo ("<td></td>");
+      echo("<td class='text-center' style = ><b>".$grand_total." &#x20A8</b></td>");
       echo("</tr>");
 
       echo("<tr>");
       echo("<td colspan= class='text-center' >extra</td>");
       echo ("<td></td>");
       echo ("<td></td>");
-      echo("<td class='text-right' style = ></td>");
+      echo("<td class='text-center' style = ></td>");
       echo("</tr>");
 
-      if($status1 == 1){
+      if($tax1_stat == 1){
 
 
        echo("<tr>");
-       echo("<td colspan= class='text-center' >".$servicetax." (".$service."%)</td>");
+       echo("<td colspan= class='text-center' >".$tax1_name." (".$tax1_val."%)</td>");
        echo ("<td></td>");
        echo ("<td></td>");
-       echo("<td class='text-right' style = >".$servicetax_net." &#x20A8</td>");
+       echo("<td class='text-center' style = >".$tax1_net." &#x20A8</td>");
        echo("</tr>");
        
 
      }
 
-     if($status2 == 1){
+     if($tax2_stat == 1){
 
        echo("<tr>");
-       echo("<td colspan= class='text-center' >".$vatname." (".$vat."%)</td>");
+       echo("<td colspan= class='text-center' >".$tax2_name." (".$tax2_val."%)</td>");
        echo ("<td></td>");
        echo ("<td></td>");
-       echo("<td class='text-right' style = >".$vat_net." &#x20A8</td>");
+       echo("<td class='text-center' style = >".$tax2_net." &#x20A8</td>");
        echo("</tr>");
 
 
@@ -228,18 +242,12 @@ $parcel_id=$_GET['parcel_id'];
      echo("<td colspan= class='text-center'><b>TOTAL</b></td>");
      echo ("<td></td>");
      echo ("<td></td>");    
-     echo("<td class='text-right' style = ><b>".$net_total." &#x20A8</b></td>");
+     echo("<td class='text-center' style = ><b>".$net_total." &#x20A8</b></td>");
      echo("</tr>");
      echo "</tbody> "; 
 
      $dated=date("d/m/y");
      $month=date("m");
-     
-   
-    $update_sql="UPDATE order_table SET order_open='0' WHERE parcel_id='$parcel_id'";          
-    $update_sql2="UPDATE parcel_table SET parcel_open='0' WHERE parcel_id='$parcel_id'";          
-    mysqli_query($conn,$update_sql);
-    mysqli_query($conn,$update_sql2);
 
     // }
     mysqli_close($conn);
@@ -249,7 +257,7 @@ $parcel_id=$_GET['parcel_id'];
   </tr>
   <div class="<?php echo $hide; ?> w3-center w3-light-grey">
   <form method = "POST" >
-    <label class="w3-medium">Discount:</label>&nbsp;<input type = "text" name = "discount" autofocus>
+    <label class="w3-medium">Discount: (in %)</label>&nbsp;<input type="number" step="0.01" name = "discount" autofocus>
     <input type = "submit" name = "submit" value = "submit" >
   </form>
 </div>

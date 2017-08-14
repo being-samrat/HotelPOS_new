@@ -65,7 +65,7 @@ $parcel_id=$_GET['parcel_id'];
     
       <h5 class = "text-center">Parcel KOT Details</h5>
       <br>
-      <span class = "w3-left">Parcel No.# 0<?php echo $parcel_id; ?></span>
+      <span class = "w3-left">Parcel No.# <?php echo $parcel_id; ?></span>
       <br>
       <span class = "w3-left">Order By:<?php echo $parcelBy; ?></span>
       <span class = "w3-right"><?php echo date("d/M/y [H:i]"); ?></span>

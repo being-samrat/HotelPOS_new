@@ -12,7 +12,7 @@ if ((mysqli_query($conn,$newcat_sql)==TRUE)) {
 }
 else
 {
-    echo "Insertion Failed --".mysqli_error($conn);
+    echo "Insertion Failed ".mysqli_error($conn);
 }
 mysqli_close($conn);
 ?>

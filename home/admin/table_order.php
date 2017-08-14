@@ -207,7 +207,7 @@ session_start();
 													<form id="myform" name = "myform" action="admin_insertOrder.php" method="POST" style="display:none">
 														<input type="hidden" name="table_id" id="table_id" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
 
-														<input type="text" name="name" id="name" class="form-control w3-margin-bottom" placeholder="Type Item Name">
+														<input type="text" name="name" autocomplete="off" id="name" class="form-control w3-margin-bottom" placeholder="Type Item Name">
 														<div id="search_foodList" class="w3-card-2">
 
 														</div>
@@ -271,13 +271,18 @@ session_start();
 		$(document).ready(function(){  
 			$('#name').keyup(function(){  
 				var query = $(this).val();  
+				var table_id = $('#table_id_ip').val();
+				var data = {
+                     table_id:table_id,
+                     query:query
+				};  
 				if(query != '')  
 				{  
 					$.ajax({  
 						url:"../search_food.php",  
 						method:"POST",  
 
-						data:{query:query},  
+						data:data,  
 						success:function(data)  
 						{  
 							$('#search_foodList').fadeIn();  

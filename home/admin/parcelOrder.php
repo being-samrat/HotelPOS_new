@@ -78,10 +78,12 @@ session_start();
 
 					echo '
 					<div class="w3-col l1 s4" style="margin:10px">
-						<button type="button" title="Delete Parcel" class="close w3-text-black" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
-						<div class="w3-container '.$color.' w3-card-4 w3-round-large">
+					<span class="w3-small w3-right w3-text-white">
+						<a class="btn fa fa-remove" title="Delete & Clear Parcel" onclick="delParcel('.$row['parcel_id'].')" style="padding:0px;margin:1px 1px 0 1px;"></a>
+					</span>
+					<div class="w3-container '.$color.' w3-card-4 w3-round-large">
 							<div class="" id="'.$parcel_id.'" >
-								<a class="btn" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'">
+								<a class="btn" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'" style="padding:0;margin-bottom:10px">
 									<span class="w3-medium" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span>
 								</a>
 							</div>						
@@ -91,11 +93,7 @@ session_start();
 				}   
 
 				?>
-
 			</div>
-
-
-
 		</div>
 
 		<div class="">
@@ -109,35 +107,9 @@ session_start();
 			</div>
 
 		</div>
-<!-- <script>
-		$(document).ready(function() {
+<script>
 
-			$('#createKOT_btn').click(function() {
-
-        var tableID = $('#table_id_ip').val(); //where #table could be an input with the name of the table you want to truncate
-        var tableNO = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
-
-        $.ajax({
-        	type: "POST",
-        	url: "createKOT.php",
-        	data: 'table_id='+ tableID +'&table_no='+ tableNO,
-        	cache: false,
-        	success: function(response) {
-        		$('#per_parcel_order').html(response);  
-        		document.getElementById('form_addOrder').style.display='block';
-        		document.getElementById('createKOT_btn').style.display='none';
-        	},
-        	error: function(xhr, textStatus, errorThrown) {
-        		alert('request failed');
-        	}
-        });
-
-    });
-		});
-	</script> -->
-	<script>
-
-		$(document).ready(function() {
+$(document).ready(function() {
   $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
   setInterval(function() {
   	$('#parcel_tabs').load('parcel/parcel_tabs.php');
@@ -145,11 +117,12 @@ session_start();
 });
 
 </script>
+
 <script>
 	function delParcel(id){
 		$.confirm({
-			title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Delete Parcel Order!</label>',
-			content: 'This will delete the parcel order permanantly!!!',
+			title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Clear Parcel Order!</label>',
+			content: 'This will delete & clear the parcel order permanantly!!!',
 			buttons: {
 				confirm: function () {
 					var dataS = 'id='+ id;
@@ -173,5 +146,6 @@ session_start();
 	}
 
 </script>
+
 </body>
 </html>

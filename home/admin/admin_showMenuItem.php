@@ -4,7 +4,7 @@ session_start();
 if($_POST['id'])
 {
 	$id=$_POST['id'];
-	$sql="SELECT * FROM menu_category mc,menu_items mi WHERE mc.cat_id=mi.cat_id AND cat_name = '".$id."'";
+	$sql="SELECT * FROM menu_category mc,menu_items mi WHERE mc.cat_id=mi.cat_id AND cat_name = '$id' AND mi.visible='1'";
 	$result = mysqli_query($conn,$sql);
 //echo '<select class="form-control w3-margin"  style="width: 40%" >';
 	
@@ -21,9 +21,10 @@ if($_POST['id'])
 			echo '
 
 			<tr>
-				<td>'.$row['item_name'].'</td>
-				<td>'.$row['item_price'].'</td>
-				<td><label class="w3-small"><input id="'.$row['item_id'].'" type="checkbox" name="disable_item">Disable</label></td>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['item_name'].'" readonly></td>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['item_price'].'" readonly></td>
+				<td><a class="btn w3-center w3-large" title="Delete MenuItem" href="disable_item.php?item_id='.$row['item_id'].'"><i class="fa fa-trash"></i></a>
+				</td>				
 			</tr>
 
 			';
@@ -31,11 +32,11 @@ if($_POST['id'])
 
 		}
 		
-	echo '</tbody>
-</table>';
+		echo '</tbody>
+	</table>';
 
 //echo "</select>";
-mysqli_close($conn);
+	mysqli_close($conn);
 
 }
 ?>  

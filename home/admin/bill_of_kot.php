@@ -78,7 +78,7 @@ else{
 
       <h5 class = "text-center">KOT Details</h5>
       <br>
-      <span class = "w3-left">KOT No.# 000<?php echo $kot_id; ?></span>
+      <span class = "w3-left">KOT No.# <?php echo $kot_id; ?></span>
       <span class = "w3-right">Table No.# T<?php echo $table_no; ?></span><br>
       <br>
       <span class = "w3-left">Order By:<?php echo $order_by; ?></span>

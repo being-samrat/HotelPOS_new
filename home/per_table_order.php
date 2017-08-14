@@ -208,8 +208,7 @@ $json_join=json_decode($join_tabs,true);
 							<form id="form_addOrder" action="insert_order.php" method="POST" style="display: none">
 
 								<input type="hidden" name="table_id" id="table_id" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
-								<input type="hidden" name="tab_status" id="tab_status" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
-
+								
 								<input type="text" name="search_food" autocomplete="off" id="search_food" class="form-control w3-margin-bottom" placeholder="Type Item Name">
 								<div id="search_foodList" class="w3-card-2">
 									
@@ -265,9 +264,9 @@ $json_join=json_decode($join_tabs,true);
 		$(document).ready(function(){  
 			$('#search_food').keyup(function(){  
 				var query = $(this).val();  
-				var tid = $('#table_id').val();  
+				var table_id = $('#table_id').val();  
 				var data = {
-                     tid:tid,
+                     table_id:table_id,
                      query:query
 				};
 				if(query != '')  

@@ -59,6 +59,18 @@ include_once("../../db_conn/conn.php");
 $parcel_id= $_GET['parcel_id'];
 $parcelBy=$_GET['parcelBy']; 
 //session_start();
+$fetch_kot="SELECT * FROM kot_table WHERE parcel_id='$parcel_id'";
+$fetch_kot_result=mysqli_query($conn,$fetch_kot);
+$kot_open="disabled";	
+
+while($row=mysqli_fetch_assoc($fetch_kot_result))
+{
+	if(($row['print_status'])==1){
+		$kot_open="";
+
+	}
+}
+
 ?>
 <header class="w3-container ">
 	<h5><b><i class="fa fa-user"></i> Action</b></h5>			
@@ -91,8 +103,7 @@ $parcelBy=$_GET['parcelBy'];
 						$fetch_orders_result=mysqli_query($conn,$fetch_orders);
 						$items="";
 						$item_rate="";
-						$item_id="";
-
+						$item_id="";						
 
 						while($row=mysqli_fetch_assoc($fetch_orders_result))
 						{
@@ -129,8 +140,8 @@ $parcelBy=$_GET['parcelBy'];
 <div class="w3-row-padding w3-margin-bottom">
 	<div class="w3-col l12 w3-col s12 ">
 		<button type="button" class=" btn w3-round w3-text-red w3-left w3-border" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
-		<a class=" btn w3-round w3-text-red w3-right w3-margin-left w3-border" href="parcelOrder_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>" onclick="return confirm('Finalize and Print Bill for Parcel?');" target="_blank"><span class="fa fa-print"></span> Print BILL</a>
-		<a class=" btn w3-round w3-text-red w3-right w3-border" href="parcelKOT_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>"  target="_blank"><span class="fa fa-sticky-note"></span> Print KOT</a>
+		<a class=" btn w3-round w3-text-red w3-right w3-margin-left w3-border" href="parcelOrder_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>" target="_blank"><span class="fa fa-print"></span> Print BILL</a>
+		<a class=" btn w3-round w3-text-red w3-right w3-border" href="parcelKOT_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>"  target="_blank" <?php echo $kot_open; ?>><span class="fa fa-sticky-note"></span> Print KOT</a>
 
 		<!-- Modal -->
 		<div id="takeOrder" class="modal fade " role="dialog">

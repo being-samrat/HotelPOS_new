@@ -106,9 +106,9 @@ if(isset($_POST['submit']))
 							echo '
 
 							<tr>
-								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['uname'].'"></td>
-								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['passwd'].'"></td>
-								<td><a class="w3-margin-24" href="removeUser.php?admin_id='.$row['admin_id'].'"><i class="fa fa-user-times"> Delete</i></a>
+								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['uname'].'" readonly></td>
+								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['passwd'].'" readonly></td>
+								<td><a class="w3-margin-24" title="Delete User" href="removeUser.php?admin_id='.$row['admin_id'].'"><i class="fa fa-user-times"> Delete</i></a>
 								</td>
 							</tr>
 

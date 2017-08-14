@@ -75,7 +75,7 @@ include_once("../db_conn/conn.php")
 			<h5><b><i class="fa fa-edit"></i> Manage Tables</b></h5>
 		</header>
 
-		<div class="w3-row-padding w3-margin-bottom">
+		<div class="w3-row-padding w3-margin-bottom" style="max-height: 300px">
 			<?php  
 			$fetch_tables="SELECT * FROM hotel_tables ORDER BY table_name";
 			$fetch_tables_result=mysqli_query($conn,$fetch_tables);
@@ -110,8 +110,8 @@ include_once("../db_conn/conn.php")
 				}
 				
 				echo '
-				<div class="w3-col l3 w3-col m3 w3-col s6 w3-margin-bottom '.$hide.'">
-					<button type="button" class="close w3-padding-tiny w3-text-black" onclick="delTable('.$row['table_id'].')">&times;</button>
+				<div class="w3-col l3 w3-col m2 w3-col s6 w3-margin-bottom '.$hide.'">
+					<button type="button" class="close w3-padding-tiny w3-text-black" title="Delete Table" onclick="delTable('.$row['table_id'].')">&times;</button>
 					<div class="w3-container w3-red w3-padding-16 w3-card-8 w3-round-large">
 						<div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid '.$color.';"><span class="w3-large">#'.$row['table_name'].'</span></div>
 						<div class="w3-right w3-xsmall ">
@@ -133,10 +133,9 @@ include_once("../db_conn/conn.php")
 			?>
 
 		</div>
-
-		<button type="button" class="btn w3-card w3-round-xlarge w3-text-red w3-margin-left" data-toggle="modal" data-target="#addTable"><span class="fa fa-plus"></span> Add New Table</button>
-
-
+		<div class="w3-margin-left">
+			<button type="button" class="btn w3-card w3-round-xlarge w3-text-red w3-margin-left" data-toggle="modal" data-target="#addTable"><span class="fa fa-plus"></span> Add New Table</button>
+		</div>
 		<!-- Modal -->
 		<div id="addTable" class="modal fade " role="dialog">
 			<div class="modal-dialog ">
@@ -186,7 +185,7 @@ include_once("../db_conn/conn.php")
 
 							?>  
 						</select>
-						<button type="button" class="btn w3-card w3-right w3-text-red" title="Delete Category" data-toggle="modal" data-target="#deletecategory"><span class="fa fa-remove"></span></button>
+						<button type="button" class="btn w3-round-xlarge w3-right w3-text-red" title="Delete Category" data-toggle="modal" data-target="#deletecategory" style="padding:0px"><span class="fa fa-remove"> Delete Category</span></button>
 					</form>	
 					<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#addCategory"><span class="fa fa-plus"></span> Add Category</button>
 
@@ -254,26 +253,25 @@ include_once("../db_conn/conn.php")
 								<div class="modal-body">
 									<form id="form_addItem" action="insert_menuItem.php" method="POST">
 
-										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
+										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required/>
 											<option class="w3-red" selected>Select Category</option>
 											<?php 								
-											$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
-											$cat_sql_result2=mysqli_query($conn,$cat_sql2);
+											$item_cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
+											$item_cat_sql_result2=mysqli_query($conn,$item_cat_sql2);
 
-											while($cat_sql_row2 = mysqli_fetch_array( $cat_sql_result2))
+											while($item_cat_sql_row2 = mysqli_fetch_array( $item_cat_sql_result2))
 											{
-												echo '<option value="'.$cat_sql_row2['cat_id'].'">'.strtoupper($cat_sql_row2['cat_name']).'</option>';
+												echo '<option value="'.$item_cat_sql_row2['cat_id'].'">'.strtoupper($item_cat_sql_row2['cat_name']).'</option>';
 											}
 											?>  
 										</select>
-										<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Item Name" required>
-										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Price" style="margin:0px; width: 120px;" required/><br>
+										<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Item Name" required/>
+										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Price" style="margin:0px; width: 120px;" required/><br><br>
 										<hr>
 
 										<input type="checkbox" name="menuAC" value="1">&nbsp;<label>Check to make A/c Menu Item</label>
 
-										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" onclick="return confirm('Confirm to add new Menu Item!');">Add <i class="fa fa-angle-double-right"></i>
-										</button>
+										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" data-confirm="Add menu?">Add</button>
 
 									</form>
 								</div>
@@ -313,59 +311,56 @@ include_once("../db_conn/conn.php")
 					{ 
 						$chk_tax1="";
 						$chk_tax2="";
-						if(($row['status1'])==1){
+						if(($row['tax1_status'])==1){
 							$chk_tax1="checked";
 						}
-						if(($row['status2'])==1){
+						if(($row['tax2_status'])==1){
 							$chk_tax2="checked";
 						}
 						
 
 						?>
 						<form method="POST" action="update_bill.php" style="margin-left:-30px;">
-							<label for="hotelName" class="w3-margin-left">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom w3-margin-left" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
-							<label for="hotelAddr" class="w3-margin-left">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom w3-margin-left" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
-							<div class="col-lg-6">
-								<label for="hotelContact">Contact No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
+							<div class="col-lg-12">
+							<label for="hotelName">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
+							</div>
+							<div class="col-lg-12">
+							<label for="hotelAddr">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
 							</div>
 							<div class="col-lg-6">
-								<label for="hotelContact2">Mobile No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact2" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
+								<label for="hotelContact">Contact No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact" placeholder="020-123456" maxlength="10" value="<?php echo $row['contact_no']; ?>">
 							</div>
-							
 							<div class="col-lg-6">
-								<label for="gstno">GST No: </label><input type="text" name="gst" id="gst" class="form-control " maxlength="10" value="<?php echo $row['gst'];  ?>">
+								<label for="hotelContact2">Mobile No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact2" placeholder="9874563210" maxlength="10" value="<?php echo $row['contact_no']; ?>">
+							</div>							
+							<div class="col-lg-12">
+								<label for="gstno">GST No: </label><input type="text" name="gst" id="gst" class="form-control w3-margin-bottom" value="<?php echo $row['gst'];  ?>">
 							</div>
 
-							<div class="col-lg-8 w3-margin-top">
-								<table >                        
-									<tr>
-										<td>              
-											<input type="checkbox" name="servicecheck" value="1" <?php echo $chk_tax1; ?>><label for="taxname1">TAX-1 Name</label>
-										</td>
-									</tr>
-									<tr>
-										<td>              
-											<input type="text" name="servicetax" id="servicetax" class="form-control " style="width: 100px" placeholder="" value="<?php echo $row['servicetaxname']; ?>">
-										</td>                        
-										<td>
-											<input type="number" name="service" id="service" class="w3-margin-left form-control " style="width: 80px" placeholder="" value = "<?php echo $row['service_tax']; ?>">
-										</td>
-									</tr>
-									<tr> 
-										<td>              
-											<input type="checkbox" name="vatcheck" value = '1' <?php echo $chk_tax2; ?>><label for="taxname2">TAX-2 Name</label>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" name="vatname" id="vatname" class="form-control " style="width: 100px" placeholder="" value="<?php echo $row['vatname']; ?>">
-										</td>
-										<td>
-											<input type="number" name="vat" id="vat" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vat']; ?>">
-										</td>
-									</tr>
-								</table>
+							<!--optional tax div 1 -->
+							<div class="col-lg-12">
+								<input type="checkbox" name="tax1_check" value="1" <?php echo $chk_tax1; ?>><label>Optional tax</label>
 							</div>
+							<div class="col-lg-6">								
+								<input type="text" name="tax1_name" id="tax1_name" class="form-control " placeholder="Enter Tax name" value="<?php echo $row['tax1_name']; ?>">
+							</div>
+							<div class="col-lg-6">
+								<input type="number" name="tax1_val" id="tax1_val" class="form-control " style="width: 80px" placeholder="Tax value" value = "<?php echo $row['tax1_value']; ?>"  step="0.01">
+							</div>
+							<!--optional tax div 1 end-->
+
+							<!--optional tax div 1 -->
+							<div class="col-lg-12 w3-margin-top">
+								<input type="checkbox" name="tax2_check" value = '1' <?php echo $chk_tax2; ?>><label>Optional tax</label>
+							</div>
+							<div class="col-lg-6">								
+								<input type="text" name="tax2_name" id="tax2_name" class="form-control " style="width: 215px" placeholder="tax name" value="<?php echo $row['tax2_name']; ?>">
+							</div>
+							<div class="col-lg-6">
+								<input type="number" name="tax2_val" id="tax2_val" class="form-control " style="width: 80px" placeholder="Tax value" value="<?php echo $row['tax2_value']; ?>" step="0.01">
+							</div>
+							<!--optional tax div 1 end-->
+
 							<div class="col-lg-6">
 								<button class="w3-button w3-margin-top w3-red" id="add_Bill" name="add_Bill" type="submit">Update <i class="fa fa-angle-double-right"></i></button>
 							</div>

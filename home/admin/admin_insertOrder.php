@@ -1,10 +1,12 @@
 <?php
+error_reporting(E_ERROR | E_PARSE);
+
 include_once("../db_conn/conn.php");
 session_start();
 
 
 if (($_POST['name'])=='' || ($_POST['quantity'])=='') {
-  echo '<div class="alert alert-warning w3-margin-bottom">
+  echo '<div class="alert alert-danger w3-margin-bottom">
   <strong>Enter All Fields!</strong> 
 </div>
 <script>
@@ -14,7 +16,20 @@ if (($_POST['name'])=='' || ($_POST['quantity'])=='') {
     });
   }, 900);
 </script>';
-}else{
+}
+elseif (($_POST['quantity'])<1) {
+  echo '<div class="alert alert-danger w3-margin-bottom">
+  <strong>Enter Valid Quantity i.e. Non-zero!</strong> 
+</div>
+<script>
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove(); 
+    });
+  }, 1200);
+</script>';
+}
+else{
 
  $item_name=$_POST['name'];
  $item_quantity=$_POST['quantity'];
@@ -26,7 +41,19 @@ if (($_POST['name'])=='' || ($_POST['quantity'])=='') {
  $item_sql="SELECT * FROM menu_items WHERE item_name='$item_name'";
  $item_sql_result=mysqli_query($conn,$item_sql);
 
-
+if(mysqli_num_rows($item_sql_result)==0) {
+    echo '<div class="alert alert-danger w3-margin-bottom">
+    <strong>Food Not Available!</strong> 
+  </div>
+  <script>
+    window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+      });
+    }, 1200);
+  </script>';
+  die();
+}
  while($row = mysqli_fetch_array( $item_sql_result))
  {
   $item_id=$row['item_id'];
@@ -113,8 +140,8 @@ if (($_POST['name'])=='' || ($_POST['quantity'])=='') {
 
 
   if($result){
-   echo '<div class="alert alert-danger w3-margin-bottom">
-   <strong>Added '.$item_name.'!</strong> 
+   echo '<div class="alert alert-success w3-margin-bottom">
+   <strong>Added '.$item_name.'</strong> 
  </div>
  <script>
   window.setTimeout(function() {

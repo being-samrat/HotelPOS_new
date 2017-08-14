@@ -58,17 +58,20 @@ session_start();
 		</header>
 		<div class="w3-col l12 w3-col s12 w3-white w3-margin-left w3-padding">			
 			<form method="POST">
-				<div class="well" style="height: 300px;overflow-y: scroll;">
+				<div class="well" style="height: 300px;overflow-y: scroll;padding-left: 0px">
 					<?php 
 					$fetch_tables="SELECT * FROM hotel_tables WHERE join_id='-1' ORDER BY table_name";
 					$fetch_tables_result=mysqli_query($conn,$fetch_tables);
-
+					
 					while($row = mysqli_fetch_array( $fetch_tables_result))
 					{
-						
+						$ac_Stat="Non A/c";
+						if($row['status'] == '1'){
+							$ac_Stat="A/c";
+						}
 						echo '
-
-						<div class="w3-col l2 w3-red w3-margin-left w3-margin-bottom w3-card-8 w3-round w3-padding-medium">
+						<div class="w3-col l2 w3-red w3-margin-left w3-margin-bottom w3-card-8 w3-round w3-padding-tiny">
+							<div class="w3-right w3-small" style="margin:2px">'.$ac_Stat.'</div>
 							<input style="width:16px;height:16px;" type="checkbox" name="join_tab[]" id="'.$row['table_id'].'" value="'.$row['table_id'].'"><label for="'.$row['table_id'].'">&nbsp;Table no '.$row['table_name'].'</label>
 						</div>';
 						

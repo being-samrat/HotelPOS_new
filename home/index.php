@@ -69,7 +69,7 @@ include_once("db_conn/conn.php");
     <div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
     
     <div class="col-lg-4 col-md-4 col-sm-6" style="padding-right: 0px">
-      <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px;" id="vacant_div">
+      <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px;max-height: 300px;overflow-y: scroll" id="vacant_div">
         <!-- Header -->
         <header class="w3-container ">
           <h5><b><i class="fa fa-bookmark"></i> Vacant Tables</b></h5>
@@ -91,9 +91,8 @@ include_once("db_conn/conn.php");
 
               <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
             </span>
-            <div class="w3-container w3-padding-xlarge w3-card-8 w3-round-large" id="vacant_table_order" style="background-color:#79E40D">
-              <div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white"><a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a></span>
-              </div>
+            <div class="w3-container w3-padding-xlarge w3-card-8 w3-round-large" id="vacant_table_order" style="background-color:#79E40D;padding:0px">
+              <div class="w3-center w3-circle w3-padding-tiny" id="'.$row['table_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white"><a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'" style="margin:6px 0 6px 0;">#'.$row['table_name'].'</a></span></div>
 
             </div>
           </div>';
@@ -103,7 +102,7 @@ include_once("db_conn/conn.php");
 
       </div>  
 
-      <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px" id="occupied_div">
+      <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px;max-height: 300px;overflow-y: scroll" id="occupied_div">
         <!-- Header -->
         <header class="w3-container ">
           <h5><b><i class="fa fa-users"></i> Occupied Tables</b></h5>
@@ -138,10 +137,10 @@ include_once("db_conn/conn.php");
 
             <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
           </span>
-          <div class="w3-container w3-padding-xlarge '.$parent_joined_color.' w3-card-8 w3-round-large" id="occupied_table_order" >
-            <div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid white;">
+          <div class="w3-container w3-padding-xlarge '.$parent_joined_color.' w3-card-8 w3-round-large" id="occupied_table_order" style="padding:0px">
+            <div class="w3-center w3-circle w3-padding-tiny" id="'.$row['table_id'].'" style="border:4px solid white;">
               <span class="w3-large w3-text-white">
-                <a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a>
+                <a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'" style="margin:6px 0 6px 0;">#'.$row['table_name'].'</a>
               </span>
             </div>
             
