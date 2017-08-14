@@ -207,12 +207,12 @@ session_start();
 													<form id="myform" name = "myform" action="admin_insertOrder.php" method="POST" style="display:none">
 														<input type="hidden" name="table_id" id="table_id" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
 
-														<input type="text" name="name" id="name" class="form-control w3-margin-bottom" placeholder="Type Item Name" required/>
+														<input type="text" name="name" id="name" class="form-control w3-margin-bottom" placeholder="Type Item Name">
 														<div id="search_foodList" class="w3-card-2">
 
 														</div>
 
-														<input type="text" name="quantity" id="quantity" class="form-control w3-left" style="width: 80px" placeholder="Count" required/>
+														<input type="text" name="quantity" id="quantity" class="form-control w3-left" style="width: 80px" placeholder="Count">
 
 														<button class="btn w3-red w3-margin-left" id="sub" name="sub" type="submit">Add <i class="fa fa-angle-double-right"></i>
 														</button>

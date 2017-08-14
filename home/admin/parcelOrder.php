@@ -10,7 +10,7 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Parcel Orders</title>
 	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
@@ -18,8 +18,12 @@ session_start();
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
 	<link rel="stylesheet" href="../assets/css/w3.css">
 	<link rel="stylesheet" href="../assets/css/style.css">
+		<link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
+
 	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
+
 	<style type="text/css">
 		
 	</style>
@@ -43,19 +47,18 @@ session_start();
 
 	?>
 	<div class="w3-main " style="margin-left:300px;margin-top:43px;">
-			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
+		<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
 
 		<!-- Header -->
 		<header class="w3-container " style="padding-top:22px">
 			<h5><b><i class="fa fa-shopping-bag"></i> Parcel Ordering</b></h5>			
 		</header>
+		<div class="w3-center">
+			<a class="btn w3-card-4 w3-round w3-text-red w3-center w3-margin-left w3-border" href="parcel/addParcel.php?parcelBy=<?php echo $user_name; ?>" title="ADD PARCEL"><span class="fa fa-plus-circle w3-large"></span> Add Parcel</a><br> 
+		</div>
+		
+		<div class="col-lg-12 col-sm-12 w3-center">
 
-		<div class="col-lg-6 col-sm-12">
-			<div class="w3-col l3 s4 w3-margin-top w3-padding-right" style="margin-left: 32px;">
-				<div class="w3-container">												
-					<a class="w3-small w3-wide" href="parcel/addParcel.php?parcelBy=<?php echo $user_name; ?>" title="ADD PARCEL"><span class="fa fa-plus-circle w3-jumbo w3-text-red w3-hover-text-grey"></span></a><br>          						
-				</div>
-			</div>
 			<div id="parcel_tabs">
 				<?php 
 				$fetch_parcels="SELECT * FROM parcel_table WHERE parcel_open=1 OR new_parcel=1 ORDER BY parcel_id DESC";
@@ -74,11 +77,13 @@ session_start();
 					}
 
 					echo '
-					<div class="w3-col l3 s4 w3-margin">
-						<button type="button" title="Delete Parcel" class="close w3-padding-tiny w3-text-black" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
-						<div class="w3-container '.$color.' w3-padding-12 w3-card-4 w3-round-large">
-							<div class="w3-center" id="'.$parcel_id.'" >
-								<a class=" w3-wide" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'"><span class="w3-large" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span></a>
+					<div class="w3-col l1 s4" style="margin:10px">
+						<button type="button" title="Delete Parcel" class="close w3-text-black" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
+						<div class="w3-container '.$color.' w3-card-4 w3-round-large">
+							<div class="" id="'.$parcel_id.'" >
+								<a class="btn" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'">
+									<span class="w3-medium" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span>
+								</a>
 							</div>						
 						</div>
 					</div>';
@@ -86,15 +91,15 @@ session_start();
 				}   
 
 				?>
+
 			</div>
 
-			
+
 
 		</div>
-		<div class="col-lg-6 col-sm-12">
-			<header class="w3-container ">
-				<h5><b><i class="fa fa-user"></i> Action</b></h5>			
-			</header>
+
+		<div class="">
+			
 			<div id="per_parcelOrder">
 
 				<?php   
@@ -142,22 +147,30 @@ session_start();
 </script>
 <script>
 	function delParcel(id){
-		if (confirm("Delete this Parcel permanantly? ")==0) {}
-		else{
-		var dataS = 'id='+ id;
-		$.ajax({
+		$.confirm({
+			title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Delete Parcel Order!</label>',
+			content: 'This will delete the parcel order permanantly!!!',
+			buttons: {
+				confirm: function () {
+					var dataS = 'id='+ id;
+					$.ajax({
         url:"parcel/delParcel.php", //the page containing php script
         type: "POST", //request type
         data: dataS,
         cache: false,
         success:function(html){
-        	alert(html);
+        	$.alert(html);
         	
         }
     });
-	}
+				},
+				cancel: function () {
 
-}
+				}
+			}
+		});
+
+	}
 
 </script>
 </body>

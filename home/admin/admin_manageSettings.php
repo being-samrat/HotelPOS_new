@@ -22,8 +22,12 @@ include_once("../db_conn/conn.php")
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
 	<link rel="stylesheet" href="../assets/css/w3.css">
 	<link rel="stylesheet" href="../assets/css/style.css">
+		<link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
+
 	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
+
 	<script>
 		$(document).ready(function() {
 			var max_fields      = 10;
@@ -168,7 +172,7 @@ include_once("../db_conn/conn.php")
 				<div class="col-lg-6">
 					<form class="w3-form w3-col l12 w3-col s12 " name="admin_menu_card" id="admin_menu_card" method="POST">
 
-						<select class="form-control w3-col 4 w3-margin-bottom" name="menu_category" style="" id="menu_category">
+						<select class="form-control" name="menu_category" style="" id="menu_category" style="width: 100px;">
 							<option class="w3-red" selected><b>Select Category</b></option>
 							<?php 								
 							$cat_sql="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
@@ -182,12 +186,11 @@ include_once("../db_conn/conn.php")
 
 							?>  
 						</select>
+						<button type="button" class="btn w3-card w3-right w3-text-red" title="Delete Category" data-toggle="modal" data-target="#deletecategory"><span class="fa fa-remove"></span></button>
 					</form>	
 					<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#addCategory"><span class="fa fa-plus"></span> Add Category</button>
 
 					<button type="button" class="btn w3-card w3-round-xlarge w3-text-red" data-toggle="modal" data-target="#addMenuItem"><span class="fa fa-plus"></span> Add New Item</button>
-
-					<button type="button" class="btn w3-card w3-round-xlarge w3-margin-left w3-text-red" data-toggle="modal" data-target="#deletecategory" style="margin-top:8px"><span class="fa fa-plus"></span> Delete Category</button>
 
 					<div id="deletecategory" class="modal fade " role="dialog">
 						<div class="modal-dialog ">
@@ -269,7 +272,7 @@ include_once("../db_conn/conn.php")
 
 										<input type="checkbox" name="menuAC" value="1">&nbsp;<label>Check to make A/c Menu Item</label>
 
-										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" onclick="return confirm('Confirm to add new category!');">Add <i class="fa fa-angle-double-right"></i>
+										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" onclick="return confirm('Confirm to add new Menu Item!');">Add <i class="fa fa-angle-double-right"></i>
 										</button>
 
 									</form>
@@ -328,23 +331,21 @@ include_once("../db_conn/conn.php")
 							<div class="col-lg-6">
 								<label for="hotelContact2">Mobile No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact2" placeholder="020" maxlength="10" value="<?php echo $row['contact_no']; ?>">
 							</div>
+							
 							<div class="col-lg-6">
-								<label for="gst">GST Name : </label><input type="text" class="form-control w3-margin-bottom" id="gstname" name="gstname" placeholder="" maxlength="10" value="<?php echo $row['gstname']; ?>">
-							</div>
-							<div class="col-lg-6">
-								<label for="gstno">GST No: </label><input type="number" name="gst" id="gst" class="form-control " maxlength="10" value="<?php echo $row['gst'];  ?>">
+								<label for="gstno">GST No: </label><input type="text" name="gst" id="gst" class="form-control " maxlength="10" value="<?php echo $row['gst'];  ?>">
 							</div>
 
-							<div class="col-lg-8">
+							<div class="col-lg-8 w3-margin-top">
 								<table >                        
 									<tr>
 										<td>              
-											<input type="checkbox" name="servicecheck" value="1" <?php echo $chk_tax1; ?>><label for="taxname1">TAX NAME</label>
+											<input type="checkbox" name="servicecheck" value="1" <?php echo $chk_tax1; ?>><label for="taxname1">TAX-1 Name</label>
 										</td>
 									</tr>
 									<tr>
 										<td>              
-											<input type="text" name="servicetax" id="servicetax" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['servicetaxname']; ?>">
+											<input type="text" name="servicetax" id="servicetax" class="form-control " style="width: 100px" placeholder="" value="<?php echo $row['servicetaxname']; ?>">
 										</td>                        
 										<td>
 											<input type="number" name="service" id="service" class="w3-margin-left form-control " style="width: 80px" placeholder="" value = "<?php echo $row['service_tax']; ?>">
@@ -352,12 +353,12 @@ include_once("../db_conn/conn.php")
 									</tr>
 									<tr> 
 										<td>              
-											<input type="checkbox" name="vatcheck" value = '1' <?php echo $chk_tax2; ?>><label for="taxname2">TAX NAME</label>
+											<input type="checkbox" name="vatcheck" value = '1' <?php echo $chk_tax2; ?>><label for="taxname2">TAX-2 Name</label>
 										</td>
 									</tr>
 									<tr>
 										<td>
-											<input type="text" name="vatname" id="vatname" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vatname']; ?>">
+											<input type="text" name="vatname" id="vatname" class="form-control " style="width: 100px" placeholder="" value="<?php echo $row['vatname']; ?>">
 										</td>
 										<td>
 											<input type="number" name="vat" id="vat" class="w3-margin-left form-control " style="width: 80px" placeholder="" value="<?php echo $row['vat']; ?>">
@@ -366,7 +367,7 @@ include_once("../db_conn/conn.php")
 								</table>
 							</div>
 							<div class="col-lg-6">
-								<button class="w3-button w3-margin-top w3-red w3-center w3-margin-left" id="add_Bill" name="add_Bill" type="submit">Update <i class="fa fa-angle-double-right"></i></button>
+								<button class="w3-button w3-margin-top w3-red" id="add_Bill" name="add_Bill" type="submit">Update <i class="fa fa-angle-double-right"></i></button>
 							</div>
 							<?php } 
 							mysqli_close($conn);
@@ -401,10 +402,11 @@ include_once("../db_conn/conn.php")
 				});
 
 				function delTable(id){
-					if (confirm("Do you really want to delete Table ")==0) {
-
-					}
-					else{
+					$.confirm({
+			title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Delete the Table!</label>',
+			
+			buttons: {
+				confirm: function () {
 						var dataS = 'id='+ id;
 						$.ajax({
         url:"delTable.php", //the page containing php script
@@ -418,7 +420,12 @@ include_once("../db_conn/conn.php")
         	}, 1000);
         }
     });
-					}
+					},
+				cancel: function () {
+
+				}
+			}
+		});
 
 				}
 
@@ -430,7 +437,7 @@ include_once("../db_conn/conn.php")
 					$.post( $("#form_addItem").attr("action"), 
 						$("#form_addItem :input").serializeArray(), 
 						function(info){ 
-							alert(info);
+							$.alert(info);
 						location.reload();
 
 						});

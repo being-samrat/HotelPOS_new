@@ -92,7 +92,7 @@ include_once("db_conn/conn.php");
               <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
             </span>
             <div class="w3-container w3-padding-xlarge w3-card-8 w3-round-large" id="vacant_table_order" style="background-color:#79E40D">
-              <div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white"><a href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a></span>
+              <div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white"><a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a></span>
               </div>
 
             </div>
@@ -141,7 +141,7 @@ include_once("db_conn/conn.php");
           <div class="w3-container w3-padding-xlarge '.$parent_joined_color.' w3-card-8 w3-round-large" id="occupied_table_order" >
             <div class="w3-left w3-circle w3-padding-small" id="'.$row['table_id'].'" style="border:4px solid white;">
               <span class="w3-large w3-text-white">
-                <a href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a>
+                <a class="btn w3-padding-tiny" href="index.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'">#'.$row['table_name'].'</a>
               </span>
             </div>
             

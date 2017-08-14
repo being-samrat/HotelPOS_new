@@ -161,9 +161,9 @@ else{
       ?>
 
       <?php $order_no=$order_id; ?>
-      GST   NO: #<?php ?><br>
+      GST   NO: #<?php echo $gst; ?><br>
       Order No: #<?php echo $order_id; ?><br>
-      Order By: #<?php echo $order_by; ?><span style = "float:right"><?php echo date("d M y H:i"); ?></span><br>
+      Order By: #<?php echo $order_by; ?><span style = "float:right"><?php echo date("d M Y H:i"); ?></span><br>
 
       
     </div>
@@ -176,7 +176,7 @@ else{
 
         while($row = mysqli_fetch_array( $join_tno_res))
         { 
-          echo "T".$row['table_name']." ";
+          echo "Table ".$row['table_name']." ";
         }
         
       }
@@ -215,16 +215,15 @@ else{
         echo "<td class='text-center' style ='border: 0;'>".$row['quantity']."</td>";
         $total  =  $row['item_price'] * $row['quantity'];
 
-        echo("<td class='text-center' style ='border:0;'><b>".$total."&#x20A8 </b></td>");
+        echo("<td class='text-center' style ='border:0;'><b>".$total." &#x20A8 </b></td>");
         $totalp = $totalp + $total;        
         echo("</tr>");
 
       }
- $gst_net=(($gst/100)*$totalp);
       $servicetax_net=(($servicetax/100)*$totalp);
       $vat_net=(($vat/100)*$totalp);
 
-      $net_total=$totalp + ($gst_net + $servicetax_net + $vat_net);
+      $net_total=$totalp + ($servicetax_net + $vat_net);
  $hide="";
       if(isset($_POST['discount'])){
         $hide="w3-hide";
@@ -239,7 +238,7 @@ else{
       echo ("<td></td>");
       echo ("<td></td>");
 
-      echo("<td class='text-center w3-border-top' style ='border:0;' ><b>". $totalp."&#x20A8</b></td>");
+      echo("<td class='text-center w3-border-top' style ='border:0;' ><b>". $totalp." &#x20A8</b></td>");
       echo("</tr>");
 
       echo("<tr>");
@@ -249,13 +248,6 @@ else{
       echo("<td class='text-right' style = ></td>");
       echo("</tr>");
 
-      echo("<tr>");
-      echo("<td colspan= class='text-center' >GST (".$gst."%)</td>");
-      echo ("<td></td>");
-      echo ("<td></td>");
-      echo("<td class='text-right' style = >".$gst_net."/-</td>");
-      echo("</tr>");
-
       if($status1 == 1){
 
 
@@ -263,7 +255,7 @@ else{
        echo("<td colspan= class='text-center' >".$servicetax." (".$service."%)</td>");
        echo ("<td></td>");
        echo ("<td></td>");
-       echo("<td class='text-right' style = >".$servicetax_net."/-</td>");
+       echo("<td class='text-right' style = >".$servicetax_net." &#x20A8</td>");
        echo("</tr>");
        
 
@@ -275,7 +267,7 @@ else{
        echo("<td colspan= class='text-center' >".$vatname." (".$vat."%)</td>");
        echo ("<td></td>");
        echo ("<td></td>");
-       echo("<td class='text-right' style = >".$vat_net."/-</td>");
+       echo("<td class='text-right' style = >".$vat_net." &#x20A8</td>");
        echo("</tr>");
 
 
@@ -288,7 +280,7 @@ else{
      echo("<td colspan= class='text-center'><b>TOTAL</b></td>");
      echo ("<td></td>");
      echo ("<td></td>");    
-     echo("<td class='text-right' style = ><b>".$net_total."&#x20A8</b></td>");
+     echo("<td class='text-right' style = ><b>".$net_total." &#x20A8</b></td>");
      echo("</tr>");
      echo "</tbody> "; 
 
@@ -303,8 +295,8 @@ else{
   
 <div class="<?php echo $hide; ?> w3-center w3-light-grey">
   <form method = "POST" >
-    <label class="w3-medium">Discount:</label>&nbsp;<input type = "text" name = "discount" autofocus>
-    <input type = "submit" name = "submit" value = "submit" >
+    <label class="w3-medium">Discount (in %):</label>&nbsp;<input type = "text" name = "discount" autofocus>
+    <input type = "submit"  name = "submit" value = "submit" >
   </form>
 </div>
 </table> 

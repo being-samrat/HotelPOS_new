@@ -60,7 +60,9 @@ $parcel_id= $_GET['parcel_id'];
 $parcelBy=$_GET['parcelBy']; 
 //session_start();
 ?>
-
+<header class="w3-container ">
+	<h5><b><i class="fa fa-user"></i> Action</b></h5>			
+</header>
 <div class="col-sm-12">
 	<div class="row">
 		<div class="col-sm-12">
@@ -127,9 +129,8 @@ $parcelBy=$_GET['parcelBy'];
 <div class="w3-row-padding w3-margin-bottom">
 	<div class="w3-col l12 w3-col s12 ">
 		<button type="button" class=" btn w3-round w3-text-red w3-left w3-border" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
-		<button type="button" class=" btn w3-round w3-text-red w3-right w3-margin-left w3-border"><span class="fa fa-print"></span> <a href="parcelOrder_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>" onclick="return confirm('Finalize and Print Bill for Parcel?');" target="blank">Print BILL</a></button>
-		<button type="button" class=" btn w3-round w3-text-red w3-right w3-border"><span class="fa fa-sticky-note"></span> <a href="parcelKOT_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>"  target="blank">Print KOT</a></button>
-
+		<a class=" btn w3-round w3-text-red w3-right w3-margin-left w3-border" href="parcelOrder_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>" onclick="return confirm('Finalize and Print Bill for Parcel?');" target="_blank"><span class="fa fa-print"></span> Print BILL</a>
+		<a class=" btn w3-round w3-text-red w3-right w3-border" href="parcelKOT_bill.php?parcel_id=<?php echo $parcel_id; ?>&parcelBy=<?php echo $parcelBy; ?>"  target="_blank"><span class="fa fa-sticky-note"></span> Print KOT</a>
 
 		<!-- Modal -->
 		<div id="takeOrder" class="modal fade " role="dialog">

@@ -18,7 +18,7 @@
       <span>Welcome, <strong>Admin </strong></span><br>
       
     </div>
-    <span class="w3-right fa fa-sign-out w3-small w3-medium w3-light-grey w3-padding-small"><a href="admin_logout.php"> Logout</a></span>
+    <a class="btn w3-right fa fa-sign-out w3-small w3-medium w3-light-grey w3-padding-small" href="admin_logout.php"> Logout</a>
   </div>
   <hr>
   

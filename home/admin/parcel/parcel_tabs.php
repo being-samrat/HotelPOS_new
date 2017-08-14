@@ -20,12 +20,13 @@ while($row = mysqli_fetch_array( $fetch_parcels_result))
 	}
 
 	echo '
-	<div class="w3-col l3 s4 w3-margin">
-		<button type="button" class="close w3-padding-tiny w3-text-black" title="Delete Parcel" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
-
-		<div class="w3-container '.$color.' w3-padding-12 w3-card-4 w3-round-large">
-			<div class="w3-center" id="'.$parcel_id.'" >
-				<a class=" w3-wide" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'"><span class="w3-large" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span></a>
+	<div class="w3-col l1 s4" style="margin:10px">
+		<button type="button" title="Delete Parcel" class="close w3-text-black" onclick="delParcel('.$row['parcel_id'].')">&times;</button>
+		<div class="w3-container '.$color.' w3-card-4 w3-round-large">
+			<div class="" id="'.$parcel_id.'" >
+				<a class="btn" href="parcelOrder.php?parcel_id='.$parcel_id.'&parcelBy='.$parcelBy.'">
+					<span class="w3-medium" title="Parcel No. '.$parcel_id.'">#P'.$parcel_id.'</span>
+				</a>
 			</div>						
 		</div>
 	</div>';

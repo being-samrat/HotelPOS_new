@@ -17,7 +17,7 @@
       <span>Welcome, <strong><?php echo $_SESSION['cashier']; ?> </strong></span><br>
       
     </div>
-    <span class="w3-right fa fa-sign-out w3-small w3-medium w3-light-grey w3-padding-small"><a href="cashier_logout.php"> Logout</a></span>
+    <a class="btn w3-right fa fa-sign-out w3-small w3-medium w3-light-grey w3-padding-small" href="cashier_logout.php"> Logout</a>
   </div>
   <hr>
   

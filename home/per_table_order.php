@@ -208,13 +208,14 @@ $json_join=json_decode($join_tabs,true);
 							<form id="form_addOrder" action="insert_order.php" method="POST" style="display: none">
 
 								<input type="hidden" name="table_id" id="table_id" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
+								<input type="hidden" name="tab_status" id="tab_status" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
 
-								<input type="text" name="search_food" autocomplete="off" id="search_food" class="form-control w3-margin-bottom" placeholder="Type Item Name" required/>
+								<input type="text" name="search_food" autocomplete="off" id="search_food" class="form-control w3-margin-bottom" placeholder="Type Item Name">
 								<div id="search_foodList" class="w3-card-2">
 									
 								</div>
 
-								<input type="number" name="food_quantity" id="food_quantity" class="form-control w3-left " style="width: 80px" placeholder="Count" required/>
+								<input type="number" name="food_quantity" id="food_quantity" class="form-control w3-left " style="width: 80px" placeholder="Count">
 
 								<button class="btn w3-red w3-margin-left" id="add_orderItem" name="add_orderItem" type="submit">Add <i class="fa fa-angle-double-right"></i>
 								</button>
