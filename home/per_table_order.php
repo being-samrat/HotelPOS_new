@@ -172,7 +172,7 @@ $json_join=json_decode($join_tabs,true);
 
 								<label>TO </label>
 								<select class="form-control w3-col 4 w3-margin-bottom" name="shift_table" style="" id="">
-									<option class="w3-red" selected><b>Select Table</b></option>
+									<option class="w3-red" selected>Select Table</option>
 									<?php 								
 									$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0";
 									$sqlemptyTABLE_RESULT=mysqli_query($conn,$sqlemptyTABLE);

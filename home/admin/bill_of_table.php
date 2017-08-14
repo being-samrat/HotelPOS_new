@@ -291,9 +291,8 @@ else{
     ?>
 
 
-  </tr>  -- 
-  
-<div class="<?php echo $hide; ?> w3-center w3-light-grey">
+  </tr>
+  <div class="<?php echo $hide; ?> w3-center w3-light-grey">
   <form method = "POST" >
     <label class="w3-medium">Discount (in %):</label>&nbsp;<input type = "text" name = "discount" autofocus>
     <input type = "submit"  name = "submit" value = "submit" >

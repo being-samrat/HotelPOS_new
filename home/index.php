@@ -169,7 +169,7 @@ include_once("db_conn/conn.php");
     </div>
 
   </div>
-</div>
+
 <!-- <script>
   $(function() {
     $("#occupied_table_order >div >span >a").click(function(e) {

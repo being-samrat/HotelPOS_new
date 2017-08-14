@@ -1,3 +1,4 @@
+
 <!-- Top container -->
 <?php if(!isset($_SESSION['admin_passwd']))
 {
@@ -22,7 +23,7 @@
   </div>
   <hr>
   
-  <div class="w3-bar-block">
+  <div class="w3-bar-block l">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="admin_index.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-dashboard fa-fw"></i>  Dashboard</a>
     <a href="admin_viewTable.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Dining Tables</a>

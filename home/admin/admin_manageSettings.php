@@ -173,7 +173,7 @@ include_once("../db_conn/conn.php")
 					<form class="w3-form w3-col l12 w3-col s12 " name="admin_menu_card" id="admin_menu_card" method="POST">
 
 						<select class="form-control" name="menu_category" style="" id="menu_category" style="width: 100px;">
-							<option class="w3-red" selected><b>Select Category</b></option>
+							<option class="w3-red" selected>Select Category</option>
 							<?php 								
 							$cat_sql="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
 							$cat_sql_result=mysqli_query($conn,$cat_sql);
@@ -203,7 +203,7 @@ include_once("../db_conn/conn.php")
 								<div class="modal-body">
 									<form id="form_delete_category" action="delete_category.php" method="POST">
 										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
-											<option class="w3-red" selected><b>Select Category</b></option>
+											<option class="w3-red" selected>Select Category</option>
 											<?php 								
 											$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
 											$cat_sql_result2=mysqli_query($conn,$cat_sql2);
@@ -232,7 +232,7 @@ include_once("../db_conn/conn.php")
 								</div>
 								<div class="modal-body">
 									<form id="form_add_category" action="add_category.php" method="POST">
-										<input class="input form-control" type="text" id="new_category" name="new_category" placeholder="Category name" required="0"><br>
+										<input class="input form-control" type="text" id="new_category" name="new_category" placeholder="Category name" required/><br>
 
 										<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to add new category!');"> Add </button>
 									</form>
@@ -255,7 +255,7 @@ include_once("../db_conn/conn.php")
 									<form id="form_addItem" action="insert_menuItem.php" method="POST">
 
 										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
-											<option class="w3-red" selected><b>Select Category</b></option>
+											<option class="w3-red" selected>Select Category</option>
 											<?php 								
 											$cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
 											$cat_sql_result2=mysqli_query($conn,$cat_sql2);
