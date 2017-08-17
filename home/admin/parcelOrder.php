@@ -132,7 +132,7 @@ $(document).ready(function() {
         data: dataS,
         cache: false,
         success:function(html){
-        	$.alert(html);
+        	
         	
         }
     });

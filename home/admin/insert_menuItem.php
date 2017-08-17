@@ -23,7 +23,6 @@ else{
 
 	if ((mysqli_query($conn,$newcat_sql)==TRUE)) {
 
-		echo "".$new_itemName." Menu added";
 	}
 	else{
 		echo "Insertion Failed"; 

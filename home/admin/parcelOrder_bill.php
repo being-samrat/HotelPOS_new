@@ -4,12 +4,13 @@ include_once("../db_conn/conn.php");
 $parcelBy=$_GET['parcelBy'];
 $parcel_id=$_GET['parcel_id'];
 
+date_default_timezone_set('Asia/Kolkata');
 
 ?>
 
 <html monomarginboxes mozdisallowselectionprint>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Bill Payment</title>
   <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
@@ -17,8 +18,10 @@ $parcel_id=$_GET['parcel_id'];
   <link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
   <link rel="stylesheet" href="../assets/css/w3.css">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
   <script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
   <script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
   <style type="text/css" media="print">
     body { blue;margin: 10mm 8mm 10mm 8mm;
     }
@@ -31,22 +34,22 @@ $parcel_id=$_GET['parcel_id'];
 
     </style>
 
-  <script>
+    <script>
 
       function printdiv(printpage)
       {
         var headstr = "<html><head></head><body></body>";
 
-          var footstr = "</body>";
+        var footstr = "</body>";
 
-          var newstr = document.all.item(printpage).innerHTML;
+        var newstr = document.all.item(printpage).innerHTML;
 
-          var oldstr = document.body.innerHTML;
-          document.body.innerHTML = headstr+newstr+footstr;
-          window.print();
-          document.body.innerHTML = oldstr;
-          return false;
-       
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr+newstr+footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+        
 
       }
     </script>
@@ -54,7 +57,7 @@ $parcel_id=$_GET['parcel_id'];
   </head>
 
   <body style="font-family: serif;font-size: 80%;">
-    
+
     <div>           
      <div class = "col-sm-1 col-lg-4 col-md-1 "> 
 
@@ -88,6 +91,8 @@ $parcel_id=$_GET['parcel_id'];
       $cno=$row['contact_no'];
       $cno2=$row['mobile_no'];
       $bill_id=$row['bill_id'];
+      $dated=date("d/m/Y [H:i]");
+      $month=date("M");
     }
     ?>
     <div class = " col-sm-12 col-lg-4 col-md-3" id = "container">
@@ -108,7 +113,7 @@ $parcel_id=$_GET['parcel_id'];
 
      <h5 class = "text-center">Bill Details</h5>
      <div>
-       
+
        <?php 
        $fetch_orders="SELECT * FROM order_table WHERE parcel_id='$parcel_id'";
        $fetch_orders_result=mysqli_query($conn,$fetch_orders);
@@ -172,15 +177,64 @@ $parcel_id=$_GET['parcel_id'];
       $tax2_net=(($tax2_val/100)*$totalp);
 
       $hide="";
+      $show_btn="w3-hide";
       if(isset($_POST['discount'])){
         $hide="w3-hide";
-         $dis=0;
-       $dis = $_POST['discount'];
-       $final = (($dis/100)*$totalp);
+        $dis=0;
+        $show_btn="";
+        $discount_value=0;
+        $discount_type=$_POST['discount_type'];
+        $discount_value = $_POST['discount'];
 
-       $grand_total  = $totalp -$final;
-       $net_total=$grand_total + ($tax1_net + $tax2_net);
+        switch ($discount_type) {
+          case 'percentage':
+          if($discount_value>100){
+            echo "<span class='w3-text-red w3-large'>Discount Percentage value should be less than 100% !!!</span>";
+          }
+          else{
+          $final = (($discount_value/100)*$totalp);
+          $grand_total=$totalp -$final;
+          $net_total=$grand_total + ($tax1_net + $tax2_net);  
+          }
+          
+          break;
 
+          case 'rupees':
+          if($discount_value>$totalp){
+            echo "<span class='w3-text-red w3-large'>Discount value should be less than SUB-TOTAL !!!</span>";
+          }
+          else{
+          $final = $discount_value;
+          $grand_total=$totalp -$final;
+          $net_total=$grand_total + ($tax1_net + $tax2_net);
+          }
+          break;
+          
+          default:
+            # code...
+          break;
+        }      
+        //save bill into bill table
+        $chkBill_exist_sql="SELECT * FROM order_bill WHERE order_no='$order_id'";
+        $chkBill_exist_sql_result=mysqli_query($conn,$chkBill_exist_sql);
+        $bill_count=mysqli_num_rows($chkBill_exist_sql_result);
+        if ($bill_count == 0) 
+        {
+          $saveBill_sql="INSERT INTO order_bill (order_no,table_id,revenue,dated ,month,parcel_id) VALUES ('$order_id','-1','$net_total','$dated','$month','$parcel_id')";
+          mysqli_query($conn ,$saveBill_sql);
+          $upsql4="UPDATE order_bill SET readyTo_print='0' WHERE table_id='$table_id'";
+          mysqli_query($conn,$upsql4);
+        }
+        else{
+    //if order exists, then just update modified revenue
+          $saveBill_sql="UPDATE order_bill SET revenue='$net_total', dated='$dated' WHERE order_no='$order_id'";
+          mysqli_query($conn ,$saveBill_sql);
+          
+
+          $print_ready_sql="UPDATE order_bill SET readyTo_print='1' WHERE order_no='$order_id'";
+          mysqli_query($conn ,$print_ready_sql);
+        }
+  //----end
       }
       echo("<tr>");
       echo("<td colspan= class='text-center'><b>SUB-TOTAL</b></td>");  
@@ -250,17 +304,31 @@ $parcel_id=$_GET['parcel_id'];
      $month=date("m");
 
     // }
-    mysqli_close($conn);
-    ?>
+     mysqli_close($conn);
+     ?>
 
 
-  </tr>
-  <div class="<?php echo $hide; ?> w3-center w3-light-grey">
-  <form method = "POST" >
-    <label class="w3-medium">Discount: (in %)</label>&nbsp;<input type="number" step="0.01" name = "discount" autofocus>
-    <input type = "submit" name = "submit" value = "submit" >
-  </form>
-</div>
+   </tr>
+   <div class="<?php echo $hide; ?> w3-center w3-light-grey" style="padding:0 60px 5px 60px">
+    <form method = "POST">
+      <div class="form-group ">
+        <label class="w3-text-red">If no discount, then enter 0 and submit</label>
+        <div class="input-group">
+          <span class="input-group-addon">Discount</span>
+          <input class="form-control" type="number" autocomplete="off" step="0.01" name="discount" autofocus>
+          <span class="input-group-btn">
+            <select name="discount_type" class="btn">
+              <option value="percentage">in %</option>
+              <option value="rupees">in Rs</option>
+            </select>
+          </span>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">submit!</button>
+          </span>
+        </div>
+      </div>      
+    </form>
+  </div>
 </table> 
 
 <center><i class="w3-center"> Inclusive of all taxes<br>
@@ -269,9 +337,11 @@ $parcel_id=$_GET['parcel_id'];
   </div>
 
 </div>
-<div class = "col-sm-1 col-lg-3 col-md-1">
-<input name="b_print" id="b_print" type="button" class="w3-button w3-red w3-wide w3-margin-top" onClick="javascript:printdiv('container')" value=" Print"  > 
-<input name="discount_refresh" id="discount_refresh" type="button" class="w3-button w3-red w3-wide w3-margin-top" onClick="window.location.href=window.location.href" value=" Reset Discount"  > 
+
+<div class = "col-sm-1 col-lg-3 col-md-1 <?php echo $show_btn; ?>">
+  <a name="b_print" id="b_print" type="btn btn-default" title="print" onclick="javascript:printdiv('container');" class="w3-button w3-text-red w3-card w3-large w3-margin-top fa fa-print"></a>
+  
+  <input name="discount_refresh" id="discount_refresh" type="btn btn-default" class="w3-button w3-text-red w3-card w3-wide w3-margin-top" onClick="window.location.href=window.location.href" value=" Reset Discount"  >  
 </div>
 </div>
 

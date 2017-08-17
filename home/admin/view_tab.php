@@ -35,22 +35,23 @@ while($row = mysqli_fetch_array( $fetch_tables_result))
 	if($row['status'] == '1'){
 		$ac_Stat="A/C";
 	}
-	$table_id=$row['table_id'];
-	$kot_status="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
-	$kot_status_result=mysqli_query($conn,$kot_status);
+	include("bill/billPrinted.php");
+				$table_id=$row['table_id'];
+				$kot_status="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
+				$kot_status_result=mysqli_query($conn,$kot_status);
 
-	$kot_id="";
-	while($row = mysqli_fetch_array( $kot_status_result))
-	{
+				$kot_id="";
+				while($row = mysqli_fetch_array( $kot_status_result))
+				{
 
-		$kot_id=$row['kot_id'];
+					$kot_id=$row['kot_id'];
 
-	}
-
-
-	echo '
-	<div class="w3-col l3 s6 w3-margin-bottom '.$hide.'">
-		<span class="w3-small w3-left w3-text-white w3-padding-tiny">
+				}
+	           
+				echo '
+				<div class="w3-col l3 s6 w3-margin-bottom '.$hide.'">
+		          <span class="w3-badge tickBagde w3-small w3-green '.$show_checked.'">&#10004;</span>
+					<span class="w3-small w3-left w3-margin-left w3-text-white w3-padding-tiny">
 			<span>'.$ac_Stat.'</span>
 		</span>
 		<span class="w3-small w3-right w3-text-white w3-padding-tiny">

@@ -22,17 +22,6 @@ include_once("../db_conn/conn.php")
 	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
 
-	<style type="text/css">
-		.table_view{
-			background-image: url(adminImg/empty.png);
-			background-size: 40px;
-			background-repeat: no-repeat;
-			background-position: left;
-			background-origin: content-box;
-			padding-top:15px;
-		}
-		
-	</style>
 	<style>  
 		.searchUL{  
 			background-color:#eee;  
@@ -82,10 +71,15 @@ include_once("../db_conn/conn.php")
 		ul li:nth-child(odd) {
 			background: #f9f9f9;
 		}
-
+		 .tickBagde{
+      position:absolute;
+      margin:-5px 0 0 -5px;
+      padding-left:5px;
+      padding-right:5px
+    }
 	</style>
 </head>
-<body style="background-color: #E4E4E4">
+<body style="background-color: #E4E4E4;">
 	<?php 
 	$user="";
 	if(isset($_SESSION['admin_passwd']))
@@ -145,6 +139,7 @@ include_once("../db_conn/conn.php")
 				if($row['status'] == '1'){
 					$ac_Stat="A/C";
 				}
+				include("bill/billPrinted.php");
 				$table_id=$row['table_id'];
 				$kot_status="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
 				$kot_status_result=mysqli_query($conn,$kot_status);
@@ -156,17 +151,18 @@ include_once("../db_conn/conn.php")
 					$kot_id=$row['kot_id'];
 
 				}
-
+	           
 				echo '
 				<div class="w3-col l3 s6 w3-margin-bottom '.$hide.'">
-					<span class="w3-small w3-left w3-text-white w3-padding-tiny">
+		          <span class="w3-badge tickBagde w3-small w3-green '.$show_checked.'">&#10004;</span>
+					<span class="w3-small w3-left w3-margin-left w3-text-white w3-padding-tiny">
 						<span>'.$ac_Stat.'</span>
 					</span>
 					<span class="w3-small w3-right w3-text-white w3-padding-tiny">
 						<a class="btn fa fa-remove" title="Clear order" onclick="clear_status('.$table_id.','.$table_name.')" style="padding:0px;"></a>
 					</span>
 					<div class="w3-container w3-red w3-padding-16 w3-card-4 w3-round-large">
-						<div class="w3-left w3-circle w3-padding-small" id="'.$table_id.'" style="border:4px solid'.$color.';"><span class="w3-large">#'.$table_name.'</span></div>
+						<div class="w3-left w3-circle w3-padding-small" id="'.$table_id.'" style="border:4px solid '.$color.';"><span class="w3-large">#'.$table_name.'</span></div>
 						<div class="w3-right">
 							<span class="w3-small fa fa-first-order"> &nbsp;<a class="btn w3-wide" href="table_order.php?table_id='.$table_id.'&table_no='.$table_name.'" style="padding:0px;">Order</a></span><br>
 

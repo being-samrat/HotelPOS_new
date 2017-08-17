@@ -13,8 +13,8 @@ $join_tabs="";
 $json_join="";
 while($row = mysqli_fetch_array( $get_tno_res))
 { 
-  $join_tabs=$row['joint_tables'];
-  $table_name=$row['table_name'];
+	$join_tabs=$row['joint_tables'];
+	$table_name=$row['table_name'];
 }
 $json_join=json_decode($join_tabs,true);
 
@@ -27,14 +27,17 @@ mysqli_query($conn,$upsql2);
 mysqli_query($conn,$upsql3);
 
 foreach($json_join as $k){
-  $upsql4="UPDATE hotel_tables SET join_id='-1' WHERE table_id='$k'";
-  $upsql5="UPDATE hotel_tables SET occupied='0' WHERE table_id='$k'";
-
-  mysqli_query($conn,$upsql4);
-  mysqli_query($conn,$upsql5);
-
-
+	$upsql5="UPDATE hotel_tables SET join_id='-1',occupied='0' WHERE table_id='$k'";
+  //$upsql6="UPDATE hotel_tables SET occupied='0' WHERE table_id='$k'";
+	mysqli_query($conn,$upsql5);
+  //mysqli_query($conn,$upsql6);
+	$upsql_join="UPDATE order_bill SET readyTo_print='0' WHERE table_id='$k'";
+	mysqli_query($conn,$upsql_join);
 }
-  echo '<label class="w3-label w3-large">Table '.$table_no.' order is now cleared!!!</label>';
+
+$upsql4="UPDATE order_bill SET readyTo_print='0' WHERE table_id='$table_id'";
+mysqli_query($conn,$upsql4);
+
+echo '<label class="w3-label w3-large">Table '.$table_no.' order is now cleared!!!</label>';
 
 ?>

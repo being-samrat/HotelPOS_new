@@ -14,7 +14,7 @@ else {
 //echo $kot_array."".$join_parent;
 
 //getting id of next join_table record-------------------------------------------------
-	$sql_getID="SELECT * FROM information_schema.TABLES WHERE TABLE_NAME = 'join_table'";
+	$sql_getID="SELECT * FROM information_schema.TABLES WHERE TABLE_NAME = 'join_table'  AND TABLE_SCHEMA='$db_name'";
 	$sql_getID_res=mysqli_query($conn,$sql_getID);
 	$parentID="";
 	while($row = mysqli_fetch_array( $sql_getID_res))

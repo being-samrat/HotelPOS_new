@@ -33,6 +33,7 @@ else{
 	$table_id=$_POST['table_id'];
 	$item_id="";
 	$item_price="";
+	$item_count="";
 
 	$item_sql="SELECT * FROM menu_items WHERE item_name='$item_name'";
 	$item_sql_result=mysqli_query($conn,$item_sql);
@@ -54,8 +55,7 @@ while($row = mysqli_fetch_array( $item_sql_result))
 {
 	$item_id=$row['item_id'];
 	$item_price=$row['item_price'];
-
-  //$p=$row['place'];
+	$item_count=$row['ordered_count'];
 }//
 //-------------------------------------------
 $kot_id="";
@@ -82,8 +82,6 @@ $new_item=json_encode($kot_array);
 
 $ukot_sql="UPDATE kot_table SET kot_items='$new_item' WHERE kot_id='$kot_id' AND print_status='1' ";
 $result=mysqli_query($conn,$ukot_sql);
-
-
 
 //------------insert value in order table-------------------
 $order_id="";
@@ -127,8 +125,12 @@ $Order_result=mysqli_query($conn,$uOrder_sql);
 //-----------------------------------------------------
 if($result){
 
+$item_count=($item_count) + ($item_quantity);
+$incrementCount_sql="UPDATE menu_items SET ordered_count='$item_count' WHERE item_id='$item_id'";
+$incrementCount_result=mysqli_query($conn,$incrementCount_sql);
+
 	echo '<div class="alert alert-danger w3-margin-bottom">
-	<strong>Added '.$item_name.'</strong> 
+	<strong>Added '.$item_name.' </strong> 
 </div>
 <script>
 	window.setTimeout(function() {

@@ -37,27 +37,30 @@ else{
 
  $item_id="";
  $item_price="";
+ $item_count="";
+
 
  $item_sql="SELECT * FROM menu_items WHERE item_name='$item_name'";
  $item_sql_result=mysqli_query($conn,$item_sql);
 
-if(mysqli_num_rows($item_sql_result)==0) {
-    echo '<div class="alert alert-danger w3-margin-bottom">
-    <strong>Food Not Available!</strong> 
-  </div>
-  <script>
-    window.setTimeout(function() {
-      $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-      });
-    }, 1200);
-  </script>';
-  die();
+ if(mysqli_num_rows($item_sql_result)==0) {
+  echo '<div class="alert alert-danger w3-margin-bottom">
+  <strong>Food Not Available!</strong> 
+</div>
+<script>
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove(); 
+    });
+  }, 1200);
+</script>';
+die();
 }
- while($row = mysqli_fetch_array( $item_sql_result))
- {
+while($row = mysqli_fetch_array( $item_sql_result))
+{
   $item_id=$row['item_id'];
   $item_price=$row['item_price'];
+  $item_count=$row['ordered_count'];
 
   }//
 
@@ -140,16 +143,21 @@ if(mysqli_num_rows($item_sql_result)==0) {
 
 
   if($result){
-   echo '<div class="alert alert-success w3-margin-bottom">
-   <strong>Added '.$item_name.'</strong> 
- </div>
- <script>
-  window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-      $(this).remove(); 
-    });
-  }, 900);
-</script>';
+
+    $item_count=($item_count) + ($item_quantity);
+    $incrementCount_sql="UPDATE menu_items SET ordered_count='$item_count' WHERE item_id='$item_id'";
+    $incrementCount_result=mysqli_query($conn,$incrementCount_sql);
+
+    echo '<div class="alert alert-success w3-margin-bottom">
+    <strong>Added '.$item_name.'</strong> 
+  </div>
+  <script>
+    window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+      });
+    }, 900);
+  </script>';
 
 }
 else{

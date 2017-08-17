@@ -1,4 +1,3 @@
-
 <?php
 include_once("db_conn/conn.php");
 ?>
@@ -25,6 +24,12 @@ include_once("db_conn/conn.php");
       background-position: left;
       background-origin: content-box;
       padding-top:15px;
+    }
+    .tickBagde{
+      position:absolute;
+      margin:-5px 0 0 -5px;
+      padding-left:5px;
+      padding-right:5px
     }
   </style>
 
@@ -131,7 +136,9 @@ include_once("db_conn/conn.php");
           if($row['status'] == '1'){
             $ac_Stat="A/C";
           }
+           include("admin/bill/billPrinted.php");
           echo '<div class="w3-col l4 w3-col s6 w3-margin-bottom '.$parent_joined_hide.'">
+          <span class="w3-badge tickBagde w3-small w3-green '.$show_checked.'">&#10004;</span>
           <span class="w3-small w3-right w3-text-white w3-padding-tiny">
             <span>'.$ac_Stat.'</span>
 

@@ -11,28 +11,29 @@ include_once("../db_conn/conn.php")
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Dashboard-Hotel POS</title>
-	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.min.css">
-	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
-	<link rel="stylesheet" href="../assets/css/w3.css">
-	<link rel="stylesheet" href="../assets/css/style.css">
-	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+  <title>Dashboard-Hotel POS</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/font awesome/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
+  <link rel="stylesheet" href="../assets/css/w3.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
+  <script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
 
 </head>
 
 
 <body class="w3-light-grey ">
 
-  <?php include("admin_navigation.php") ;
+  <?php 
+  include("admin_navigation.php") ;
   $tableOccupied_sql="SELECT * FROM hotel_tables WHERE occupied='1'";
   $tableTotal_sql="SELECT * FROM hotel_tables";
   $today=date("d/m/y");
   $tableTotalOrder_sql="SELECT * FROM order_bill WHERE dated='".$today."'";
-    
+
   $tabOccupied=mysqli_query($conn,$tableOccupied_sql);
   $tab=mysqli_query($conn,$tableTotal_sql);
   $today_order_res=mysqli_query($conn,$tableTotalOrder_sql);
@@ -95,56 +96,53 @@ include_once("../db_conn/conn.php")
     </div> -->
   </div>
 
-  <!-- <div class="w3-panel">
+  <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-third">
-        <h5>Regions</h5>
-        <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
-      </div>
-      <div class="w3-twothird">
-        <h5>Feeds</h5>
-        <table class="w3-table w3-striped w3-white">
+        <h5>Menu Items</h5>
+        <table class="table table-striped w3-white" style="margin-bottom: 0px">
           <tr>
-            <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-            <td>New record, over 90 views.</td>
-            <td><i>10 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-            <td>Database error.</td>
-            <td><i>15 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-            <td>New record, over 40 users.</td>
-            <td><i>17 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-            <td>New comments.</td>
-            <td><i>25 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-            <td>Check transactions.</td>
-            <td><i>28 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-            <td>CPU overload.</td>
-            <td><i>35 mins</i></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-            <td>New shares.</td>
-            <td><i>39 mins</i></td>
+            <td class="w3-center" style="font-weight: bold;">Sr.No</td>
+            <td class="w3-center" style="font-weight: bold;">
+              Menu Item<br>
+              <select style="font-size: 12px" id="menuRank_category">
+                <option value="all_menu">All</option>
+                <option value="top_nonAC">Top (Non A/c)</option>
+                <option value="top_AC">Top (A/c)</option>
+                <option value="lowest_nonAC">Lowest (Non A/c)</option>
+                <option value="lowest_AC">Lowest (A/c)</option>
+              </select>
+            </td>
+            <td class="text-right" style="font-weight: bold;">Ordered</td>
           </tr>
         </table>
+        <table id="menu_rank" class="table table-striped w3-white" style="margin-top: 0px">
+          <?php  
+          $top_menu_sql="SELECT * FROM menu_items WHERE visible='1'";
+          $top_menu_result=mysqli_query($conn,$top_menu_sql);  
+          $count=0;    
+          while($row = mysqli_fetch_array( $top_menu_result))
+          {
+            $count++;
+            echo '
+            <tr>
+              <td class="w3-center" style="">'.$count.'</td>
+              <td class="w3-center">'.$row['item_name'].'</td>
+              <td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+            </tr>
+            ';
+          }
+          ?>
+        </table>
+      </div>
+      <div class="w3-twothird">
+        <h5>Graph</h5>
+        <div class="well"></div>
       </div>
     </div>
   </div>
   <hr>
-  <div class="w3-container">
+  <!-- <div class="w3-container">
     <h5>General Stats</h5>
     <p>New Visitors</p>
     <div class="w3-grey">
@@ -258,16 +256,38 @@ include_once("../db_conn/conn.php")
         <p>Interests</p>
       </div>
     </div>
-  </div>
--->
-<!-- Footer -->
-<hr>
-<footer class="w3-container w3-padding-16 w3-light-grey w3-center">
-  <h4>&copy; Copyright and All Rights reserved</h4>
-  <p>Powered by <a href="https://bizmo-tech.com/" target="_blank">Bizmo Technologies</a></p>
-</footer>
+  </div> -->
 
-<!-- End page content -->
+  <!-- Footer -->
+  <hr>
+  <footer class="w3-container w3-padding-16 w3-light-grey w3-center">
+    <h4>&copy; Copyright and All Rights reserved</h4>
+    <p>Powered by <a href="https://bizmo-tech.com/" target="_blank">Bizmo Technologies</a></p>
+  </footer>
+
+  <!-- End page content -->
 </div>
+<script>
+  $(document).ready(function()
+{
+  $("#menuRank_category").change(function()
+  {
+    var menuRank_category=$(this).val();
+    var dataString = 'menuRank_category='+ menuRank_category;
+
+    $.ajax
+    ({
+      type: "POST",
+      url: "report/menuRank_report.php",
+      data: dataString,
+      cache: false,
+      success: function(html)
+      {
+        $("#menu_rank").html(html);
+      } 
+    });
+  });
+});
+</script>
 </body>
 </html>

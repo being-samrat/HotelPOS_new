@@ -28,9 +28,12 @@ while($row = mysqli_fetch_array( $fetch_tables_result))
     $ac_Stat="A/C";
   }
 
+  include("admin/bill/billPrinted.php");
   echo '<div class="w3-col l4 w3-col s6 w3-margin-bottom '.$parent_joined_hide.'">
+  <span class="w3-badge tickBagde w3-small w3-green '.$show_checked.'">&#10004;</span>
   <span class="w3-small w3-right w3-text-white w3-padding-tiny">
     <span>'.$ac_Stat.'</span>
+
     <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
   </span>
   <div class="w3-container w3-padding-xlarge '.$parent_joined_color.' w3-card-8 w3-round-large" id="occupied_table_order" style="padding:0px">

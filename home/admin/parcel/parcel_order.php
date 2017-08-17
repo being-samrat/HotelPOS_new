@@ -35,6 +35,7 @@ else{
 	$parcel_id=$_POST['parcel_id'];
 	$item_id="";
 	$item_price="";
+	$item_count="";
 
 	$item_sql="SELECT * FROM menu_items WHERE item_name='$item_name'";
 	$item_sql_result=mysqli_query($conn,$item_sql);
@@ -56,6 +57,7 @@ else{
 	{
 		$item_id=$row['item_id'];
 		$item_price=$row['item_price'];
+		$item_count=$row['ordered_count'];
 
 }//
 //-------------------------------------------
@@ -125,12 +127,12 @@ $Order_result=mysqli_query($conn,$uOrder_sql);
 
 //------------------end-----------------------------------------
 
-
-
-
-
 //-----------------------------------------------------
 if($result){
+	$item_count=($item_count) + ($item_quantity);
+    $incrementCount_sql="UPDATE menu_items SET ordered_count='$item_count' WHERE item_id='$item_id'";
+    $incrementCount_result=mysqli_query($conn,$incrementCount_sql);
+
 	echo '<div class="alert alert-success w3-margin-bottom">
 	<strong>Added '.$item_name.'</strong> 
 	</div>

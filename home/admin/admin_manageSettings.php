@@ -39,7 +39,7 @@ include_once("../db_conn/conn.php")
 				e.preventDefault();
 				if(x < max_fields){ 
 					x++; 
-            $(wrapper).append('<div><label>Table No: </label>&nbsp;<input type="text" autocomplete="off" name="tableNO[]" style="width: 80px;" required/><a href="#" class="delete w3-grey w3-margin-left fa fa-remove w3-padding-tiny w3-text-white" title="Delete table"></a></div>'); //add input box
+            $(wrapper).append('<div><label>Table No: </label>&nbsp;<input type="text" autocomplete="off" name="tableNO[]" style="width: 60px;" required/><a href="#" class="delete w3-grey w3-margin-left fa fa-remove w3-padding-tiny w3-text-white" title="Delete table"></a></div>'); //add input box
             
         }
         else
@@ -144,7 +144,11 @@ include_once("../db_conn/conn.php")
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button><br>
 						<div class="w3-center">
-							<button class="add_form_field btn w3-card w3-round-xlarge w3-text-red w3-margin-bottom">Add New Table <span class="fa fa-plus"></span> <span style="font-size:10px; font-weight:bold;"> (max. 10)</span></button>
+							<button class="add_form_field btn w3-card w3-round-xlarge w3-text-red">Add New Table <span class="fa fa-plus"></span>
+							</button>
+							<div class="w3-margin-bottom">
+								<span class="w3-right w3-small w3-text-red" style="font-weight:bold;"> (max. 10)</span>		
+							</div>
 						</div>
 					</div>
 					<div class="modal-body">
