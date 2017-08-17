@@ -1,6 +1,8 @@
 
 <?php 
+error_reporting(E_ERROR | E_PARSE);
 session_start();
+date_default_timezone_set('Asia/Kolkata');
 
 $user="";
 if(isset($_SESSION['admin_passwd']))
@@ -13,7 +15,7 @@ else{
 
 include_once("../../db_conn/conn.php");
 $parcel_id = $_POST['parcel_id'];
-$date=date("Y-m-d H:i:s");
+$date=date("Y-m-d");
 
 $sql="INSERT INTO kot_table(kot_id,table_id,table_no,kot_items,date_time,print_status,parcel_id) VALUES ('','-1','-1','','".$date."','1','".$parcel_id."')";
 $result=mysqli_query($conn,$sql);

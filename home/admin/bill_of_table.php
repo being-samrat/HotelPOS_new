@@ -121,8 +121,8 @@ date_default_timezone_set('Asia/Kolkata');
       $cno=$row['contact_no'];
       $cno2=$row['mobile_no'];
       $bill_id=$row['bill_id'];
-      $dated=date("d/m/Y [H:i]");
-      $month=date("M");
+      $dated=date("Y-m-d");
+      
     }
     ?>
     <div class = " col-sm-12 col-lg-4 col-md-3" id = "container">
@@ -169,7 +169,7 @@ date_default_timezone_set('Asia/Kolkata');
       <?php $order_no=$order_id; ?>
       GST   NO: #<?php echo $gst; ?><br>
       Order No: #<?php echo $order_id; ?><br>
-      Order By: #<?php echo $order_by; ?><span style = "float:right"><?php echo date("d M Y [H:i]"); ?></span><br>
+      Order By: #<?php echo $order_by; ?><span style = "float:right"><?php echo date("d M Y [h:i a]"); ?></span><br>
 
       
     </div>
@@ -275,7 +275,7 @@ date_default_timezone_set('Asia/Kolkata');
         $bill_count=mysqli_num_rows($chkBill_exist_sql_result);
         if ($bill_count == 0) 
         {
-          $saveBill_sql="INSERT INTO order_bill (order_no,table_id,revenue,dated ,month) VALUES ('$order_id','$table_id','$net_total','$dated','$month')";
+          $saveBill_sql="INSERT INTO order_bill (order_no,table_id,revenue,dated ) VALUES ('$order_id','$table_id','$net_total','$dated')";
           mysqli_query($conn ,$saveBill_sql);
           
 
@@ -358,8 +358,7 @@ date_default_timezone_set('Asia/Kolkata');
      echo("</tr>");
      echo "</tbody> "; 
 
-     $dated=date("d/m/y");
-     $month=date("m");
+     $dated=date("Y-m-d");
      
      ?>
 

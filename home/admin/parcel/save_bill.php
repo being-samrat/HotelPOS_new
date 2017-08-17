@@ -8,8 +8,8 @@ $bill_amt=$_POST['bill_amt'];
 $parcel_id=$_POST['id'];
 
 if (($_POST['order_id'])!='' && ($_POST['bill_amt'])!='') {
-	$dated=date("d/m/Y [H:i]");
-	$month=date("M");
+	$dated=date("d/m/Y");
+	$time=date("h:i a");
 
 	//code to check order already exists in table...
 	$chkBill_exist_sql="SELECT * FROM order_bill WHERE order_no='$order_id'";
@@ -17,7 +17,7 @@ if (($_POST['order_id'])!='' && ($_POST['bill_amt'])!='') {
 	$bill_count=mysqli_num_rows($chkBill_exist_sql_result);
 	if ($bill_count == 0) 
 	{
-		$saveBill_sql="INSERT INTO order_bill (order_no,table_id,revenue,dated ,month) VALUES ('$order_id','$id','$bill_amt','$dated','$month')";
+		$saveBill_sql="INSERT INTO order_bill (order_no,table_id,revenue,dated ,time_at) VALUES ('$order_id','$id','$bill_amt','$dated','$time')";
 		mysqli_query($conn ,$saveBill_sql);
 		echo '<label class="w3-label w3-large">Order No.'.$order_id.' is saved!!!</label>';
 

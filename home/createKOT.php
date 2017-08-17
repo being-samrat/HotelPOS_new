@@ -4,10 +4,13 @@
 // {
 // $table_id= "-1";
 // $table_no= "-1";
+date_default_timezone_set('Asia/Kolkata');
+error_reporting(E_ERROR | E_PARSE);
+
 include_once("db_conn/conn.php");
 $table_id = $_POST['table_id'];
 $table_no = $_POST['table_no'];
-$date=date("Y-m-d H:i:s");
+$date=date("Y-m-d");
 
 $sql="INSERT INTO kot_table(kot_id,table_id,table_no,kot_items,date_time,print_status) VALUES ('','".$table_id."','".$table_no."','','".$date."','1')";
 $result=mysqli_query($conn,$sql);

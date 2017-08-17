@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 session_start();
+date_default_timezone_set('Asia/Kolkata');
+
 include_once("../db_conn/conn.php");
 $order_by="";
 if(isset($_SESSION['admin_passwd']))

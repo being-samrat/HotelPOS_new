@@ -5,6 +5,7 @@ include_once("../db_conn/conn.php");
 $parcelBy=$_GET['parcelBy'];
 $parcel_id=$_GET['parcel_id'];
 
+date_default_timezone_set('Asia/Kolkata');
 
 ?>
 
@@ -68,7 +69,7 @@ $parcel_id=$_GET['parcel_id'];
       <span class = "w3-left">Parcel No.# <?php echo $parcel_id; ?></span>
       <br>
       <span class = "w3-left">Order By:<?php echo $parcelBy; ?></span>
-      <span class = "w3-right"><?php echo date("d/M/y [H:i]"); ?></span>
+      <span class = "w3-right"><?php echo date("d M Y [h:i a]"); ?></span>
       <table class="table borderless" >  
         <tbody style="font-family: serif;">
           <tr>
