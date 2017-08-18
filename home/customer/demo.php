@@ -8,6 +8,54 @@ if(!isset($_SESSION['custom']))
 
 include_once("../db_conn/conn.php");
 ?>
+		<?php
+
+if(!empty($_GET["action"])) {
+switch($_GET["action"]) {
+	case "add":
+		if(!empty($_POST["quantity"])) {
+			$getid_sql="SELECT * FROM menu_items WHERE item_id='" . $_GET["item_id"] . "'";
+        $getid_res=mysqli_query($conn,$getid_sql);
+        
+        while($row = mysqli_fetch_array( $getid_res))
+        {	$productByCode[]=$row;
+        }
+			$itemArray = array($productByCode[0]["item_id"]=>array('item_name'=>$productByCode[0]["item_name"], 'item_id'=>$productByCode[0]["item_id"], 'quantity'=>$_POST["quantity"], 'item_price'=>$productByCode[0]["item_price"]));
+			
+			if(!empty($_SESSION["cart"])) {
+				if(in_array($productByCode[0]["item_id"],array_keys($_SESSION["cart"]))) {
+					foreach($_SESSION["cart"] as $k => $v) {
+							if($productByCode[0]["item_id"] == $k) {
+								if(empty($_SESSION["cart"][$k]["quantity"])) {
+									$_SESSION["cart"][$k]["quantity"] = 0;
+								}
+								$_SESSION["cart"][$k]["quantity"] += $_POST["quantity"];
+							}
+					}
+				} else {
+					$_SESSION["cart"] = array_merge($_SESSION["cart"],$itemArray);
+				}
+			} else {
+				$_SESSION["cart"] = $itemArray;
+			}
+		}
+	break;
+	case "remove":
+		if(!empty($_SESSION["cart"])) {
+			foreach($_SESSION["cart"] as $k => $v) {
+					if($_GET["item_id"] == $k)
+						unset($_SESSION["cart"][$k]);				
+					if(empty($_SESSION["cart"]))
+						unset($_SESSION["cart"]);
+			}
+		}
+	break;
+	case "empty":
+		unset($_SESSION["cart"]);
+	break;	
+}
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,202 +83,78 @@ include_once("../db_conn/conn.php");
 </head>
 <body style="background-color: #E4E4E4">
 	<span class="w3-margin w3-padding-small w3-grey"><a href="customer_logout.php">Logout</a></span>
-	<!-- !PAGE CONTENT! -->
 
-	<div class="w3-row-padding w3-margin-bottom">
-		<div class="w3-quarter w3-margin-bottom">
-			<div class="w3-white" style="height: 400px">
-				<div style="height: 200px;background-image: url('images/onepage_restaurant.jpg');padding-top: 150px"">
-					<div class="w3-white w3-opacity" style="height: 50px;"></div>
-				</div>
-				<div class="w3-container col-lg-12 w3-xlarge" style="font-weight: bolder;">
-					<span>Menu Item Name</span>
-				</div>				
-				<div class="col-lg-12" style="padding: 0">
-					<div class="col-lg-12" style="max-height: 40px;overflow-y: hidden;">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</div>
-					<span class="w3-text-red w3-right w3-margin-right">...more</span>
-				</div>
-				
-				<div class="col-lg-12 w3-margin-top" style="padding: 0">
-				<div class="col-lg-6">
-					<b><span>Qty: </span></b>	
-					<input type="number" placeholder="Quantity" name="food_quantity" style="width: 80px">
-				</div>          
-				<div class="col-lg-6">
-					<span class="w3-right w3-large"><b>Rate: 200.00</b></span>					
-				</div>	
-				</div>
-				
-				<div class="col-lg-12 w3-center w3-margin-top">
-					<a class="w3-red btn btn-default" href="addCart.php?item_id='.$row['item_id'].'&item_name='.$row['item_name'].'">Add To Cart</a>
-				</div>
-			</div>
-		</div>
-		<div class="w3-quarter w3-margin-bottom">
-			<div class="w3-white" style="height: 400px">
-				<div style="height: 200px;background-image: url('images/onepage_restaurant.jpg');padding-top: 150px"">
-					<div class="w3-white w3-opacity" style="height: 50px;"></div>
-				</div>
-				<div class="w3-container col-lg-12 w3-xlarge" style="font-weight: bolder;">
-					<span>Menu Item Name</span>
-				</div>				
-				<div class="col-lg-12" style="padding: 0">
-					<div class="col-lg-12" style="max-height: 40px;overflow-y: hidden;">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</div>
-					<span class="w3-text-red w3-right w3-margin-right">...more</span>
-				</div>
-				
-				<div class="col-lg-12 w3-margin-top" style="padding: 0">
-				<div class="col-lg-6">
-					<b><span>Qty: </span></b>	
-					<input type="number" placeholder="Quantity" name="food_quantity" style="width: 80px">
-				</div>          
-				<div class="col-lg-6">
-					<span class="w3-right w3-large"><b>Rate: 200.00</b></span>					
-				</div>	
-				</div>
-				
-				<div class="col-lg-12 w3-center w3-margin-top">
-					<a class="w3-red btn btn-default" href="addCart.php?item_id='.$row['item_id'].'&item_name='.$row['item_name'].'">Add To Cart</a>
-				</div>
-			</div>
-		</div>
-		<div class="w3-quarter w3-margin-bottom">
-			<div class="w3-white" style="height: 400px">
-				<div style="height: 200px;background-image: url('images/onepage_restaurant.jpg');padding-top: 150px"">
-					<div class="w3-white w3-opacity" style="height: 50px;"></div>
-				</div>
-				<div class="w3-container col-lg-12 w3-xlarge" style="font-weight: bolder;">
-					<span>Menu Item Name</span>
-				</div>				
-				<div class="col-lg-12" style="padding: 0">
-					<div class="col-lg-12" style="max-height: 40px;overflow-y: hidden;">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</div>
-					<span class="w3-text-red w3-right w3-margin-right">...more</span>
-				</div>
-				
-				<div class="col-lg-12 w3-margin-top" style="padding: 0">
-				<div class="col-lg-6">
-					<b><span>Qty: </span></b>	
-					<input type="number" placeholder="Quantity" name="food_quantity" style="width: 80px">
-				</div>          
-				<div class="col-lg-6">
-					<span class="w3-right w3-large"><b>Rate: 200.00</b></span>					
-				</div>	
-				</div>
-				
-				<div class="col-lg-12 w3-center w3-margin-top">
-					<a class="w3-red btn btn-default" href="addCart.php?item_id='.$row['item_id'].'&item_name='.$row['item_name'].'">Add To Cart</a>
-				</div>
-			</div>
-		</div>
-		<div class="w3-quarter w3-margin-bottom">
-			<div class="w3-white" style="height: 400px">
-				<div style="height: 200px;background-image: url('images/onepage_restaurant.jpg');padding-top: 150px"">
-					<div class="w3-white w3-opacity" style="height: 50px;"></div>
-				</div>
-				<div class="w3-container col-lg-12 w3-xlarge" style="font-weight: bolder;">
-					<span>Menu Item Name</span>
-				</div>				
-				<div class="col-lg-12" style="padding: 0">
-					<div class="col-lg-12" style="max-height: 40px;overflow-y: hidden;">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</div>
-					<span class="w3-text-red w3-right w3-margin-right">...more</span>
-				</div>
-				
-				<div class="col-lg-12 w3-margin-top" style="padding: 0">
-				<div class="col-lg-6">
-					<b><span>Qty: </span></b>	
-					<input type="number" placeholder="Quantity" name="food_quantity" style="width: 80px">
-				</div>          
-				<div class="col-lg-6">
-					<span class="w3-right w3-large"><b>Rate: 200.00</b></span>					
-				</div>	
-				</div>
-				
-				<div class="col-lg-12 w3-center w3-margin-top">
-					<a class="w3-red btn btn-default" href="addCart.php?item_id='.$row['item_id'].'&item_name='.$row['item_name'].'">Add To Cart</a>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- Top container -->
 	<div class="w3-main " style="margin-top:55px;">
 		<div class="col-lg-12 col-sm-12 col-md-12" style="height: 40px"></div>
-		<?php  
-		$fetch_tables="SELECT * FROM menu_items";
-		$fetch_tables_result=mysqli_query($conn,$fetch_tables);
 
-		while($row = mysqli_fetch_array( $fetch_tables_result))
-		{
 
-			echo '
-			<div class="w3-col l4 w3-col s6 w3-margin ">
-				<div class="w3-container w3-padding-xlarge w3-card-8 w3-round-large" id="vacant_table_order" style="background-color:#79E40D">
-					<div class="w3-left w3-circle w3-padding-small" id="'.$row['item_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white">#'.$row['item_name'].'</span>
-						'.$_SESSION['custom'].'
-					</div>
-					<div class="w3-right">
-
-						<a class="w3-red btn btn-default" href="addCart.php?item_id='.$row['item_id'].'&item_name='.$row['item_name'].'">Add To Cart</a>
-
-					</div>
-				</div>
-			</div>';
-		}   
-
+<div id="shopping-cart">
+<div class="txt-heading">Shopping Cart <a id="btnEmpty" href="demo.php?action=empty">Empty Cart</a></div>
+<?php
+if(isset($_SESSION["cart"])){
+    $item_total = 0;
+?>	
+<table cellpadding="10" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align:left;"><strong>Name</strong></th>
+<th style="text-align:left;"><strong>ID</strong></th>
+<th style="text-align:right;"><strong>Quantity</strong></th>
+<th style="text-align:right;"><strong>Price</strong></th>
+<th style="text-align:center;"><strong>Action</strong></th>
+</tr>	
+<?php		
+    foreach ($_SESSION["cart"] as $item){
 		?>
-
-<input type="file" accept="image/*;capture=camera"/>
-
-		<?php 
-
-		if(isset($_SESSION['cart']))
-		{
-			$count=count($_SESSION['cart']);
-			if($count>0)
-			{
-				echo "<br>";
-				echo "<b>Cart items are:</b>";
-				echo "<br>";
-			}
-			echo '<label>Cart Items: '.$count.'</label>';
-			echo '<select name="cart">';
-			for($i=0;$i<$count;$i++)
-			{
-				echo '<option>'.$_SESSION['cart'][$i].'</option>';
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-			}
-			echo '</select>';
-
+				<tr>
+				<td style="text-align:left;border-bottom:#F0F0F0 1px solid;"><strong><?php echo $item["item_name"]; ?></strong></td>
+				<td style="text-align:left;border-bottom:#F0F0F0 1px solid;"><?php echo $item["item_id"]; ?></td>
+				<td style="text-align:right;border-bottom:#F0F0F0 1px solid;"><?php echo $item["quantity"]; ?></td>
+				<td style="text-align:right;border-bottom:#F0F0F0 1px solid;"><?php echo "$".$item["item_price"]; ?></td>
+				<td style="text-align:center;border-bottom:#F0F0F0 1px solid;"><a href="demo.php?action=remove&item_id=<?php echo $item["item_id"]; ?>" class="btnRemoveAction">Remove Item</a></td>
+				</tr>
+				<?php
+        $item_total += ($item["item_price"]*$item["quantity"]);
 		}
-
-
 		?>
+
+<tr>
+<td colspan="5" align=right><strong>Total:</strong> <?php echo "$".$item_total; ?></td>
+</tr>
+</tbody>
+</table>		
+  <?php
+}
+?>
+</div>
+
+<div id="product-grid">
+	<div class="txt-heading">Products</div>
+	<?php
+	$fetch_tables="SELECT * FROM menu_items";
+        $fetch_tables_result=mysqli_query($conn,$fetch_tables);
+        
+        while($row = mysqli_fetch_array( $fetch_tables_result))
+        {
+        	$product_array[]=$row;
+        }
+	if (!empty($product_array)) { 
+		foreach($product_array as $key=>$value){
+	?>
+		<div class="product-item">
+			<form method="post" action="demo.php?action=add&item_id=<?php echo $product_array[$key]["item_id"]; ?>">
+			<div><strong><?php echo $product_array[$key]["item_name"]; ?></strong></div>
+			<div class="product-price"><?php echo "$".$product_array[$key]["item_price"]; ?></div>
+			<div><input type="text" name="quantity" value="1" size="2" /><input type="submit" value="Add to cart" class="btnAddAction" /></div>
+			</form>
+		</div>
+	<?php
+			}
+	}
+	?>
+</div>
+
+	<!--  -->
 	</body>
 	</html>

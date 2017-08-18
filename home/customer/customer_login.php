@@ -10,7 +10,7 @@
 		session_start();
 				$_SESSION['custom']=$name;
 
-		$_SESSION['cart']=array();
+		
 		// if (isset($_COOKIE[$id]))
 		// {
 		// 	if($_COOKIE[$id]=="Mobile")
