@@ -30,7 +30,7 @@ if(!isset($_POST['table_submit']))
 	
 }
 else{
-	$sql="SELECT * FROM admin WHERE uname='$admin_name' and passwd='$admin_passwd'";
+	$sql="SELECT * FROM user_login WHERE username='$admin_name' and password='$admin_passwd'";
 	$result=mysqli_query($conn,$sql);
 
 // Mysql_num_row is counting table row

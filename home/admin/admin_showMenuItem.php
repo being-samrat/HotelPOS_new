@@ -11,8 +11,10 @@ if($_POST['id'])
 	echo '<table class="table table-bordered table-striped w3-card-2" >
 	<thead>
 		<tr>
+			<th>Item Image</th>
 			<th>Item Name</th>
-			<th>Price(each)</th>
+			<th>Item Info</th>
+			<th>Rate</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -21,9 +23,12 @@ if($_POST['id'])
 			echo '
 
 			<tr>
-				<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['item_name'].'" readonly></td>
-				<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['item_price'].'" readonly></td>
-				<td><a class="btn w3-center w3-large" title="Delete MenuItem" href="disable_item.php?item_id='.$row['item_id'].'"><i class="fa fa-trash"></i></a>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_menu_image" value="'.$row['item_name'].'" readonly></td>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_menu_name" value="'.$row['item_name'].'" readonly></td>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_menu_info" value="'.$row['item_name'].'" readonly></td>
+				<td><input type="text" class="form-control w3-margin-bottom" name="edit_menu_price" value="'.$row['item_price'].'" readonly></td>
+				<td><a class="btn w3-medium" title="Delete MenuItem" href="disable_item.php?item_id='.$row['item_id'].'"><i class="fa fa-trash"></i></a>
+				<a class="btn w3-medium" title="Update MenuItem" href="update_item.php?item_id='.$row['item_id'].'"><i class="fa fa-edit"></i></a>
 				</td>				
 			</tr>
 

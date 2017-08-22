@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(E_ERROR | E_PARSE);
 
 session_start();
 if(!isset($_SESSION['admin_passwd']))
@@ -237,7 +237,7 @@ include_once("../db_conn/conn.php")
 									<form id="form_add_category" action="add_category.php" method="POST">
 										<input class="input form-control" type="text" id="new_category" name="new_category" placeholder="Category name" required/><br>
 
-										<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit" onclick="return confirm('Confirm to add new category!');"> Add </button>
+										<button type="submit" class="form-control btn btn-default w3-red w3-margin-bottom" name="newcat_submit" id="newcat_submit"> Add </button>
 									</form>
 								</div>
 							</div>
@@ -257,7 +257,7 @@ include_once("../db_conn/conn.php")
 								<div class="modal-body">
 									<form id="form_addItem" action="insert_menuItem.php" method="POST">
 
-										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required/>
+										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
 											<option class="w3-red" selected>Select Category</option>
 											<?php 								
 											$item_cat_sql2="SELECT DISTINCT * FROM menu_category ORDER BY cat_name ";
@@ -269,13 +269,14 @@ include_once("../db_conn/conn.php")
 											}
 											?>  
 										</select>
-										<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Item Name" required/>
-										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Price" style="margin:0px; width: 120px;" required/><br><br>
-										<hr>
+										<input type="text" name="new_itemName" id="new_itemName" class="form-control w3-margin-bottom" placeholder="Enter Item Name" required/>
 
+										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Rs. " style="margin:0px; width: 120px;" required/><br><br>
+										
+										<hr>
 										<input type="checkbox" name="menuAC" value="1">&nbsp;<label>Check to make A/c Menu Item</label>
 
-										<button class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" type="submit" data-confirm="Add menu?">Add</button>
+										<button type="submit" class="form-control btn btn-default w3-red w3-center w3-margin-bottom" id="add_menuItem" >Add</button>
 
 									</form>
 								</div>

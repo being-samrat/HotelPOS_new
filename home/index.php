@@ -165,6 +165,7 @@ include_once("db_conn/conn.php");
       <header class="w3-container ">
         <h5><b><i class="fa fa-bookmark"></i> Order for Table No: </b></h5>
       </header>
+
       <div id="per_table_order">
 
         <?php   

@@ -5,7 +5,7 @@
 	$name=$_POST["cust_name"];
 	$passwd=$_POST["cust_passwd"];
 	if($name=='custom' && $passwd=='custom'){
-		header("location:demo.php");
+		header("location:customer_home.php");
 	
 		session_start();
 				$_SESSION['custom']=$name;

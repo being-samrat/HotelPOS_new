@@ -2,10 +2,10 @@
 include_once("../db_conn/conn.php");
 
 //--------------
-if(isset($_GET['admin_id']))
+if(isset($_GET['user_id']))
 {
-	$id=$_GET['admin_id'];
-	$query = "DELETE  from admin WHERE admin_id='$id' LIMIT 1";
+	$id=$_GET['user_id'];
+	$query = "DELETE  from user_login WHERE user_id='$id' LIMIT 1";
 	mysqli_query($conn,$query);
 
 	if($query)

@@ -14,19 +14,20 @@ if(isset($_POST['submit']))
 {	
 	$uname=$_POST['role_name'];
 	$passwd=$_POST['role_passwd'];
-	$sql="SELECT * FROM admin WHERE uname='$uname'";
+	$sql="SELECT * FROM user_login WHERE username='$uname'";
 	$result=mysqli_query($conn,$sql);
 	$count=mysqli_num_rows($result);
 
 	if ($count > 0) {
 		$err="Username exists!!! Try different<br>";
 	}
-	elseif(($_POST['role_passwd'])!=($_POST['crole_passwd']))
+	
+	elseif(($_POST['choose_role'])=='Select User Role')
 	{
-		$err="Confirm Password did not match!!!<br>";
+		$err="Please select Appropriate role!!!<br>";
 	}
 	else{
-		$sql="INSERT INTO admin(uname, passwd) VALUES('".$uname."','".$passwd."')";
+		$sql="INSERT INTO user_login(role,username, password) VALUES('".$choose_role."','".$uname."','".$passwd."')";
 		mysqli_query($conn,$sql);
 	}
 }
@@ -35,7 +36,7 @@ if(isset($_POST['submit']))
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Manage Roles</title>
 	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
@@ -76,9 +77,13 @@ if(isset($_POST['submit']))
 
 						<label class="w3-label">Password: </label>
 						<input type="password" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter password of max.10 chars" name="role_passwd" required>
-
-						<label class="w3-label">Confirm Password: </label>
-						<input type="password" maxlength="10" class="form-control w3-margin-bottom" placeholder="re-enter same password " name="crole_passwd" required>
+						
+						<label class="w3-label ">Choose Role: </label>
+						<select class="form-control w3-margin-bottom" name="choose_role" required>
+							<option>Select User Role</option>
+							<option>Cashier</option>
+							<option>Waiter</option>
+						</select>
 						<button type="submit" name="submit" class="w3-round btn w3-red">Add Role</button>
 					</form>
 
@@ -87,43 +92,80 @@ if(isset($_POST['submit']))
 			<div class="w3-col l7 well">
 
 				<div class="w3-container w3-padding-16" >
-					<?php 	
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#waiter">Waiters List</a></li>
+						<li><a data-toggle="tab" href="#cashier">Cashiers List</a></li>
+					</ul>
 
-					$sql="SELECT * FROM admin";
-					$result = mysqli_query($conn,$sql);
-//echo '<select class="form-control w3-margin"  style="width: 40%" >';
+					<div class="tab-content">
+						<div id="waiter" class="tab-pane fade in active">
+							<br>
+							<?php 	
 
-					echo '<table class="table table-bordered table-striped w3-card-2" >
-					<thead>
-						<tr>
-							<th class="w3-center">UserName</th>
-							<th class="w3-center">Password</th>
-							<th class="w3-center">Action</th>
-						</tr>
-					</thead>
-					<tbody class="w3-center">';
-						while($row = mysqli_fetch_array($result)) {
-							echo '
+							$sql="SELECT * FROM user_login WHERE role='Waiter'";
+							$result = mysqli_query($conn,$sql);
 
-							<tr>
-								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['uname'].'" readonly></td>
-								<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['passwd'].'" readonly></td>
-								<td><a class="w3-margin-24" title="Delete User" href="removeUser.php?admin_id='.$row['admin_id'].'"><i class="fa fa-user-times"> Delete</i></a>
-								</td>
-							</tr>
+							echo '<table class="table table-bordered table-striped w3-card-2" >
+							<thead>
+								<tr>
+									<th class="w3-center">UserName</th>
+									<th class="w3-center">Password</th>
+									<th class="w3-center">Action</th>
+								</tr>
+							</thead>
+							<tbody class="w3-center">';
+								while($row = mysqli_fetch_array($result)) {
+									echo '
+									<tr>
+										<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['username'].'" readonly></td>
+										<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['password'].'" readonly></td>
+										<td><a class="w3-margin-24" title="Delete User" href="removeUser.php?user_id='.$row['user_id'].'"><i class="fa fa-user-times"> Delete</i></a>
+										</td>
+									</tr>';
 
-							';
+								}
 
+								echo '</tbody>
+							</table>';
+							
 
-						}
+							?>  
+						</div>
+						<div id="cashier" class="tab-pane fade">
+							<br>
+							<?php 	
 
-						echo '</tbody>
-					</table>';
+							$sql="SELECT * FROM user_login WHERE role='Cashier'";
+							$result = mysqli_query($conn,$sql);
 
-//echo "</select>";
-					mysqli_close($conn);
+							echo '<table class="table table-bordered table-striped w3-card-2" >
+							<thead>
+								<tr>
+									<th class="w3-center">UserName</th>
+									<th class="w3-center">Password</th>
+									<th class="w3-center">Action</th>
+								</tr>
+							</thead>
+							<tbody class="w3-center">';
+								while($row = mysqli_fetch_array($result)) {
+									echo '
+									<tr>
+										<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_name" value="'.$row['username'].'" readonly></td>
+										<td><input type="text" class="form-control w3-margin-bottom" name="edit_role_passwd" value="'.$row['password'].'" readonly></td>
+										<td><a class="w3-margin-24" title="Delete User" href="removeUser.php?user_id='.$row['user_id'].'"><i class="fa fa-user-times"> Delete</i></a>
+										</td>
+									</tr>';
 
-					?>  
+								}
+
+								echo '</tbody>
+							</table>';
+							mysqli_close($conn);
+
+							?>  
+						</div>						
+					</div>
+					
 				</div>
 			</div>
 		</div>

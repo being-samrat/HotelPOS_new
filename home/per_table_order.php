@@ -61,7 +61,7 @@ $table_id= $_GET['table_id'];
 $table_no=$_GET['table_no']; 
 session_start();
 
-$_SESSION['tid']=$table_id;
+//$_SESSION['tid']=$table_id;
 
 ?>
 <?php 
@@ -81,6 +81,15 @@ $json_join=json_decode($join_tabs,true);
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="well" >
+				<div class="w3-col l12" style="margin:0;padding: 0">				
+					<span class="w3-right" style="margin: -12px">
+						<a name="customer_page" data-toggle="modal" data-target="#customerLogin" id="customer_page" class="btn w3-red w3-card-4 w3-circle" title="Customer Order Page" style="padding: 5px">
+							<i class="fa fa-shopping-basket w3-xlarge"></i>							
+						</a>
+					</span>
+					
+				</div><br>
+
 				<div class="w3-center w3-xlarge">
 					<?php 
 					if($_GET['table_id'] && $_GET['table_no'])
@@ -155,6 +164,33 @@ $json_join=json_decode($join_tabs,true);
 
 			<button type="button" class=" btn w3-round w3-text-red w3-right" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
 
+			<!--customer login  Modal -->
+			<div id="customerLogin" class="modal fade " role="dialog">
+				<div class="modal-dialog ">
+					<!-- Modal content-->
+					<div class="modal-content col-lg-8 col-lg-offset-2">
+						<div class="modal-header">
+							<span class="w3-xlarge">Customer Login</span>
+							<input type="hidden" name="login_tableID" id="login_tableID" value="<?php echo $_GET['table_id']; ?>" >
+							<input type="hidden" name="login_tableNO" id="login_tableNO" value="<?php echo $_GET['table_no']; ?>" >
+							<button type="button" id="mod_close" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+								<form action="customer_login.php?table_ID=<?php echo $_GET['table_id']; ?>&table_NO=<?php echo $_GET['table_no']; ?>" method="POST">
+									<label>Please enter password here</label>
+								<input type="password" name="customer_password" id="customer_password" placeholder="Customer page password" class="name form-control" required />			
+								<button class="btn w3-red w3-margin-left" id="customer_login" name="customer_login" type="submit">Log In <i class="fa fa-angle-double-right"></i>
+								</button>
+								</form>
+								
+							<div id="customer_login_msg" class="w3-margin-top"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--modal end-->
+
 			<!-- shift table modal Start -->
 			<div id="shiftTable" class="modal fade " role="dialog">
 				<div class="modal-dialog ">
@@ -190,7 +226,7 @@ $json_join=json_decode($join_tabs,true);
 				</div>
 			</div>
 			<!--   shift table modal end -->
-						
+
 			<!-- Modal -->
 			<div id="takeOrder" class="modal fade " role="dialog">
 				<div class="modal-dialog ">
@@ -228,10 +264,6 @@ $json_join=json_decode($join_tabs,true);
 
 
 		</div>
-
-
-
-
 	</div>
 	<?php } ?>
 	<script>
@@ -248,78 +280,143 @@ $json_join=json_decode($join_tabs,true);
         	data: 'table_id='+ tableID +'&table_no='+ tableNO,
         	cache: false,
         	success: function(response) {
-        		  
+
         		document.getElementById('form_addOrder').style.display='block';
         		document.getElementById('createKOT_btn').style.display='none';
         	},
         	error: function(xhr, textStatus, errorThrown) {
-        		 $.alert('request failed');
+        		$.alert('request failed');
         	}
         });
 
     });
 		});
 	</script>
-	<script>  
-		$(document).ready(function(){  
-			$('#search_food').keyup(function(){  
-				var query = $(this).val();  
-				var table_id = $('#table_id').val();  
-				var data = {
-                     table_id:table_id,
-                     query:query
-				};
-				if(query != '')  
-				{  
-					$.ajax({  
-						url:"search_food.php",  
-						method:"POST",  
-						cache:false,
-						data:data,  
-						success:function(data)  
-						{  
-							$('#search_foodList').fadeIn();  
-							$('#search_foodList').html(data);  
-						}  
-					});  
-				}  
-			});  
-			$(document).on('click', 'li', function(){  
-				$('#search_food').val($(this).text());  
-				$('#search_foodList').fadeOut();  
-			});  
-		}); 
+<!-- 	<script>
+		$(document).ready(function() {
 
-	</script> 
-	<script>
-		$("#add_orderItem").click( function() {
-			$.post( $("#form_addOrder").attr("action"), 
-				$("#form_addOrder :input").serializeArray(), 
-				function(info){ 
-					$("#KOT_add").html(info);
+			$('#customer_page').click(function() {
 
-				});
-			clearInput();
+        var tableID = $('#table_id_ip').val(); //where #table could be an input with the name of the table you want to truncate
+        var tableNO = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+
+        $.ajax({
+        	type: "POST",
+        	url: "customer/customer.php",
+        	data: 'table_id='+ tableID +'&table_no='+ tableNO,
+        	cache: false,
+        	success: function(response) {
+
+        		
+        	},
+        	error: function(xhr, textStatus, errorThrown) {
+        		$.alert('request failed');
+        	}
+        });
+
+    });
 		});
+	</script> -->
 
-		$("#form_addOrder").submit( function() {
-			return false;	
-		});
+<!-- 	Script to autocomplete search food items ....................
+-->	
+<script>  
+	$(document).ready(function(){  
+		$('#search_food').keyup(function(){  
+			var query = $(this).val();  
+			var table_id = $('#table_id').val();  
+			var data = {
+				table_id:table_id,
+				query:query
+			};
+			if(query != '')  
+			{  
+				$.ajax({  
+					url:"search_food.php",  
+					method:"POST",  
+					cache:false,
+					data:data,  
+					success:function(data)  
+					{  
+						$('#search_foodList').fadeIn();  
+						$('#search_foodList').html(data);  
+					}  
+				});  
+			}  
+		});  
+		$(document).on('click', 'li', function(){  
+			$('#search_food').val($(this).text());  
+			$('#search_foodList').fadeOut();  
+		});  
+	}); 
 
-		function clearInput() {
-			$("#form_addOrder :input").each( function() {
-				$('#food_quantity').val('');
-				$('#search_food').val('');
+</script> 
+
+
+<!-- 	Script to add items in kot tabke and order table..........................
+-->	
+<script>
+	$("#add_orderItem").click( function() {
+		$.post( $("#form_addOrder").attr("action"), 
+			$("#form_addOrder :input").serializeArray(), 
+			function(info){ 
+				$("#KOT_add").html(info);
+
 			});
-		}
-	</script>
+		clearInput();
+	});
 
-	<script>
-		$('#takeOrder').on('hidden.bs.modal', function () {
+	$("#form_addOrder").submit( function() {
+		return false;	
+	});
+
+	function clearInput() {
+		$("#form_addOrder :input").each( function() {
+			$('#food_quantity').val('');
+			$('#search_food').val('');
+		});
+	}
+</script>
+
+<!-- 	Script to reload order page when take order modal closes............................
+-->	
+<script>
+	$('#takeOrder').on('hidden.bs.modal', function () {
 //location.reload();
 $("#per_table_order").load("per_table_order.php?table_id=<?php echo $table_id; ?>&table_no=<?php echo $table_no; ?>");
      //$('#view_div').load('view_tab.php');
-
-
  })
 </script>
+
+<!-- 	Script to login for customer page..........................
+-->	
+<!-- <script>
+		$(document).ready(function() {
+
+			$('#customer_login').click(function() {
+
+        var tableID = $('#login_tableID').val(); //where #table could be an input with the name of the table you want to truncate
+        var tableNO = $('#login_tableNO').val(); //where #table could be an input with the name of the table you want to truncate
+        var password = $('#customer_password').val(); //where #table could be an input with the name of the table you want to truncate
+
+        $.ajax({
+        	type: "POST",
+        	url: "customer_login.php",
+        	data: 'table_id='+ tableID +'&table_no='+ tableNO +'&password='+ password,
+        	cache: false,
+        	success: function(response) {
+        		//$.alert(response);
+        		// if(response=='success'){
+        		// 	window.location="customer/customer_home.php";
+        		// }
+        		
+        	},
+        	error: function(xhr, textStatus, errorThrown) {
+        		$.alert('Operation failed');
+        	}
+        });
+
+    });
+		});
+	</script>
+ -->
