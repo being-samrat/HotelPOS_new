@@ -1,15 +1,20 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(E_ERROR | E_PARSE);
+session_start();
 
 include_once("db_conn/conn.php");
 ?>
 	<?php 
-	$table_id=$_GET["table_ID"];
+	$table_id=$_POST["table_ID"];
 	$table_no=$_GET["table_NO"];
 	$password=$_POST["customer_password"];
 	
-	if($password=='custom'){
-		session_start();
+	$sql="SELECT * FROM user_login WHERE password='$password' AND role='Customer'";
+	$result=mysqli_query($conn,$sql);
+
+// Mysql_num_row is counting table row
+	$count=mysqli_num_rows($result);
+	if ($count == 1) {
 
 		$_SESSION['customer_table']=$table_id;
 

@@ -2,7 +2,7 @@
 <!-- Top container -->
 <?php if(!isset($_SESSION['admin_passwd']))
 {
-  $_SESSION['admin']='';
+ 
   header("location:../index.php");
   // include("admin_navigation.php");
 } ?>

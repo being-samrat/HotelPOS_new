@@ -12,14 +12,14 @@ foreach ($json as $item){
 	$count+= 1;//count items in cart
 }
 
-	echo '<div class="dropdown w3-red">	
-	<a class="btn w3-medium dropdown-toggle" data-toggle="dropdown">
+	echo '<div class="dropdown w3-red ">	
+	<a class="btn w3-medium dropdown-toggle w3-margin-top" data-toggle="dropdown">
 		<span class="w3-badge cartItem_count w3-small w3-black">'.$count.'</span>
-		<i class="fa fa-shopping-basket w3-xxlarge fa-fw"></i> <b>Basket items</b></a>
-		<ul class="dropdown-menu dropdown-menu-right w3-card-4 w3-text-black" style="right:0;width: 250px;">';
+		<i class="fa fa-shopping-basket w3-xlarge fa-fw"></i> <br><b>Basket items</b></a>
+		<ul class="dropdown-menu dropdown-menu-right w3-card-4 w3-padding-medium w3-text-black" style="right:0;width: 250px;">';
 			if(!isset($_SESSION['cart']))
 			{
-
+				echo "<div class='w3-center'><span class='w3-text-red w3-margin'><strong>Your Basket Is Empty </strong></span></div>";
 			}
 			else {				
 				foreach ($json as $item){
@@ -69,7 +69,9 @@ foreach ($json as $item){
           table_id:table_id 
       },
         success:function(response) {
-          $.alert(response);
+          location.reload();
+         	$.alert(response);
+
         }
       });
 	});

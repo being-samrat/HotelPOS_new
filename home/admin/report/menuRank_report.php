@@ -7,7 +7,7 @@ if($_POST['menuRank_category'])
 	switch ($menuRank_category) {
 		case 'top_nonAC':
 
-		$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count DESC";
+		$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
 		$result = mysqli_query($conn,$sql);
 		$count=0;    
 		echo '<table class="table table-striped w3-white" style="margin-top: 0px">';   
@@ -27,7 +27,7 @@ if($_POST['menuRank_category'])
 		break;
 		case 'top_AC':
 
-		$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count DESC";
+		$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
 		$result = mysqli_query($conn,$sql);
 		$count=0;    
 		echo '<table class="table table-striped w3-white" style="margin-top: 0px">';   
@@ -47,7 +47,7 @@ if($_POST['menuRank_category'])
 		break;
 		case 'lowest_nonAC':
 
-		$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count";
+		$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count LIMIT 5";
 		$result = mysqli_query($conn,$sql);
 		$count=0;    
 		echo '<table class="table table-striped w3-white" style="margin-top: 0px">';   
@@ -67,7 +67,7 @@ if($_POST['menuRank_category'])
 		break;
 		case 'lowest_AC':
 
-		$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count";
+		$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count LIMIT 5";
 		$result = mysqli_query($conn,$sql);
 		$count=0; 
 		echo '<table class="table table-striped w3-white" style="margin-top: 0px">';   
@@ -88,7 +88,7 @@ if($_POST['menuRank_category'])
 
 		default:
 
- 		$sql="SELECT * FROM menu_items WHERE visible='1'";
+ 		$sql="SELECT * FROM menu_items WHERE visible='1' LIMIT 5";
 		$result = mysqli_query($conn,$sql);
 		$count=0; 
 		echo '<table class="table table-striped w3-white" style="margin-top: 0px">';   

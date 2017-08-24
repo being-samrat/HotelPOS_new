@@ -38,7 +38,7 @@ else{
 		$kot_array[]=$extraCart;
 	}
 	$new_item=json_encode($kot_array);
-	echo $new_item;
+	
 	//die();
 	$ukot_sql="UPDATE kot_table SET kot_items='$new_item' WHERE kot_id='$kot_id' AND print_status='1' ";
 	$result=mysqli_query($conn,$ukot_sql);

@@ -1,4 +1,6 @@
   <?php
+  error_reporting(E_ERROR | E_PARSE);
+
   session_start();
 
   include_once("../db_conn/conn.php");
@@ -10,8 +12,8 @@
   </header>
 
   <!-- !PAGE CONTENT! -->
-
-  <div class="w3-row-padding w3-margin-bottom" id="searched">
+  <div class="col-lg-1 col-sm-1"></div>
+  <div class="w3-row-padding w3-margin-bottom w3-margin-left w3-col l10 s10" id="searched">
 
     <?php 
 
@@ -107,42 +109,52 @@
       $item_NAME=$row['item_name'];
       $item_PRICE=$row['item_price'];
 
-      echo '<div class="w3-quarter w3-margin-bottom">
-      <div class="w3-white" style="height: 380px;padding: 0spx;font-family:Segoe UI;letter-spacing:1px;">
+      $get_cat_sql="SELECT menu_category.cat_name FROM menu_category,menu_items WHERE menu_category.cat_id=menu_items.cat_id AND menu_items.item_id='$item_ID'";
+      $get_cat_res=mysqli_query($conn,$get_cat_sql);
+      $item_category="";
+      while($cat_row = mysqli_fetch_array( $get_cat_res))
+      {
+        $item_category=$cat_row['cat_name'];
+      }    
+
+
+      echo '<div class="w3-col l3  w3-margin-bottom">
+      <div class="w3-white" style="height: 380px;padding: 0px;font-family:Segoe UI;letter-spacing:1px;">
         <div class="w3-col l12" >
           <div class="w3-white w3-opacity img_opaque"></div>
-          <img src="images/onepage_restaurant.jpg" height="200px" width="100%">
+          <img src="'.$row['item_image'].'" class="w3-border" height="200px" width="100%">
         </div>
-        <div class="w3-container w3-col s12 w3-large" style="font-weight: bolder;padding:5px 2px 0 10px">
+        <div class="w3-col s12 w3-col s12 w3-small" style="padding:5px 2px 0 10px;font-weight:bold">
+          <span class="w3-text-grey">'.$item_category.'</span>
+        </div>
+        <div class="w3-container w3-center w3-col s12 w3-large" style="font-weight: bolder;padding:0 2px 0 10px">
           <span>'.$row['item_name'].'</span>
         </div>        
         <div class="w3-col s12 w3-col s12 w3-small" style="padding:5px 2px 0 10px">
-          <div class="w3-col s12 w3-col s12" data-toggle="toggle" id="more_'.$row['item_id'].'" style="max-height: 40px;overflow-y: hidden;margin-bottom:0">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo onsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-          <a class="btn w3-text-red w3-right w3-margin-right more_style" style="font-weight:bold" onClick="more('.$row['item_id'].')">..more</a>   
+          <div class="w3-col s12 w3-col s12" data-toggle="toggle" id="more_'.$row['item_id'].'" style="height: 20px;overflow-y: hidden;margin-bottom:0">
+           <i class="w3-text-grey">'.$row['item_info'].'</i>
+         </div>
+       </div>  
+       <div class="w3-col l12 w3-col s12 w3-margin-top" >               
+        <div class="w3-col l6 w3-col s6" style="padding:5px 2px 0 10px">
+          <span class="w3-left w3-small">Quantity : <input class=" " type="number" placeholder="count" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
+        </div>          
+        <div class="w3-col l6 w3-col s6" style="padding:0px 10px 0 2px">                 
+          <span class="w3-right w3-xlarge"><b>'.$row['item_price'].'<i class="fa fa-inr"></i></b></span><br>
+
+          <input type="hidden" id="name_'.$row['item_id'].'" value="'.$row['item_name'].'">
+          <input type="hidden" id="price_'.$row['item_id'].'" value="'.$row['item_price'].'">
         </div>  
-        <div class="w3-col l12 w3-col s12 w3-margin-top" >               
-          <div class="w3-col l6 w3-col s6" style="padding:5px 2px 0 10px">
-            <span class="w3-left">Quantity : <input class=" " type="number" placeholder="count" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
-          </div>          
-          <div class="w3-col l6 w3-col s6" style="padding:0px 10px 0 2px">                 
-            <span class="w3-right w3-xlarge"><b>'.$row['item_price'].'<i class="fa fa-inr"></i></b></span><br>
-            <span class="w3-right w3-tiny">(each)</span>
-
-            <input type="hidden" id="name_'.$row['item_id'].'" value="'.$row['item_name'].'">
-            <input type="hidden" id="price_'.$row['item_id'].'" value="'.$row['item_price'].'">
-          </div>  
-        </div>   
-        <div class="w3-col l12 w3-center" style="margin-top: 10px">
-          <button type="button" class="w3-red w3-button form-control" onclick="addCart(\''.$item_ID.'\')" >Add To Basket</button>
-        </div>
+      </div>   
+      <div class="w3-col l12 w3-center" style="margin-top: 10px">
+      <button type="button" class="w3-red w3-button form-control fa fa-shopping-basket" onclick="addCart(\''.$item_ID.'\')" > Add To Basket</button>
       </div>
-    </div>';
-  }
+    </div>
+  </div>';
+}
 
-  ?>
+?>
 
 </div>
+<div class="col-lg-1 col-sm-2"></div>
+

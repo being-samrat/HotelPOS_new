@@ -1,12 +1,13 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 
-include_once("../db_conn/conn.php")
+session_start();
 ?>
 <?php
-session_start();
 
+include_once("../db_conn/conn.php")
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,7 +1,6 @@
 <<?php if(!isset($_SESSION['cashier']))
 {
-  $_SESSION['cashier']='';
-  header("location:../../index.php");
+  header("location:../index.php");
   // include("admin_navigation.php");
 } ?><!-- Top container -->
 <div class="w3-bar w3-top w3-red w3-large container_size" style="z-index:4">

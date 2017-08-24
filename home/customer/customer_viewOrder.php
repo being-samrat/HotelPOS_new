@@ -1,5 +1,5 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 include_once("../db_conn/conn.php")
 ?>
@@ -45,7 +45,7 @@ session_start();
       					</thead>
       					<tbody>
       						<?php 
-      						$fetch_orders="SELECT * FROM order_table WHERE table_id='$table_ID' AND order_open='0'";
+      						$fetch_orders="SELECT * FROM order_table WHERE table_id='$table_ID' AND order_open='1'";
       						$fetch_orders_result=mysqli_query($conn,$fetch_orders);
       						$items="";
       						$item_rate="";

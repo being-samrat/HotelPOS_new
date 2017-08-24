@@ -12,7 +12,7 @@ session_start();
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>View Tables</title>
+	<title>Join Tables</title>
 	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.min.css">
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">

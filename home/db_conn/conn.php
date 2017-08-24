@@ -14,7 +14,7 @@ if (!$conn) {
 		$conn = mysqli_connect($servername, $db_username, $db_password,$db_name);
 	//echo "Database created successfully";
 
-		$createHotelTable_sql = "CREATE TABLE IF NOT EXISTS tasks (
+		$createHotelTable_sql = "CREATE TABLE IF NOT EXISTS hotel_tables (
 		task_id INT(11) NOT NULL AUTO_INCREMENT,
 		subject VARCHAR(45) DEFAULT NULL,
 		start_date DATE DEFAULT NULL,

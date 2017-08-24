@@ -84,7 +84,7 @@ else{
       <span class = "w3-right">Table No.# T<?php echo $table_no; ?></span><br>
       <br>
       <span class = "w3-left">Order By:<?php echo $order_by; ?></span>
-      <span class = "w3-right"><?php echo date("d/M/y [H:i]"); ?></span>
+      <span class = "w3-right"><?php echo date("d/M/y [h:i a]"); ?></span>
       <table class="table borderless" >  
         <tbody>
           <tr>

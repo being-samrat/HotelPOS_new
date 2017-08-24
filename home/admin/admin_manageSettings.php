@@ -4,7 +4,7 @@
 session_start();
 if(!isset($_SESSION['admin_passwd']))
 {
-	$_SESSION['admin']='';
+	
 	header("location:../index.php");
 }
 ?>
@@ -26,7 +26,7 @@ include_once("../db_conn/conn.php")
 
 	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
+	<script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -286,7 +286,7 @@ include_once("../db_conn/conn.php")
 					<!--modal end-->				
 				</div>
 				<div class="col-lg-6">
-					<div class="col-lg-12 w3-margin" id="menu_item" name="menu_item">
+					<div class="col-lg-12 w3-margin-right" id="menu_item" name="menu_item" style="max-height:300px;overflow:scroll;">
 
 					</div>			
 				</div>
@@ -454,26 +454,6 @@ include_once("../db_conn/conn.php")
 					});
 				}
 			</script>
-			<script>
-				$('input[name=disable_item]:unchecked').click(function(){
-    //if a checkbox with name 'favorite' is clicked, do the following.
-    //grab the id from the clicked box
-    var item_id=$(this).attr('item_id');
-    //grab the value from the checkbox (remember, if it is checked it will be 'on', else ''
-    var disable_item=$(this).val();
-    //setup the ajax call
-    $.ajax({
-    	type:'POST',
-    	url:'disable_item.php',
-    	data:'item_id= '+item_id,
-    	cache: false,
-    	success:function(msg){
-    		alert(msg);
-
-    	}
-    });
-
-});
-</script>
+			
 </body>
 </html>

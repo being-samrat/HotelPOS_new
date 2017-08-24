@@ -251,7 +251,7 @@ session_start();
 
         $.ajax({
         	type: "POST",
-        	url: "../createKOT.php",
+        	url: "../waiter/createKOT.php",
         	data: 'table_id='+ tableID +'&table_no='+ tableNO,
         	cache: false,
         	success: function(response) {
@@ -279,7 +279,7 @@ session_start();
 				if(query != '')  
 				{  
 					$.ajax({  
-						url:"../search_food.php",  
+						url:"../waiter/search_food.php",  
 						method:"POST",  
 
 						data:data,  

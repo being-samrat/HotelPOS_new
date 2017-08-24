@@ -192,9 +192,9 @@ include_once("../db_conn/conn.php")
 	<!--  -->
 	
 	
-	<script>
+<script>
 
-		$(document).ready(function() {
+$(document).ready(function() {
   $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
   setInterval(function() {
   	$('#view_div').load('view_tab.php');
@@ -202,77 +202,7 @@ include_once("../db_conn/conn.php")
 });
 
 </script>
-<script>
-	$(document).ready(function() {
 
-		$('#createKOT_btn').click(function() {
-			var tableID= "-1";
-			var tableNO= "-1";
-			$.ajax({
-				type: "POST",
-				url: "parcelKOT.php",
-				data: 'table_id='+ tableID +'&table_no='+ tableNO,
-				cache: false,
-				success: function(response) {
-					
-					document.getElementById('form_addOrder').style.display='block';
-					document.getElementById('createKOT_btn').style.display='none';
-				},
-				error: function(xhr, textStatus, errorThrown) {
-					alert('request failed');
-				}
-			});
-
-		});
-	});
-</script>
-<script>  
-	$(document).ready(function(){  
-		$('#search_food').keyup(function(){  
-			var query = $(this).val();  
-			if(query != '')  
-			{  
-				$.ajax({  
-					url:"../search_food.php",  
-					method:"POST",  
-
-					data:{query:query},  
-					success:function(data)  
-					{  
-						$('#search_foodList').fadeIn();  
-						$('#search_foodList').html(data);  
-					}  
-				});  
-			}  
-		});  
-		$(document).on('click', 'li', function(){  
-			$('#search_food').val($(this).text());  
-			$('#search_foodList').fadeOut();  
-		});  
-	}); 
-
-</script> 
-<script>
-	$("#add_orderItem").click( function() {
-		$.post( $("#form_addOrder").attr("action"), 
-			$("#form_addOrder :input").serializeArray(), 
-			function(info){ 
-				$("#add_msg").html(info);
-				
-			});
-		clearInput();
-	});
-
-	$("#form_addOrder").submit( function() {
-		return false;	
-	});
-
-	function clearInput() {
-		$("#form_addOrder :input").each( function() {
-			$(this).val('');
-		});
-	}
-</script>
 <script>
 
 	function clear_status(id,name){
@@ -283,7 +213,7 @@ include_once("../db_conn/conn.php")
 				confirm: function () {
 					var dataS = 'id='+ id +'&no='+ name;
 					$.ajax({
-          url:"../clearStatus.php", //the page containing php script
+          url:"../waiter/clearStatus.php", //the page containing php script
           type: "POST", //request type
           data: dataS,
           cache: false,

@@ -2,14 +2,20 @@
 <body>
 
 	<?php 
+	session_start();
+
 	$name=$_POST["cust_name"];
 	$passwd=$_POST["cust_passwd"];
-	if($name=='custom' && $passwd=='custom'){
-		header("location:customer_home.php");
-	
-		session_start();
-				$_SESSION['custom']=$name;
 
+	$sql="SELECT * FROM user_login WHERE username='$name' and password='$passwd'";
+	$result=mysqli_query($conn,$sql);
+
+// Mysql_num_row is counting table row
+	$count=mysqli_num_rows($result);
+	if ($count == 1) {
+
+		$_SESSION['custom']=$name;
+		header("location:customer_home.php");
 		
 		// if (isset($_COOKIE[$id]))
 		// {
@@ -35,12 +41,13 @@
 		// 	header("Location: first.php");
 		// }
 	}
-	else
-	{
-		echo '<script>alert("wrong uname and password!");</script>';
-		header("Location: index.php");
-	}
-	?>
+	else{
+		echo '<script>alert("Wrong Username or Password!!!");
+		window.location.href="index.php";
+	</script>';
+}
+	
+?>
 
 </body>
 </html>

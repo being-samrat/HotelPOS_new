@@ -2,15 +2,14 @@
 // if(isset($_REQUEST))
 // {
 
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 include_once("../db_conn/conn.php");
 
 extract($_POST);
-$image="Menu_images/default_menu.jpg";
-$item_code="";
+$image="../images/Menu_images/default_menu.jpg";
 
 if($new_itemName=='' || $new_itemPrice=='' || $cat_id=='Select Category'){
-	echo "<script>alert('Check every Fields ".$image."');</script>";
+	echo "<script>alert('Check every Fields');</script>";
 }
 
 else{

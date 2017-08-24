@@ -99,28 +99,13 @@ include_once("../db_conn/conn.php");
 <div id="mycart">
 </div>
 
-<h1>Simple Add To Cart System Using jQuery,Ajax And PHP</h1>
-
-<div id="item_div">
-<?php 
-$join_tno="SELECT * FROM menu_items ";
-							$join_tno_res=mysqli_query($conn,$join_tno);
-
-							while($row = mysqli_fetch_array( $join_tno_res))
-							{ 
-								echo '<div class="items" id="'.$row['item_id'].'">
-    <img src="product1.jpg">
-    <input type="button" value="Add To CART" onclick="cart(\''.$row['item_id'].'\')">
-    <p>'.$row['item_name'].'</p>
-    <p>Price - $'.$row['item_price'].'</p>
-    <input type="hidden" id="'.$row['item_id'].'_name" value="'.$row['item_name'].'">
-    <input type="hidden" id="'.$row['item_id'].'_price" value="$'.$row['item_price'].'">
-  </div>';
-							}
-?>
-  
-
-
-</div>
+<form>
+  <input type="file" name="item_image">
+  <img src="MenuImages/default_menu.png" width="50px" height="50px">
+  <br>
+  <input type="text" name="item_name"><br>
+  <input type="text" name="item_price"><br>
+  <textarea rows="5" name="item_info"></textarea>
+</form>
       </body>  
  </html>

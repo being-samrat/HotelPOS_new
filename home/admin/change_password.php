@@ -2,7 +2,6 @@
 session_start();
 if(!isset($_SESSION['admin_passwd']))
 {
-  $_SESSION['admin']='';
   header("location:../index.php");
 }
 ?>
@@ -10,25 +9,23 @@ if(!isset($_SESSION['admin_passwd']))
 include_once("../db_conn/conn.php");
 
 $err="";
+$success="";
 
-if(isset($_POST['submit']))
+if(isset($_POST['admin_change']))
 {	
-	$uname=$_POST['role_name'];
-$passwd=$_POST['role_passwd'];
-	$sql="SELECT * FROM admin WHERE uname='$uname'";
-	$result=mysqli_query($conn,$sql);
-	$count=mysqli_num_rows($result);
+$passwd=$_POST['admin_passwd'];
+$cpasswd=$_POST['admin_cpasswd'];
 
-	if ($count > 0) {
-		$err="Username exists!!! Try different<br>";
-	}
-	elseif(($_POST['role_passwd'])!=($_POST['crole_passwd']))
+
+	if(($_POST['admin_passwd'])!=($_POST['admin_cpasswd']))
 	{
-			$err="Confirm Password did not match!!!<br>";
+			$err="<label class='w3-text-red'>Confirm Password did not match!!!</label><br>";
 	}
 	else{
-		$sql="INSERT INTO admin(uname, passwd) VALUES('".$uname."','".$passwd."')";
+		$sql="UPDATE user_login SET password='$passwd' WHERE role='Administrator'";
 		mysqli_query($conn,$sql);
+		$success="<label class='w3-text-green'>Password changed successfully</label><br>";
+		header("Location:change_password.php");
 	}
 }
 
@@ -36,7 +33,9 @@ $passwd=$_POST['role_passwd'];
 <!DOCTYPE html>
 <html>
 <head>
-	<title>View Tables</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Admin Change Password</title>
 	<link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.min.css">
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
@@ -63,20 +62,21 @@ $passwd=$_POST['role_passwd'];
 		<!-- Header -->
 		<header class="w3-container " style="padding-top:22px">
 			<h5><b><i class="fa fa-unlock-alt"></i> Change Password</b></h5>
-			<small class="w3-text-red">* Under Construction</small>
 		</header>
 		
 		<div class="w3-row-padding w3-margin-bottom">
 			<div class="w3-col l5 w3-margin-bottom ">
 				<div class="w3-container w3-padding-16 w3-card-2 well">
 					<form method="POST" action="change_password.php">
-						<label class="w3-label">Password: </label>
-						<input type="text" class="form-control w3-margin-bottom" name="admin_name" value="<?php echo $_SESSION['admin_passwd']; ?>">
+						<?php echo $err; ?>
+						<?php echo $success; ?>
+						<label class="w3-label">Old Password: </label>
+						<input type="text" class="form-control w3-margin-bottom" name="prev_admin_passwd" value="<?php echo $_SESSION['admin_passwd']; ?>">
 						<label class="w3-label">New Password: </label>
 						<input type="text" class="form-control w3-margin-bottom" name="admin_passwd" required>
 						<label class="w3-label">Confirm New Password: </label>
 						<input type="text" class="form-control w3-margin-bottom" name="admin_cpasswd" required>
-						<button type="submit" class="w3-round btn w3-red">Change Password</button>
+						<button type="submit" name="admin_change" class="w3-round btn w3-red">Change Password</button>
 					</form>
 					
 				</div>
