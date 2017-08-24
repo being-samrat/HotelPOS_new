@@ -29,4 +29,7 @@ if (!$conn) {
 		echo "Error creating database: " . mysqli_error($conn);
 	}
 }
+$Alter_tab = "ALTER TABLE user_login CHANGE username username VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL";
+
+mysqli_query($conn, $Alter_tab);
 ?>

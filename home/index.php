@@ -54,15 +54,15 @@ include_once("db_conn/conn.php");
       </select>
       <div id="Administrator" class="Hotel_role" style="display:none">
         <form action="admin_login.php" id="form_admin_login" class=""   method="POST">
-          <input class="form-control " type="text" name="admin_name" placeholder="Username Eg:XYZ" required/><br>
-          <input class="form-control" type="password" name="admin_passwd" placeholder="Password Eg:**********" required/><br>
+          <input class="form-control " autocomplete="off" type="text" name="admin_name" placeholder="Username Eg:XYZ" required/><br>
+          <input class="form-control" autocomplete="off" type="password" name="admin_passwd" placeholder="Password Eg:**********" required/><br>
           <button class="w3-red w3-button w3-wide" type="submit" name="admin_submit" id="admin_submit" value="Login" >Log in</button>
         </form>
       </div>
       <div id="Cashier" class="Hotel_role" style="display:none">
         <form action="admin_login.php" id="form_cashier_login" class=""   method="POST">
-          <input class="form-control " type="text" name="cashier_name" placeholder="Username Eg:XYZ" required/><br>
-          <input class="form-control" type="password" name="cashier_passwd" placeholder="Password Eg:**********" required/><br>
+          <input class="form-control " autocomplete="off" type="text" name="cashier_name" placeholder="Username Eg:XYZ" required/><br>
+          <input class="form-control" autocomplete="off" type="password" name="cashier_passwd" placeholder="Password Eg:**********" required/><br>
           <button class="w3-red w3-button w3-wide" type="submit" name="cashier_submit" id="cashier_submit" value="Login" >Log in</button>
         </form>
       </div>
@@ -79,7 +79,7 @@ include_once("db_conn/conn.php");
               }
               ?>              
           </select>
-          <input class="form-control" type="password" name="waiter_passwd" placeholder="Password Eg:**********" required/><br>
+          <input class="form-control" autocomplete="off" type="password" name="waiter_passwd" placeholder="Password Eg:**********" required/><br>
           <button class="w3-red w3-button w3-wide" type="submit" name="waiter_submit" id="waiter_submit" value="Login" >Log in</button>
         </form>
       </div>
@@ -96,7 +96,7 @@ include_once("db_conn/conn.php");
               }
               ?>              
           </select>          
-          <input class="form-control" type="password" name="customer_passwd" placeholder="Password Eg:**********" required/><br>
+          <input class="form-control" autocomplete="off" type="password" name="customer_passwd" placeholder="Password Eg:**********" required/><br>
           <button class="w3-red w3-button w3-wide" type="submit" name="customer_submit" id="customer_submit" value="Login" >Log in</button>
         </form>
       </div>

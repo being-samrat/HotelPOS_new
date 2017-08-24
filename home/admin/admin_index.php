@@ -236,8 +236,8 @@ include_once("../db_conn/conn.php")
  
       <div class="w3-twothird" style="margin-right: 0">
         <h5></h5>
-        <div class="well">
-        <canvas id="Report_Chart" width="500px" height="auto" style="height: auto;">
+        <div class="well" style="overflow: hidden;overflow-x: scroll;">
+        <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
         </canvas>
         </div>
       </div>

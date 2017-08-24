@@ -23,8 +23,17 @@ if(isset($_POST['waiter_password']))
 	}	
 	
 	else{
-		$sql="UPDATE user_login SET password='$waiter_role_password' WHERE role='Waiter'";
-		mysqli_query($conn,$sql);
+		
+		$sql="SELECT * FROM user_login WHERE role='Waiter'";
+		$sql_result=mysqli_query($conn,$sql);
+		if((mysqli_num_rows($sql_result))==0){ //..............................check if customer role exists or not
+			$sql_insert="INSERT INTO user_login (role,username,password) VALUES ('Waiter','Waiter_Default','".$waiter_role_password."')";
+			mysqli_query($conn,$sql_insert);
+		}
+		else{
+			$sql_update="UPDATE user_login SET password='$waiter_role_password' WHERE role='Waiter'";
+			mysqli_query($conn,$sql_update);
+		}
 	}
 }
 
@@ -38,9 +47,19 @@ if(isset($_POST['cashier_password']))
 		$chngeerr="Confirm password did not match!!!<br>";
 	}	
 	
-	else{
-		$sql="UPDATE user_login SET password='$cashier_role_password' WHERE role='Cashier'";
-		mysqli_query($conn,$sql);
+	else{		
+
+		$sql="SELECT * FROM user_login WHERE role='Cashier'";
+		$sql_result=mysqli_query($conn,$sql);
+		if((mysqli_num_rows($sql_result))==0){ //..............................check if customer role exists or not
+			$sql_insert="INSERT INTO user_login (role,username,password) VALUES ('Cashier','Cashier_Default','".$cashier_role_password."')";
+			mysqli_query($conn,$sql_insert);
+		}
+		else{
+			$sql_update="UPDATE user_login SET password='$cashier_role_password' WHERE role='Cashier'";
+			mysqli_query($conn,$sql_update);
+		}
+		
 	}
 }
 
@@ -55,8 +74,17 @@ if(isset($_POST['customer_password']))
 	}	
 	
 	else{
-		$sql="UPDATE user_login SET password='$customer_role_password' WHERE role='Customer'";
-		mysqli_query($conn,$sql);
+		$sql="SELECT * FROM user_login WHERE role='Customer'";
+		$sql_result=mysqli_query($conn,$sql);
+		if((mysqli_num_rows($sql_result))==0){ //..............................check if customer role exists or not
+			$sql_insert="INSERT INTO user_login (role,username,password) VALUES ('Customer','Customer','".$customer_role_password."')";
+			mysqli_query($conn,$sql_insert);
+		}
+		else{
+			$sql_update="UPDATE user_login SET password='$customer_role_password' WHERE role='Customer'";
+			mysqli_query($conn,$sql_update);
+		}
+		
 	}
 }
 
@@ -149,10 +177,10 @@ if(isset($_POST['submit']))
 						</select>
 
 						<label class="w3-label">Username: </label>
-						<input type="text" class="form-control w3-margin-bottom" name="role_name" placeholder="enter unique name" required>
+						<input type="text" class="form-control w3-margin-bottom" autocomplete="off" name="role_name" placeholder="enter unique name" required>
 
 						<label class="w3-label">Password: </label>
-						<input type="text" maxlength="10" class="form-control " placeholder="enter password of max.10 chars" id="role_passwd" name="role_passwd" >			
+						<input type="text" maxlength="10" class="form-control " placeholder="enter password of max.10 chars" id="role_passwd" name="role_passwd" readonly>			
 						<span class="w3-small w3-text-red w3-margin-bottom">NOTE: Password will remain common for the respective roles</span><br>			
 						<span class="w3-text-green"><?php echo $success; ?></span>
 						<button type="submit" name="submit" class="w3-round btn w3-red w3-margin-top">Add Role</button>
@@ -205,12 +233,12 @@ if(isset($_POST['submit']))
 							<div class="w3-container w3-col l6" >
 								<label class="w3-text-red"><?php echo $chngeerr; ?></label>
 								<form method="POST" action="#">								
-									<label class=" w3-medium">Password: 
+									<label class=" w3-medium">New Password: 
 
-										<input type="text" class="form-control w3-margin-bottom" name="waiter_role_password" value="<?php echo $waiter_pass; ?>"></label>
+										<input type="text" class="form-control w3-margin-bottom" autocomplete="off" name="waiter_role_password" value="<?php echo $waiter_pass; ?>"></label>
 
 										<label class=" w3-medium">Confirm Password: 
-											<input type="text" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter same password as above" id="confirm_role_password" name="waiter_confirm_role_password" required>	</label>					
+											<input type="text" maxlength="10" class="form-control w3-margin-bottom" autocomplete="off" placeholder="enter same password as above" id="confirm_role_password" name="waiter_confirm_role_password" required>	</label>					
 
 											<button type="submit" name="waiter_password" class="w3-round btn w3-red">Change Waiter Password</button>
 										</form>
@@ -253,12 +281,12 @@ if(isset($_POST['submit']))
 									<div class="w3-container w3-col l6 w3-margin-left">
 										<label class="w3-text-red"><?php echo $chngeerr; ?></label>
 										<form method="POST" action="#">								
-											<label class=" w3-medium">Password: 
+											<label class=" w3-medium">New Password: 
 
-												<input type="text" class="form-control w3-margin-bottom" name="cashier_role_password" value="<?php echo $cashier_pass; ?>"></label>
+												<input type="text" class="form-control w3-margin-bottom" name="cashier_role_password" autocomplete="off" value="<?php echo $cashier_pass; ?>"></label>
 
 												<label class=" w3-medium">Confirm Password: 
-													<input type="text" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter same password as above" id="confirm_role_password" name="cashier_confirm_role_password">	</label>					
+													<input type="text" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter same password as above" id="confirm_role_password" name="cashier_confirm_role_password" autocomplete="off">	</label>					
 
 													<button type="submit" name="cashier_password" class="w3-round btn w3-red">Change Cashier Password</button>
 												</form>
@@ -279,12 +307,12 @@ if(isset($_POST['submit']))
 											<div class="w3-container w3-col l6 w3-margin-left" >
 												<label class="w3-text-red"><?php echo $chngeerr; ?></label>
 												<form method="POST" action="#">								
-													<label class=" w3-medium">Password: 
+													<label class=" w3-medium">New Password: 
 
-														<input type="text" class="form-control w3-margin-bottom" name="customer_role_password" value="<?php echo $customer_pass; ?>"></label>
+														<input type="text" class="form-control w3-margin-bottom" name="customer_role_password" autocomplete="off" value="<?php echo $customer_pass; ?>"></label>
 
 														<label class=" w3-medium">Confirm Password: 
-															<input type="text" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter same password as above" id="confirm_role_password" name="customer_confirm_role_password">	</label>					
+															<input type="text" maxlength="10" class="form-control w3-margin-bottom" placeholder="enter same password as above" id="confirm_role_password" name="customer_confirm_role_password" autocomplete="off">	</label>					
 
 															<button type="submit" name="customer_password" class="w3-round btn w3-red">Change Customer Password</button>
 														</form>
