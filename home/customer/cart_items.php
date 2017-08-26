@@ -69,9 +69,9 @@ foreach ($json as $item){
           table_id:table_id 
       },
         success:function(response) {
-          location.reload();
+          //location.reload();
          	$.alert(response);
-
+         	setTimeout("window.location='customer_home.php'",3000);
         }
       });
 	});

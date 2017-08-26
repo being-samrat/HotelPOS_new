@@ -44,7 +44,7 @@ include_once("../db_conn/conn.php")
   $workerCount_sql="SELECT * FROM user_login WHERE role != 'Administrator'";//-----------------------------get total workers count except Administrator
   $today=date("Y-m-d");
   $tableTotalOrder_sql="SELECT * FROM order_bill WHERE dated='".$today."'";//------------------------get total orders placed today
-  $TotalOrderSale_sql="SELECT sum(revenue) FROM order_bill WHERE dated='".$today."'" ;//-------------------get total sum of todays sold orders
+  $TotalOrderSale_sql="SELECT ROUND(sum(revenue), 2) FROM order_bill WHERE dated='".$today."'" ;//-------------------get total sum of todays sold orders
 
   $tabOccupied=mysqli_query($conn,$tableOccupied_sql);//-----------------get ocuupied tables count
   $tab=mysqli_query($conn,$tableTotal_sql);//-----------------------get total tables count
@@ -53,7 +53,7 @@ include_once("../db_conn/conn.php")
   $TotalSale=mysqli_query($conn,$TotalOrderSale_sql);//-------------------get total sum of todays sold orders
   while($row=mysqli_fetch_array($TotalSale))
   {
-    $totalSale=$row['sum(revenue)'];
+    $totalSale=$row['ROUND(sum(revenue), 2)'];
   }
 
   $tot_ocuupied_tables = mysqli_num_rows($tabOccupied);//-----------------get ocuupied tables count
@@ -108,7 +108,7 @@ include_once("../db_conn/conn.php")
         <div class="w3-container w3-orange w3-text-white w3-padding-16">
           <div class="w3-left"><i class="fa fa-inr w3-xxxlarge"></i></div>
           <div class="w3-right">
-            <h3><?php echo $avg_SaleToday ?></h3>
+            <h3><?php echo round($avg_SaleToday, 2) ?></h3>
           </div>
           <div class="w3-clear"></div>
           <h4>Average Sale Today</h4>
@@ -237,6 +237,7 @@ include_once("../db_conn/conn.php")
       <div class="w3-twothird" style="margin-right: 0">
         <h5></h5>
         <div class="well" style="overflow: hidden;overflow-x: scroll;">
+        <h4 class="w3-center w3-large" id="Report_title"></h4>
         <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
         </canvas>
         </div>

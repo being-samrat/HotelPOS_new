@@ -29,7 +29,18 @@ if (!$conn) {
 		echo "Error creating database: " . mysqli_error($conn);
 	}
 }
+//.....................................query to change datatype of column ........................................
 $Alter_tab = "ALTER TABLE user_login CHANGE username username VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL";
-
 mysqli_query($conn, $Alter_tab);
+
+
+//.....................................script to add new column ........................................
+$addColumn_join="SELECT status FROM join_table";
+$addColumn_join_res=mysqli_query($conn,$addColumn_join);
+if($addColumn_join_res==FALSE)
+{
+  $sql="ALTER TABLE join_table ADD joined BOOLEAN NOT NULL AFTER joint_tables; ";
+  mysqli_query($conn,$sql);
+}
+
 ?>

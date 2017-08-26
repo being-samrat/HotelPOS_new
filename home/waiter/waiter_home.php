@@ -144,45 +144,38 @@ if(!isset($_SESSION['waiter']))
 
     </div>    
   </div>
-  <div class="col-lg-8 col-md-8 col-sm-6">
+  <div class="col-lg-8 col-md-8 col-sm-6" id="waiter_operation">
     <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px">
       <header class="w3-container ">
         <h5><b><i class="fa fa-bookmark"></i> Order for Table No: </b></h5>
       </header>
 
-      <div id="per_table_order">
+        <div id="per_table_order">
 
         <?php   
         if(isset($_GET['table_id'])) {
           include("per_table_order.php"); }?>
         </div>
+        <div class="w3-display-bottomright" style="position: fixed">
+      <a class="w3-border-top btn w3-red w3-large w3-round-xlarge w3-card-16" id="join_tab" title="Join tables" href="join_table.php" style="margin:8px"><i class="fa fa-link" ></i> <span class="w3-hide-small">Join Tables</span></a>
+    </div>
       </div>      
     </div>
 
   </div>
 
-<!-- <script>
+<script>
   $(function() {
-    $("#occupied_table_order >div >span >a").click(function(e) {
+    $("#join_tab").click(function(e) {
         e.preventDefault(); //so the browser doesn't follow the link
 
-        $("#per_table_order").load(this.href, function() {
+        $("#waiter_operation").load(this.href, function() {
             //execute here after load completed
           });
       });
   });
 </script>
-<script>
-  $(function() {
-    $("#vacant_table_order >div >span >a").click(function(e) {
-        e.preventDefault(); //so the browser doesn't follow the link
 
-        $("#per_table_order").load(this.href, function() {
-            //execute here after load completed
-          });
-      });
-  });
-</script> -->
 <script>
 
   $(document).ready(function() {

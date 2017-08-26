@@ -181,7 +181,7 @@ include_once("../db_conn/conn.php")
 			
 		</div>
 		<div class="w3-display-bottomright" style="position: fixed">
-			<a class="w3-border-top btn w3-red w3-large w3-round-xlarge w3-card-16" href="join_table.php" style="margin:8px">Join Tables</a>
+			<a class="w3-border-top btn w3-red w3-large w3-round-xlarge w3-card-16" href="join_table.php" style="margin:8px"><i class="fa fa-link" ></i> Join Tables</a>
 		</div>
 		
 

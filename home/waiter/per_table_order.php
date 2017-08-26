@@ -68,6 +68,15 @@ session_start();
 $get_tno="SELECT * FROM hotel_tables,join_table WHERE hotel_tables.join_id=join_table.join_id AND hotel_tables.table_id='$table_id'";
 $get_tno_res=mysqli_query($conn,$get_tno);
 
+$ACStatus="";
+$getAcstat="SELECT * FROM hotel_tables WHERE table_id='$table_id'";
+$getAcstat_res=mysqli_query($conn,$getAcstat);
+while($row = mysqli_fetch_array( $getAcstat_res))
+{ 
+	$ACStatus=$row['status'];//get Table Ac or nonAc.........................
+}
+
+
 $join_tabs="";
 $json_join="";
 while($row = mysqli_fetch_array( $get_tno_res))
@@ -77,7 +86,7 @@ while($row = mysqli_fetch_array( $get_tno_res))
 $json_join=json_decode($join_tabs,true);
 
 ?>
-<div class="col-sm-12">
+<div class="col-sm-12 w3-margin-bottom">
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="well">				
@@ -101,7 +110,7 @@ $json_join=json_decode($join_tabs,true);
 						?>
 						<hr>
 					</div>
-					<table class="table" w3-center>
+					<table class="table">
 						<thead >
 							<tr>
 								<th class="w3-center">Item Name</th>
@@ -170,13 +179,14 @@ $json_join=json_decode($join_tabs,true);
 						<div class="modal-body">
 							<form action="shift_table.php" method="POST">
 								<label>Shift Table No: </label>
-								<input class="form-control " type="text" name="previouse_table_name" placeholder="" value = "<?php echo $_GET['table_no']; ?>" required/>  
+								<input class="form-control " type="hidden" name="previouse_table_id" placeholder="" value = "<?php echo $_GET['table_id']; ?>" required/>  
+								<input class="form-control " type="text" placeholder="" value = "<?php echo $_GET['table_no']; ?>" required/>  
 
 								<label>TO </label>
 								<select class="form-control w3-col 4 w3-margin-bottom" name="shift_table" style="" id="">
 									<option class="w3-red" selected>Select Table</option>
 									<?php 								
-									$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0";
+									$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0 AND status='$ACStatus' AND table_id != '$table_id'";
 									$sqlemptyTABLE_RESULT=mysqli_query($conn,$sqlemptyTABLE);
 
 									while($sqlemptyTABLE_RESULT_ROW = mysqli_fetch_array( $sqlemptyTABLE_RESULT))

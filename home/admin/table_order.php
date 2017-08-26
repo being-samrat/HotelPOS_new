@@ -109,13 +109,21 @@ session_start();
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="well">
-							<div class="w3-center w3-xxlarge">
+							<div class="w3-center w3-xxlarge" >
 								<?php ;
 								$table_no= $_GET['table_no'];
 								$table_id= $_GET['table_id'];
 								$_SESSION['tid']=$table_id;
 								$get_tno="SELECT * FROM hotel_tables,join_table WHERE hotel_tables.join_id=join_table.join_id AND hotel_tables.table_id='$table_id'";
 								$get_tno_res=mysqli_query($conn,$get_tno);
+
+								$ACStatus="";
+								$getAcstat="SELECT * FROM hotel_tables WHERE table_id='$table_id'";
+								$getAcstat_res=mysqli_query($conn,$getAcstat);
+								while($row = mysqli_fetch_array( $getAcstat_res))
+								{ 
+									$ACStatus=$row['status'];//get Table Ac or nonAc.........................
+								}
 
 								$join_tabs="";
 								$json_join="";
@@ -140,12 +148,12 @@ session_start();
 								?>
 								<hr>
 							</div>
-							<table class="table">
+							<table class="table table-responsive" style="overflow-x: scroll;overflow: hidden">
 								<thead>
 									<tr>
 										<th>Item Name</th>
-										<th>Quantity</th>
-										<th>Price(each)</th>
+										<th>Qty</th>
+										<th>Price (each)</th>
 										<th>Net Price</th>
 									</tr>
 								</thead>
@@ -172,8 +180,8 @@ session_start();
 										<tr>
 											<td>'.$row['item_name'].'</td>
 											<td>'.$row['quantity'].'</td>
-											<td>'.$row['item_price'].' /-</td>
-											<td>'.$total.' /-</td>
+											<td>'.$row['item_price'].' <i class="fa fa-inr"></i></td>
+											<td>'.$total.' <i class="fa fa-inr"></i></td>
 											
 										</tr>';
 									//echo $row['item_name']." ";
@@ -188,9 +196,9 @@ session_start();
 							</table>
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col l12 w3-col s12 ">
-									<button type="button" class=" btn w3-round w3-text-red w3-left" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
-									
-									<button type="button" class=" btn w3-round w3-text-red w3-right" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
+									<button type="button" class=" btn w3-round w3-text-red w3-left w3-padding-small" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
+
+									<button type="button" class=" btn w3-round w3-text-red w3-right w3-padding-small" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
 
 
 									<!-- Modal -->
@@ -239,13 +247,14 @@ session_start();
 												<div class="modal-body">
 													<form action="shift_table.php" method="POST">
 														<label>Shift Table No: </label>
-														<input class="form-control " type="text" name="previouse_table_name" placeholder="" value = "<?php echo $_GET['table_no']; ?>" required/>  
+														<input class="form-control " type="hidden" name="previouse_table_id" placeholder="" value = "<?php echo $_GET['table_id']; ?>" required/>  
+														<input class="form-control " type="text" placeholder="" value = "<?php echo $_GET['table_no']; ?>" required/>  
 
 														<label>TO </label>
 														<select class="form-control w3-col 4 w3-margin-bottom" name="shift_table" style="" id="">
 															<option class="w3-red" selected>Select Table</option>
 															<?php 								
-															$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0";
+															$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0 AND status='$ACStatus' AND table_id != '$table_id'";
 															$sqlemptyTABLE_RESULT=mysqli_query($conn,$sqlemptyTABLE);
 
 															while($sqlemptyTABLE_RESULT_ROW = mysqli_fetch_array( $sqlemptyTABLE_RESULT))
@@ -276,7 +285,7 @@ session_start();
 			</div>
 
 		</div>
-		
+
 		<script>
 			$(document).ready(function() {
 

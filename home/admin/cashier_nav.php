@@ -1,8 +1,11 @@
-<<?php if(!isset($_SESSION['cashier']))
+<?php 
+if(!isset($_SESSION['cashier']))
 {
   header("location:../index.php");
   // include("admin_navigation.php");
-} ?><!-- Top container -->
+} 
+?>
+<!-- Top container -->
 <div class="w3-bar w3-top w3-red w3-large container_size" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
   <span class="w3-bar-item w3-right w3-xlarge">HOTEL POS</span>

@@ -87,7 +87,7 @@ while($row=mysqli_fetch_assoc($fetch_kot_result))
 					?>
 					<hr>
 				</div>
-				<table class="table" w3-center>
+				<table class="table">
 					<thead >
 						<tr>
 							<th class="w3-center">Item Name</th>

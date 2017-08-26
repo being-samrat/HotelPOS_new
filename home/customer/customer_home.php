@@ -1,5 +1,5 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 session_start();
 if(!isset($_SESSION['customer_table']))
@@ -86,7 +86,7 @@ include_once("../db_conn/conn.php");
       $table_NO=$row['table_name']; //get table name from table_id.............................
       $status=$row['status']; //get table status from table_id.............................
     }
-    echo $_SESSION['customer_table'];
+    //echo $_SESSION['customer_table'];
     ?>
   </div> 
   <div class="w3-col l2 s12 w3-small w3-padding-medium">
@@ -181,7 +181,7 @@ include_once("../db_conn/conn.php");
 
       echo '<div class="w3-col l3  w3-margin-bottom">
       <div class="w3-white" style="height: 380px;padding: 0px;font-family:Segoe UI;letter-spacing:1px;">
-        <div class="w3-col l12" >
+        <div class="w3-col l12">
           <div class="w3-white w3-opacity img_opaque"></div>
           <img src="'.$row['item_image'].'" class="w3-border" height="200px" width="100%">
         </div>
