@@ -31,56 +31,56 @@ session_start();
 		}
 	</style>
 	<style>  
-	.searchUL{  
-		background-color:#E4E4E4;  
-		cursor:pointer;  
-	}  
-	.searchLI{  
-		padding:8px;  
-	}  
-</style>  
-<style>
+		.searchUL{  
+			background-color:#E4E4E4;  
+			cursor:pointer;  
+		}  
+		.searchLI{  
+			padding:8px;  
+		}  
+	</style>  
+	<style>
 
-	/* Include the padding and border in an element's total width and height */
-	* {
-		box-sizing: border-box;
-	}
+		/* Include the padding and border in an element's total width and height */
+		* {
+			box-sizing: border-box;
+		}
 
-	/* Remove margins and padding from the list */
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style: none; 
-	}
+		/* Remove margins and padding from the list */
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none; 
+		}
 
-	/* Style the list items */
-	ul li {
-		cursor: pointer;
-		position: relative;
+		/* Style the list items */
+		ul li {
+			cursor: pointer;
+			position: relative;
 
-		background: #eee;
-		font-size: 18px;
-		transition: 0.2s;
+			background: #eee;
+			font-size: 18px;
+			transition: 0.2s;
 
-		/* make the list items unselectable */
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-	}
-	.unselectable {
-		-moz-user-select: -moz-none;
-		-khtml-user-select: none;
-		-webkit-user-select: none;
-		-o-user-select: none;
-		user-select: none
-	}
-	/* Set all odd list items to a different color (zebra-stripes) */
-	ul li:nth-child(odd) {
-		background: #f9f9f9;
-	}
+			/* make the list items unselectable */
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		.unselectable {
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-o-user-select: none;
+			user-select: none
+		}
+		/* Set all odd list items to a different color (zebra-stripes) */
+		ul li:nth-child(odd) {
+			background: #f9f9f9;
+		}
 
-</style>
+	</style>
 </head>
 <body>
 	<body style="background-color: #E4E4E4">
@@ -189,6 +189,8 @@ session_start();
 							<div class="w3-row-padding w3-margin-bottom">
 								<div class="w3-col l12 w3-col s12 ">
 									<button type="button" class=" btn w3-round w3-text-red w3-left" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
+									
+									<button type="button" class=" btn w3-round w3-text-red w3-right" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
 
 
 									<!-- Modal -->
@@ -224,7 +226,41 @@ session_start();
 										</div>
 									</div>
 									<!--modal end-->
+									<!-- shift table modal Start -->
+									<div id="shiftTable" class="modal fade " role="dialog">
+										<div class="modal-dialog ">
+											<!-- Modal content-->
+											<div class="modal-content col-lg-6 col-md-4 col-sm-12 col-lg-offset-3 col-md-offset-3">    
+												<div class="modal-header">
+													<label>Shift Table</label>
+													<button type="button" id="mod_close" class="close" data-dismiss="modal">&times;</button>
 
+												</div>
+												<div class="modal-body">
+													<form action="shift_table.php" method="POST">
+														<label>Shift Table No: </label>
+														<input class="form-control " type="text" name="previouse_table_name" placeholder="" value = "<?php echo $_GET['table_no']; ?>" required/>  
+
+														<label>TO </label>
+														<select class="form-control w3-col 4 w3-margin-bottom" name="shift_table" style="" id="">
+															<option class="w3-red" selected>Select Table</option>
+															<?php 								
+															$sqlemptyTABLE="SELECT * FROM hotel_tables WHERE occupied = 0";
+															$sqlemptyTABLE_RESULT=mysqli_query($conn,$sqlemptyTABLE);
+
+															while($sqlemptyTABLE_RESULT_ROW = mysqli_fetch_array( $sqlemptyTABLE_RESULT))
+															{
+																echo '<option value="'.$sqlemptyTABLE_RESULT_ROW['table_id'].'">'.$sqlemptyTABLE_RESULT_ROW['table_name'].'</option>';
+															}   
+															?>  
+														</select>
+														<input class="form-control w3-red w3-wide" type="submit" name="table_submit" id="table_submit" value="Shift" >           
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--   shift table modal end -->
 
 								</div>
 
@@ -240,11 +276,11 @@ session_start();
 			</div>
 
 		</div>
-	
-	<script>
-		$(document).ready(function() {
+		
+		<script>
+			$(document).ready(function() {
 
-			$('#createKOT_btn').click(function() {
+				$('#createKOT_btn').click(function() {
 
         var tableID = $('#table_id_ip').val(); //where #table could be an input with the name of the table you want to truncate
         var tableNO = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
@@ -265,66 +301,66 @@ session_start();
         });
 
     });
-		});
-	</script>
-	<script>  
-		$(document).ready(function(){  
-			$('#name').keyup(function(){  
-				var query = $(this).val();  
-				var table_id = $('#table_id_ip').val();
-				var data = {
-                     table_id:table_id,
-                     query:query
-				};  
-				if(query != '')  
-				{  
-					$.ajax({  
-						url:"../waiter/search_food.php",  
-						method:"POST",  
-
-						data:data,  
-						success:function(data)  
-						{  
-							$('#search_foodList').fadeIn();  
-							$('#search_foodList').html(data);  
-						}  
-					});  
-				}  
-			});  
-			$(document).on('click', 'li', function(){  
-				$('#name').val($(this).text());  
-				$('#search_foodList').fadeOut();  
-			});  
-		}); 
-
-	</script> 
-	<script>
-		$("#sub").click( function() {
-			$.post( $("#myform").attr("action"), 
-				$("#myform ").serializeArray(),	
-				function(info){ 
-					$("#KOT_add").html(info);				
-				});
-			clearInput();
-		});
-		$("#myform").submit( function() {
-			return false;	
-		});
-		function clearInput() {
-			$("#myform :input").each( function() {
-				$('#name').val('');
-				$('#quantity').val('');
 			});
-		}
-	</script>
-	<script>
+		</script>
+		<script>  
+			$(document).ready(function(){  
+				$('#name').keyup(function(){  
+					var query = $(this).val();  
+					var table_id = $('#table_id_ip').val();
+					var data = {
+						table_id:table_id,
+						query:query
+					};  
+					if(query != '')  
+					{  
+						$.ajax({  
+							url:"../waiter/search_food.php",  
+							method:"POST",  
 
-	</script> 		
-	<script>
-		$('#takeOrder').on('hidden.bs.modal', function () {
-			location.reload();
-		})
-	</script>
-</body>
+							data:data,  
+							success:function(data)  
+							{  
+								$('#search_foodList').fadeIn();  
+								$('#search_foodList').html(data);  
+							}  
+						});  
+					}  
+				});  
+				$(document).on('click', 'li', function(){  
+					$('#name').val($(this).text());  
+					$('#search_foodList').fadeOut();  
+				});  
+			}); 
+
+		</script> 
+		<script>
+			$("#sub").click( function() {
+				$.post( $("#myform").attr("action"), 
+					$("#myform ").serializeArray(),	
+					function(info){ 
+						$("#KOT_add").html(info);				
+					});
+				clearInput();
+			});
+			$("#myform").submit( function() {
+				return false;	
+			});
+			function clearInput() {
+				$("#myform :input").each( function() {
+					$('#name').val('');
+					$('#quantity').val('');
+				});
+			}
+		</script>
+		<script>
+
+		</script> 		
+		<script>
+			$('#takeOrder').on('hidden.bs.modal', function () {
+				location.reload();
+			})
+		</script>
+	</body>
 </body>
 </html>

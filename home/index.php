@@ -1,6 +1,12 @@
 <?php
 include_once("db_conn/conn.php");
 
+$demosql="SELECT status FROM join_table";
+$demores=mysqli_query($conn,$demosql);
+if($demores==FALSE)
+{
+  $sql="ALTER TABLE join_table ADD joined BOOLEAN NOT NULL AFTER joint_tables; "
+}
 ?>
 
 <!DOCTYPE html>

@@ -2,14 +2,6 @@
 session_start();
 include_once("db_conn/conn.php");
 
-$hide_waiter="";
-if(!isset($_SESSION['waiter_name']))
-{
-  $_SESSION['waiter_name']='';
-  $hide_waiter="w3-hide";
-  //header("location:index.php");
-}
-
 ?>
 
 <!DOCTYPE html>
