@@ -115,6 +115,7 @@ $json_join=json_decode($join_tabs,true);
 							<tr>
 								<th class="w3-center">Item Name</th>
 								<th class="w3-center">Quantity</th>
+								<th class="w3-center"></th>
 								
 							</tr>
 						</thead>
@@ -140,12 +141,14 @@ $json_join=json_decode($join_tabs,true);
 								<tr>
 									<td>'.$row['item_name'].'</td>
 									<td>'.$row['quantity'].'</td>
+									<td>
+										<a class="btn w3-medium" title="Delete MenuItem" href="disable_item.php?item_id='.$row['item_id'].'" style="padding:0"><i class="fa fa-remove"></i></a>
+									</td>
 									
 								</tr>';
 									//echo $row['item_name']." ";
 
 							}
-
 
 							?>
 

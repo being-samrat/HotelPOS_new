@@ -72,6 +72,7 @@ while($row = mysqli_fetch_array( $kot_sql_result))
 }
 
 $kot_array=json_decode($kot_items,true);
+
 $extra=array(
 	'item_id'=>$item_id,
 	'item_name' => $item_name,

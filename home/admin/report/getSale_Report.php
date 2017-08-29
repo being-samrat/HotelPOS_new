@@ -8,7 +8,6 @@ include_once("../../db_conn/conn.php");
 <?php
 $from = $_GET['from'];
 $to  = $_GET['to'];
-
 $date1=date_create($from);
 $date2=date_create($to );
 $diff=date_diff($date1,$date2);

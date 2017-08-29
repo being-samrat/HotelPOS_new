@@ -1,20 +1,22 @@
 $(document).ready(function()
 {
-	$("#getSale_btn").click(function(){ 
-		var from = $("#sale_fromDate").val();  
-		var to = $("#sale_toDate").val();  
+	$("#getSalePrint_btn").click(function(){ 
+		var from = $("#print_saleFrom").val();  
+		var to = $("#print_saleTo").val();  
 		var data = {
 			from:from,
 			to:to
 		};
-		
+		$("#graph_data").show();
 		$.ajax({  
-			url:"report/getSale_Report.php",  
+			url:"getSale_Report.php",  
 			method:"GET",
 			data:data,  
 			success:function(data)  
 			{  
 				$("#Report_title").html("Sales Report <br><i class='w3-small'>[X-axis: Dates, Y-axis: Sales/day]</i>");
+				$("#report_info").hide();
+				$("#print_action").show();
 				var date=[];
 				var count=[];
 				var records='0';
@@ -24,7 +26,6 @@ $(document).ready(function()
 					count.push(data[i].count);
 					records++;
 				}
-				$("#saleReport_table").html("Sales Report <br><i class='w3-small'>[X-axis: Dates, Y-axis: Sales/day]</i>");
 
 				var chartdata={
 					labels: date,
@@ -32,12 +33,12 @@ $(document).ready(function()
 						label: 'Rs',
 						data: count,
 						backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
+						'rgba(0, 0, 0, 0.2)',
+						'rgba(0, 0, 0, 0.2)',
+						'rgba(0, 0, 0, 0.2)',
+						'rgba(0, 0, 0, 0.2)',
+						'rgba(0, 0, 0, 0.2)',
+						'rgba(0, 0, 0, 0.2)'
 						],
 						borderColor: [
 						'rgba(255,99,132,1)',
@@ -50,16 +51,18 @@ $(document).ready(function()
 						borderWidth: 1
 					}]
 				};
-				var ctx = document.getElementById("Report_Chart");
+				var ctx = document.getElementById("Report_Chart").getContext("2d");
+				var url_base64jp = document.getElementById("Report_Chart").toDataURL("image/jpg");
 				var Graph=new Chart(ctx,{
 					type:'line',
 					data:chartdata,
-					options: {
-						title: {
-							display: true,
-							position:top,
-							text: 'Custom Chart Title'
+					plugins: [{
+						afterRender: function () {
+							renderIntoImage()
 						},
+					}],
+					options: {
+
 						scales: {
 							yAxes: [{
 								ticks: {
@@ -74,5 +77,13 @@ $(document).ready(function()
 				console.log(data);
 			} 
 		});  
-	});
+	}); 
 });
+const renderIntoImage = () => {
+	const canvas = document.getElementById('Report_Chart')
+	const imgWrap = document.getElementById('chart_img')
+	var img = new Image();
+	img.src = canvas.toDataURL()
+	imgWrap.appendChild(img)
+	canvas.style.display = 'none'
+}
