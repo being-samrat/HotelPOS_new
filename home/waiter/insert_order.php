@@ -1,5 +1,5 @@
 <?php 
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(E_ERROR | E_PARSE);
 
 include_once("../db_conn/conn.php");
 session_start();

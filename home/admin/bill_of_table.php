@@ -208,12 +208,8 @@ date_default_timezone_set('Asia/Kolkata');
         $item_name=$row['item_name'];
         $quantity=$row['quantity'];
         $item_price=$row['item_price'];
-        
-        
-        
 
         echo     "<tbody style='font-family: serif;font-size: 60%;'>"; 
-
 
         echo "<tr style ='border: 0;'>";
         echo "<td class='text-center' style ='border:0;'>".$row['item_name']."</td>";
@@ -226,6 +222,39 @@ date_default_timezone_set('Asia/Kolkata');
         echo("</tr>");
 
       }
+
+      //................................join table order.............................
+      foreach($json_join as $join_bill){
+        $join_table_order_sql="SELECT * FROM order_table WHERE table_id='$join_bill' AND order_open='1'";
+        $join_table_order_res=mysqli_query($conn,$join_table_order_sql);
+
+        while($join_bill = mysqli_fetch_array( $join_table_order_res))
+        { 
+          $join_items= $join_bill['ordered_items'];
+        }
+
+        $join_item_json=json_decode($join_items,true);
+        foreach ($join_item_json as $j_items) {
+
+          $join_item_name=$j_items['item_name'];
+          $join_quantity=$j_items['quantity'];
+          $join_item_price=$j_items['item_price'];
+
+          echo "<tr style ='border: 0;'>";
+          echo "<td class='text-center' style ='border:0;'>".$j_items['item_name']."</td>";
+          echo "<td class='text-center' style ='border: 0;'>" .$j_items['item_price']. " &#x20A8</td>";
+          echo "<td class='text-center' style ='border: 0;'>".$j_items['quantity']."</td>";
+          $join_total=$j_items['item_price'] * $j_items['quantity'];
+
+          echo("<td class='text-center' style ='border:0;'><b>".$join_total." &#x20A8 </b></td>");
+          $totalp = $totalp + $join_total;        
+          echo("</tr>");          
+                  //echo $row['item_name']." ";
+
+        }
+      }
+      //...............................................................
+      
       $tax1_net=(($tax1_val/100)*$totalp);
       $tax2_net=(($tax2_val/100)*$totalp);
 
@@ -246,9 +275,9 @@ date_default_timezone_set('Asia/Kolkata');
             echo "<span class='w3-text-red w3-large'>Discount Percentage value should be less than 100% !!!</span>";
           }
           else{
-          $final = (($discount_value/100)*$totalp);
-          $grand_total=$totalp -$final;
-          $net_total=$grand_total + ($tax1_net + $tax2_net);  
+            $final = (($discount_value/100)*$totalp);
+            $grand_total=$totalp -$final;
+            $net_total=$grand_total + ($tax1_net + $tax2_net);  
           }
           
           break;
@@ -258,9 +287,9 @@ date_default_timezone_set('Asia/Kolkata');
             echo "<span class='w3-text-red w3-large'>Discount value should be less than SUB-TOTAL !!!</span>";
           }
           else{
-          $final = $discount_value;
-          $grand_total=$totalp -$final;
-          $net_total=$grand_total + ($tax1_net + $tax2_net);
+            $final = $discount_value;
+            $grand_total=$totalp -$final;
+            $net_total=$grand_total + ($tax1_net + $tax2_net);
           }
           break;
           

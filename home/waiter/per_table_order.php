@@ -53,7 +53,20 @@ include_once("../db_conn/conn.php");
 	ul li:nth-child(odd) {
 		background: #f9f9f9;
 	}
+	.todolist{
+		background-color:#FFF;
+		padding:20px 20px 10px 20px;
+		margin-top:30px;
+	}
 
+	#done-items li{
+		padding:5px;
+		border-bottom:1px solid #ddd;
+		font-size: 14px;
+	}
+	#done-items li:last-child{
+		border-bottom:none;
+	}
 </style>
 <?php  
 
@@ -89,7 +102,7 @@ $json_join=json_decode($join_tabs,true);
 <div class="col-sm-12 w3-margin-bottom">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="well">				
+			<div class="w3-col l12 well">				
 
 				<div class="w3-center w3-xlarge">
 					<?php 
@@ -110,51 +123,77 @@ $json_join=json_decode($join_tabs,true);
 						?>
 						<hr>
 					</div>
-					<table class="table">
-						<thead >
-							<tr>
-								<th class="w3-center">Item Name</th>
-								<th class="w3-center">Quantity</th>
-								<th class="w3-center"></th>
-								
-							</tr>
-						</thead>
-						<tbody class="w3-center">
-							<?php 
-							$fetch_orders="SELECT * FROM order_table WHERE table_id='$table_id' AND order_open='1'";
-							$fetch_orders_result=mysqli_query($conn,$fetch_orders);
-							$items="";
-							$item_rate="";
-							$item_id="";
-
-
-							while($row=mysqli_fetch_assoc($fetch_orders_result))
-							{
-
-								$items= $row['ordered_items'];
-
-
-							}
-							$json=json_decode($items,true);
-							foreach ($json as $row) {
-								echo '
+						<table class="table table-responsive w3-center">
+							<thead >
 								<tr>
-									<td>'.$row['item_name'].'</td>
-									<td>'.$row['quantity'].'</td>
-									<td>
-										<a class="btn w3-medium" title="Delete MenuItem" href="disable_item.php?item_id='.$row['item_id'].'" style="padding:0"><i class="fa fa-remove"></i></a>
-									</td>
+									<th class="w3-center" style="min-width: 120px">Item Name</th>
+									<th class="w3-center">Quantity</th>
+									<th class="w3-center">#</th>
+
+								</tr>
+							</thead>
+							<tbody class="w3-center">
+								<?php 
+								$fetch_orders="SELECT * FROM order_table WHERE table_id='$table_id' AND order_open='1'";
+								$fetch_orders_result=mysqli_query($conn,$fetch_orders);
+								$items="";
+								$item_rate="";
+								$item_id="";
+
+
+								while($row=mysqli_fetch_assoc($fetch_orders_result))
+								{
+
+									$items= $row['ordered_items'];
+								}
+
+								$json=json_decode($items,true);
+								foreach ($json as $row) {
+									$count++;
+									$item=array($row['item_id'],$row['quantity']) ;
+									$item= implode('|', $item);
+									echo '
+									<tr>
+										<td>'.$row['item_name'].'</td>
+										<td>'.$row['quantity'].'</td>
+										<td>
+											<button type="button" class=" btn w3-medium fa fa-edit" style="padding:0" title="Edit Quantity" onclick="editOrder_item(\''.$item.'\')" ></button>
+											<button type="button" class=" btn w3-medium fa fa-remove" style="padding:0" title="Delete Item" onclick="delOrder_item(\''.$item.'\')" ></button>
+										</td>
+
+									</tr>';
+
+								}
+
+								//......................joint tables order.................................
+									foreach($json_join as $row){
+										$join_table_order_sql="SELECT * FROM order_table WHERE table_id='$row' AND order_open='1'";
+										$join_table_order_res=mysqli_query($conn,$join_table_order_sql);
+
+										while($row = mysqli_fetch_array( $join_table_order_res))
+										{ 
+											$join_items= $row['ordered_items'];
+										}
+										$join_item_json=json_decode($join_items,true);
+										foreach ($join_item_json as $j_items) {
+											$join_total=$j_items['item_price'] * $j_items['quantity'];
+											echo '
+											<tr>
+												<td>'.$j_items['item_name'].'</td>
+												<td>'.$j_items['quantity'].'</td>
+												<td>'.$j_items['item_price'].' <i class="fa fa-inr"></i></td>
+												<td>'.$join_total.' <i class="fa fa-inr"></i></td>
+												
+											</tr>';
+
+										}
+									}
 									
-								</tr>';
-									//echo $row['item_name']." ";
+									//.............................................................
+								?>
 
-							}
-
-							?>
-
-							
-						</tbody>
-					</table>
+							</tbody>
+						</table>
 					
 				</div>
 			</div>
@@ -164,7 +203,7 @@ $json_join=json_decode($join_tabs,true);
 
 	<div class="w3-row-padding w3-margin-bottom">
 		<div class="w3-col l12 w3-col s12 ">
-			<button type="button" class=" btn w3-round w3-text-red w3-left" data-toggle="modal" data-target="#takeOrder"><span class="fa fa-plus"></span> Take Order</button>
+			<button type="button" class=" btn w3-round w3-text-red w3-left" data-toggle="modal" data-target="#takeOrder" id="takeObtn"><span class="fa fa-plus"></span> Take Order</button>
 
 			<button type="button" class=" btn w3-round w3-text-red w3-right" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
 
@@ -235,6 +274,7 @@ $json_join=json_decode($join_tabs,true);
 								</button>
 							</form>	
 							<div id="KOT_add" class="w3-margin-top"></div>
+							
 						</div>
 					</div>
 				</div>
@@ -271,31 +311,6 @@ $json_join=json_decode($join_tabs,true);
     });
 		});
 	</script>
-<!-- 	<script>
-		$(document).ready(function() {
-
-			$('#customer_page').click(function() {
-
-        var tableID = $('#table_id_ip').val(); //where #table could be an input with the name of the table you want to truncate
-        var tableNO = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
-
-        $.ajax({
-        	type: "POST",
-        	url: "customer/customer.php",
-        	data: 'table_id='+ tableID +'&table_no='+ tableNO,
-        	cache: false,
-        	success: function(response) {
-
-        		
-        	},
-        	error: function(xhr, textStatus, errorThrown) {
-        		$.alert('request failed');
-        	}
-        });
-
-    });
-		});
-	</script> -->
 
 <!-- 	Script to autocomplete search food items ....................
 -->	
@@ -343,6 +358,7 @@ $json_join=json_decode($join_tabs,true);
 
 			});
 		clearInput();
+		//location.reload();		
 	});
 
 	$("#form_addOrder").submit( function() {
@@ -364,6 +380,92 @@ $json_join=json_decode($join_tabs,true);
 //location.reload();
 $("#per_table_order").load("per_table_order.php?table_id=<?php echo $table_id; ?>&table_no=<?php echo $table_no; ?>");
      //$('#view_div').load('view_tab.php');
- })
+     
+ });
 </script>
 
+<!-- 	Script to delete item from order list............................
+-->	
+<script type="text/javascript">
+	function delOrder_item(id)
+	{
+	var item_data = id.split('|'); 
+	var id=item_data[0];
+	var quantity=item_data[1];
+	var table_id = $('#table_id').val(); 
+    var table_no = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+
+  //var price=document.getElementById("price_"+id).value; 
+  
+  $.confirm({
+  	title: 'Delete Menu Item!',
+  	content: 'Want to delete Menu from OrderList?<br><br> <span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm deletion.]</b></span>',
+  	buttons: {
+  		confirm: function () {
+  			$.ajax({
+  				type:'post',
+  				url:'delOrder_item.php',
+  				data:{
+  					item_id:id,
+  					item_quantity:quantity,
+  					table_id:table_id,
+  					table_no:table_no
+  				},
+  				success:function(response) {
+  					location.reload();
+      }
+  });
+  		},
+  		cancel: function () {}
+  	}
+  });
+}
+</script>
+
+<!-- 	Script to edit quantity of item in order list............................
+-->	
+<script type="text/javascript">
+	function editOrder_item(id)
+	{
+		
+	var item_data = id.split('|'); 
+	var item_id=item_data[0];
+	var quantity=item_data[1];
+	var table_id = $('#table_id').val(); 
+    var table_no = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+    
+  
+  $.confirm({
+    
+  	title: 'Edit Quantity',
+  	content: '' +
+    '<form action="" class="formName">' +
+    '<div class="form-group">' +
+    '<input type="number" placeholder="Enter Quantity" class="new_quantity form-control" required />' +
+    '<br><span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm updation.]</b></span>' +
+    '</div>' +
+    '</form>',
+  	buttons: {
+  		submit: function () {
+  			var new_qty = this.$content.find('.new_quantity').val();
+  			$.ajax({
+  				type:'post',
+  				url:'editOrder.php',
+  				data:{
+  					item_id:item_id,
+  					item_quantity:quantity,
+  					table_id:table_id,
+  					new_qty:new_qty,
+  					table_no:table_no
+  				},
+  				success:function(response) {
+  					location.reload();
+  					
+      }
+  });
+  		},
+  		cancel: function () {}
+  	}
+  });
+}
+</script>

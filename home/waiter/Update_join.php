@@ -33,6 +33,10 @@ else {
 				echo "You can't join A/c to Non-A/c Table OR vice versa !!!";
 				die();
 			}
+			if($row['kot_open']=='1'){
+				echo "Before joining, please print the KOT's of all joining tables !!!";
+				die();
+			}
 		}
 
 	}

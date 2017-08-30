@@ -63,7 +63,7 @@ date_default_timezone_set('Asia/Kolkata');
 	<body style="font-family:Segoe UI;letter-spacing:1px;">		
 		<div>           
 			<div class = "col-sm-1 col-lg-2 col-md-1 "> 
-			<a name="dashboard" id="dashboard" type="btn" title="return to Dashboard" onclick="location.href = '../admin_index.php';" class="w3-button w3-text-red w3-card w3-large w3-margin-top fa fa-print"> Back</a>
+			<a name="dashboard" id="dashboard" type="btn" title="return to Dashboard" onclick="location.href = '../admin_index.php';" class="w3-button w3-text-red w3-card w3-large w3-margin-top fa fa-arrow-left"> Back</a>
 			</div>
 
 			<div class = "col-sm-12 col-lg-8 col-md-3 w3-padding" id ="container">

@@ -157,7 +157,7 @@ include_once("../db_conn/conn.php");
 
   <!-- !PAGE CONTENT! -->
   <div class="col-lg-1 col-sm-2"></div>
-
+<?php echo $_SESSION['cart']; ?>
   <div class="w3-row-padding w3-margin-bottom w3-margin-left w3-col l10 s10" id="searched">
     <?php  
     $fetch_customer_menu_sql="SELECT * FROM menu_items WHERE status='$status' AND visible='1' ORDER BY item_id DESC";
