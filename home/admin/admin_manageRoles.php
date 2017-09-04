@@ -19,7 +19,7 @@ if(isset($_POST['waiter_password']))
 	$waiter_confirm_role_password=$_POST['waiter_confirm_role_password'];	
 
 	if ($waiter_role_password != $waiter_confirm_role_password) {
-		$chngeerr="Confirm password did not match!!!<br>";
+		$chngeerr="Waiter Role Confirm password did not match!!!<br>";
 	}	
 	
 	else{
@@ -44,7 +44,7 @@ if(isset($_POST['cashier_password']))
 	$cashier_confirm_role_password=$_POST['cashier_confirm_role_password'];	
 
 	if ($cashier_role_password != $cashier_confirm_role_password) {
-		$chngeerr="Confirm password did not match!!!<br>";
+		$chngeerr="Cashier role Confirm password did not match!!!<br>";
 	}	
 	
 	else{		
@@ -70,7 +70,7 @@ if(isset($_POST['customer_password']))
 	$customer_confirm_role_password=$_POST['customer_confirm_role_password'];	
 
 	if ($customer_role_password != $customer_confirm_role_password) {
-		$chngeerr="Confirm password did not match!!!<br>";
+		$chngeerr="Customer role Confirm password did not match!!!<br>";
 	}	
 	
 	else{
@@ -232,7 +232,7 @@ if(isset($_POST['submit']))
 							?> 
 							<div class="w3-container w3-col l6" >
 								<label class="w3-text-red"><?php echo $chngeerr; ?></label>
-								<form method="POST" action="#">								
+								<form method="POST" action="">								
 									<label class=" w3-medium">New Password: 
 
 										<input type="text" class="form-control w3-margin-bottom" autocomplete="off" name="waiter_role_password" value="<?php echo $waiter_pass; ?>"></label>
@@ -280,7 +280,7 @@ if(isset($_POST['submit']))
 									?>
 									<div class="w3-container w3-col l6 w3-margin-left">
 										<label class="w3-text-red"><?php echo $chngeerr; ?></label>
-										<form method="POST" action="#">								
+										<form method="POST" action="">								
 											<label class=" w3-medium">New Password: 
 
 												<input type="text" class="form-control w3-margin-bottom" name="cashier_role_password" autocomplete="off" value="<?php echo $cashier_pass; ?>"></label>
@@ -306,7 +306,7 @@ if(isset($_POST['submit']))
 											?> 
 											<div class="w3-container w3-col l6 w3-margin-left" >
 												<label class="w3-text-red"><?php echo $chngeerr; ?></label>
-												<form method="POST" action="#">								
+												<form method="POST" action="">								
 													<label class=" w3-medium">New Password: 
 
 														<input type="text" class="form-control w3-margin-bottom" name="customer_role_password" autocomplete="off" value="<?php echo $customer_pass; ?>"></label>

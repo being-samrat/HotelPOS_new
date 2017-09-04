@@ -104,7 +104,11 @@ include_once("db_conn/conn.php");
 
 
     </div>
-
+<hr>
+  <footer class="w3-displaybottom w3-padding-16 w3-center">
+    <h4>&copy; Copyright and All Rights reserved</h4>
+    <p>Powered by <a href="https://bizmo-tech.com/" target="_blank">Bizmo Technologies</a></p>
+  </footer>
   </div>
   <div class="col-lg-4 w3-hide-small"></div>
 <script>

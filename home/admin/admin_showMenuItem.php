@@ -52,9 +52,10 @@ if($_POST['id'])
 										<label>Change Image: </label>
 										<div class="w3-center">
 										<img class="img w3-card-2 w3-margin-bottom" src="'.$row['item_image'].'" width="60px" height="60px">
-										<input type="file" class="input" id="item_image" name="item_image">
+										<input type="file" class="input" id="item_image" name="item_image"><span class="w3-small w3-text-red">(Image size must be < 2MB)</span>
 										<input type="hidden" class="" id="item_id" name="item_id" value="'.$row['item_id'].'">
 										<input type="hidden" class="" id="cat_id" name="cat_id" value="'.$row['cat_id'].'">
+										<input type="hidden" class="" id="item_image_hidden" name="item_image_hidden" value="'.$row['item_image'].'">
 										</div><br>
 										<label>Change Name: </label>
 										<input class="form-control" type="text" value="'.$row['item_name'].'" id="item_name" name="item_name"><br>

@@ -52,8 +52,8 @@ if(mysqli_num_rows($result) > 0)
       <div class="w3-container w3-center w3-col s12 w3-large" style="font-weight: bolder;padding:0 2px 0 10px">
         <span>'.$row['item_name'].'</span>
       </div>        
-      <div class="w3-col s12 w3-col s12 w3-small" style="padding:5px 2px 0 10px">
-        <div class="w3-col s12 w3-col s12" data-toggle="toggle" id="more_'.$row['item_id'].'" style="height: 20px;overflow-y: hidden;margin-bottom:0">
+      <div class="w3-col s12 w3-col s12 w3-small" style="padding:2px 2px 0 10px">
+        <div class="w3-col s12 w3-col s12" data-placement="top" data-toggle="tooltip" title="'.$row['item_info'].'" style="height: 15px;overflow-y: hidden;margin-bottom:0">
          <i class="w3-text-grey">'.$row['item_info'].'</i>
        </div>
      </div>  
@@ -82,3 +82,8 @@ else
 echo $output;  
 
 ?>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>

@@ -73,7 +73,7 @@ include_once("../db_conn/conn.php");
    <div class="w3-col l2 ">
      <span class="w3-xlarge w3-hide-small w3-margin-top">HOTEL POS</span><br>
      <span class="">
-        <a href="customer_logout.php" id="customer_logout" name="customer_logout" class="btn  w3-text-white w3-padding-tiny w3-left fa fa-sign-out w3-small"> Logout</a>
+        <a href="customer_logout.php" id="customer_logout" name="customer_logout" class="btn w3-text-white w3-padding-tiny w3-left fa fa-sign-out w3-small"> Logout</a>
       </span>
      <?php 
      $table_ID=$_SESSION['customer_table'];
@@ -191,9 +191,9 @@ include_once("../db_conn/conn.php");
         <div class="w3-container w3-center w3-col s12 w3-large" style="font-weight: bolder;padding:0 2px 0 10px">
           <span>'.$row['item_name'].'</span>
         </div>        
-        <div class="w3-col s12 w3-col s12 w3-small" style="padding:5px 2px 0 10px">
-          <div class="w3-col s12 w3-col s12" data-toggle="toggle" id="more_'.$row['item_id'].'" style="height: 20px;overflow-y: hidden;margin-bottom:0">
-           <i class="w3-text-grey">'.$row['item_info'].'</i>
+        <div class="w3-col s12 w3-col s12 w3-small" style="padding:2px 2px 0 10px">
+          <div class="w3-col s12 w3-col s12" data-placement="top" data-toggle="tooltip" title="'.$row['item_info'].'" style="height: 15px;overflow-y: hidden;margin-bottom:0">
+           <i class="w3-text-grey" >'.$row['item_info'].'</i>
          </div>
        </div>  
        <div class="w3-col l12 w3-col s12 w3-margin-top" >               
@@ -219,6 +219,11 @@ include_once("../db_conn/conn.php");
 <div class="col-lg-1 col-sm-2"></div>
 
 </div>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 <script type="text/javascript">
 
  function addCart(id)
@@ -411,6 +416,11 @@ $(document).ready(function()
   }); 
 
 </script> 
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 
 </body>
 </html>

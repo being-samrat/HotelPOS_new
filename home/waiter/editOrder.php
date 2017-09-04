@@ -10,7 +10,8 @@ $item_name="";
 $item_price="";
 $item_count="";
 $date=date("Y-m-d");
-
+// print_r($_POST);
+// die();
 $difference=$new_qty - $item_quantity;
 if($difference > 0){
 	$difference = '+'.$difference;

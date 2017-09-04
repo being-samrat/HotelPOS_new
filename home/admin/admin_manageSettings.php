@@ -22,7 +22,7 @@ include_once("../db_conn/conn.php")
 	<link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
 	<link rel="stylesheet" href="../assets/css/w3.css">
 	<link rel="stylesheet" href="../assets/css/style.css">
-		<link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
+	<link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
 
 	<script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
@@ -327,10 +327,10 @@ include_once("../db_conn/conn.php")
 						?>
 						<form method="POST" action="update_bill.php" style="margin-left:-30px;">
 							<div class="col-lg-12">
-							<label for="hotelName">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
+								<label for="hotelName">Hotel Name: </label><input type="text" class="form-control w3-margin-bottom" id="hotelName" name="hotelName" placeholder="Enter Hotel Name" value="<?php echo $row['hotel_name']; ?>">
 							</div>
 							<div class="col-lg-12">
-							<label for="hotelAddr">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
+								<label for="hotelAddr">Address: </label><input type="text" placeholder="Enter Hotel Address " class="form-control w3-margin-bottom" name="hotelAddr" id="hotelAddr" value="<?php echo $row['hotel_addr']; ?>">
 							</div>
 							<div class="col-lg-6">
 								<label for="hotelContact">Contact No: </label><input type="number" class="form-control w3-margin-bottom" id="hotelContact" name="hotelContact" placeholder="020-123456" maxlength="10" value="<?php echo $row['contact_no']; ?>">
@@ -403,12 +403,12 @@ include_once("../db_conn/conn.php")
 
 				function delTable(id){
 					$.confirm({
-			title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Delete the Table!</label>',
-			
-			buttons: {
-				confirm: function () {
-						var dataS = 'id='+ id;
-						$.ajax({
+						title: '<label class="w3-xlarge w3-text-red w3-large fa fa-warning"> Delete the Table!</label>',
+						
+						buttons: {
+							confirm: function () {
+								var dataS = 'id='+ id;
+								$.ajax({
         url:"delTable.php", //the page containing php script
         type: "POST", //request type
         data: dataS,
@@ -420,17 +420,14 @@ include_once("../db_conn/conn.php")
         	}, 1000);
         }
     });
-					},
-				cancel: function () {
+							},
+							cancel: function () {
+
+							}
+						}
+					});
 
 				}
-			}
-		});
-
-				}
-
-
-
 			</script>
 			<script>
 				$("#add_menuItem").click( function() {
@@ -438,9 +435,9 @@ include_once("../db_conn/conn.php")
 						$("#form_addItem :input").serializeArray(), 
 						function(info){ 
 							$.alert(info);
-						location.reload();
+						//location.reload();
 
-						});
+					});
 					clearInput();
 				});
 
@@ -455,5 +452,5 @@ include_once("../db_conn/conn.php")
 				}
 			</script>
 			
-</body>
-</html>
+		</body>
+		</html>

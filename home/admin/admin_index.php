@@ -155,45 +155,13 @@ include_once("../db_conn/conn.php")
             ?>
           </table>
         </div>
- <!--        <div class="w3-twothird">
-          <h5></h5>
-          <div class="well">
-            <div>
-              <div class="col-lg-3">
-                <select class="form-control w3-margin-right" name="menuitem" id="menuitem">
-                  <option class="w3-red" selected><b>Select Table</b></option>
-                 
-                </select>
-              </div>
-              <div class="col-lg-3">
-                <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="from" id="from"> TO 
-              </div>
-              <div class="col-lg-3">
-                <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="to" id="to">
-              </div>
-              <div class="col-lg-3">
-                <input class="form-control w3-red w3-margin-right" type="submit" name="getrep" id="getrep">
-              </div>
-            </div>     
-          </div>
-        </div> -->
-      </div>
-    </div>
-    <hr class="w3-border">
-    <div class="w3-panel">
-      <div class="w3-row-padding" style="margin:0 -16px">
-        <div class="w3-col l3">
-          <h5><b><i class="fa fa-line-chart"></i> Report Charts </b></h5>
-
-          <div class="w3-col l12 w3-margin-top">
-          <div class="w3-col-12 w3-center">
-              <button class="btn w3-button w3-red" id="itemReport_btn">Item Report</button>
-              <button class="btn w3-button w3-red" id="saleReport_btn">Sales Report</button>
-            </div>
-            <div id="item_countReport" class="Charts w3-margin-top" style="display:none">
-            <form method="GET" action="report/item_print.php">
-              <div class="w3-col l12 w3-padding">
-               <select class="form-control w3-margin-right" name="Report_menu" id="Report_menu">
+        <div class="w3-twothird">
+          <h5><b><i class="fa fa-print"></i> Print Report</b></h5>
+          <div class="well w3-col l12">
+            <div class="w3-col l6 w3-padding">
+             <form method="GET" action="report/report_print.php">              
+              <div class="w3-col l12 w3-margin-bottom">
+               <select class="form-control" name="ReportPrint_menu" id="ReportPrint_menu">
                 <option class="w3-red" selected><b>Choose Menu Item</b></option>
                 <?php                 
                 $sqlmenu="SELECT * FROM menu_items WHERE visible=1";
@@ -206,62 +174,115 @@ include_once("../db_conn/conn.php")
                 ?>  
               </select>
             </div>
-            <div class="w3-col l6">
+            <div class="w3-col l6 ">
               <label class="w3-small w3-text-grey">From Date : </label>
-              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_fromDate" id="item_fromDate" required>
+              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="report_fromDate" id="report_fromDate" required>
             </div>
             
-            <div class="w3-col l6">
+            <div class="w3-col l6 ">
               <label class="w3-small w3-text-grey">To Date:</label>
-              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_toDate" id="item_toDate" required>
+              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="report_toDate" id="report_toDate" required>
             </div>
-            <div class="w3-col l6 w3-center">
-             <button class="w3-card  w3-margin-top w3-button w3-text-red w3-small" type="submit" name="getItemPrint_btn" id="getItemPrint_btn" style="padding:5px"><i class="fa fa-print"></i> Print Report</button> 
-            </div>           
-            </form>
-            <div class="w3-col l6 w3-center">
-             <a class="w3-card w3-button w3-margin-top w3-text-red w3-small" name="getItem_btn" id="getItem_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
-            </div>
-          </div>            
-          
-          <div id="sale_Report" class="Charts w3-margin-top" style="display:none">
-          <form method="GET" action="report/sale_print.php">
-            <div class="w3-col l6">
-              <label class="w3-small w3-text-grey">From Date : </label>
-              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_fromDate" id="sale_fromDate" required>
-            </div>
-            
-            <div class="w3-col l6">
-              <label class="w3-small w3-text-grey">To Date:</label>
-              <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_toDate" id="sale_toDate" required>
-            </div>           
-            
-            <div class="w3-col l6 w3-center">
-             <button class="w3-card w3-margin-top w3-button w3-text-red w3-small" type="submit" name="getSalePrint_btn" id="getSalePrint_btn" style="padding:5px"><i class="fa fa-print"></i> Print Report</button> 
-            </div>           
-            </form>
-            <div class="w3-col l6 w3-center">
-             <a class="w3-card w3-button w3-margin-top w3-text-red w3-small" name="getSale_btn" id="getSale_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
-            </div>
-          </div>  
-                    
-        </div>
-        </div>
-        <!--           ..................ending of report forms.................. -->
- 
-      <div class="w3-twothird" style="margin-right: 0">
-        <h5></h5>
-        <div class="well" style="overflow: hidden;overflow-x: scroll;">  
-        
-        <h4 class="w3-center w3-large" id="Report_title"></h4>
-        <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
-        </canvas>
-         <div id="saleReport_table"></div>
-        </div>
-      </div>
-    </div>
+           <!--  <div class="w3-col l12 w3-margin-top">             
+
+              <label class="w3-small w3-text-grey"> 
+                <input type="checkbox" name="report_menuRank" id="report_menuRank" value="1">
+                Print TOP 5 &amp; LOWEST 5 Items in Report</label>
+              </div> -->
+              <div class="w3-col l12">
+               <button class="btn w3-button w3-red w3-margin-top" type="submit" name="getReportPrint_btn" id="getReportPrint_btn" style="padding:8px">Print Report</button>
+             </div>
+
+           </form>  
+         </div>
+         <div class="w3-col l6">
+        <!--                 ................here general imp note to print report....................
+      -->  
+      <label class="w3-small w3-text-red">NOTE:</label>
+      <ol class="w3-small w3-text-red">
+        <li style="margin-bottom: 5px;">Please fill all the input fields before submitting the form.</li>
+        <li style="margin-bottom: 5px;">Printed Report includes Sales/day report and Menu-Ordered/day report within specified days along with TOP-5 and LEAST-5 Menu Items till now.</li>
+        <li style="margin-bottom: 5px;">It is recommended to perform print action from computer or any display device having screen size more than 500x500 dpi.</li>
+      </ol>   
+    </div> 
+
   </div>
-  <hr>
+</div>
+</div>
+</div>
+<hr class="w3-border">
+<div class="w3-panel">
+  <div class="w3-row-padding" style="margin:0 -16px">
+    <div class="w3-col l3">
+      <h5><b><i class="fa fa-line-chart"></i> Report Charts </b></h5>
+
+      <div class="w3-col l12 w3-margin-top">
+        <div class="w3-col-12 w3-center">
+          <button class="btn w3-button w3-red" id="itemReport_btn">Item Report</button>
+          <button class="btn w3-button w3-red" id="saleReport_btn">Sales Report</button>
+        </div>
+        <div id="item_countReport" class="Charts w3-margin-top" style="display:none">
+            <div class="w3-col l12 w3-padding">
+             <select class="form-control w3-margin-right" name="Report_menu" id="Report_menu">
+              <option class="w3-red" selected><b>Choose Menu Item</b></option>
+              <?php                 
+              $sqlmenu="SELECT * FROM menu_items WHERE visible=1";
+              $menuresult=mysqli_query($conn,$sqlmenu);
+
+              while($menuresultrow = mysqli_fetch_array( $menuresult))
+              {
+                echo '<option value="'.$menuresultrow['item_name'].'">'.$menuresultrow['item_name'].'</option>';
+              }   
+              ?>  
+            </select>
+          </div>
+          <div class="w3-col l6">
+            <label class="w3-small w3-text-grey">From Date : </label>
+            <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_fromDate" id="item_fromDate" required>
+          </div>
+
+          <div class="w3-col l6">
+            <label class="w3-small w3-text-grey">To Date:</label>
+            <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_toDate" id="item_toDate" required>
+          </div>
+                   
+       
+         <a class="w3-card w3-button w3-margin-top w3-right w3-text-red w3-small" name="getItem_btn" id="getItem_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
+       
+     </div>            
+
+     <div id="sale_Report" class="Charts w3-margin-top" style="display:none">
+        <div class="w3-col l6">
+          <label class="w3-small w3-text-grey">From Date : </label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_fromDate" id="sale_fromDate" required>
+        </div>
+
+        <div class="w3-col l6">
+          <label class="w3-small w3-text-grey">To Date:</label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_toDate" id="sale_toDate" required>
+        </div>           
+
+                  
+       <a class="w3-card w3-button w3-right w3-margin-top w3-text-red w3-small" name="getSale_btn" id="getSale_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
+   </div>  
+
+ </div>
+</div>
+<!--           ..................ending of report forms.................. -->
+
+<div class="w3-twothird" style="margin-right: 0">
+  <h5></h5>
+  <div class="well" style="overflow: hidden;overflow-x: scroll;">  
+
+    <h4 class="w3-center w3-large" id="Report_title"></h4>
+    <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
+    </canvas>
+    <div id="saleReport_table"></div>
+  </div>
+</div>
+</div>
+</div>
+<hr>
 
 <!--   <div class="w3-container">
     <h5>Countries</h5>

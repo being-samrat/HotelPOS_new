@@ -9,24 +9,22 @@ $(document).ready(function()
 			to:to,
 			menuitem:menuitem
 		};
-		$("#graph_data").show();
+		$("#Item_graph_data").show();
 		$.ajax({  
 			url:"getItem_Report.php",  
 			method:"GET",
 			data:data,  
 			success:function(data)  
 			{  
-				$("#Report_title").html("Item Report <i class='w3-small'>[X-axis: Dates, Y-axis: Number of times]</i>");
-				$("#report_info").hide();
+				$("#Item_Report_title").html("Item Report <i class='w3-small'>[X-axis: Dates, Y-axis: Number of times ordered]</i>");
+				$("#item_report_info").hide();
 				$("#print_action").show();
 				var date=[];
 				var count=[];
-				var records='0';
 
 				for(var i in data){
 					date.push(data[i].date);
 					count.push(data[i].count);
-					records++;
 				}
 
 				var chartdata={
@@ -53,14 +51,14 @@ $(document).ready(function()
 						borderWidth: 1
 					}]
 				};
-				var ctx = document.getElementById("Report_Chart").getContext("2d");
-				var url_base64jp = document.getElementById("Report_Chart").toDataURL("image/jpg");
+				var ctx = document.getElementById("Item_Report_Chart").getContext("2d");
+				var url_base64jp = document.getElementById("Item_Report_Chart").toDataURL("image/jpg");
 				var Graph=new Chart(ctx,{
 					type:'line',
 					data:chartdata,
 					plugins: [{
 						afterRender: function () {
-							renderIntoImage()
+							Item_renderIntoImage()
 						},
 					}],
 					options: {
@@ -81,9 +79,9 @@ $(document).ready(function()
 		});  
 	}); 
 });
-const renderIntoImage = () => {
-	const canvas = document.getElementById('Report_Chart')
-	const imgWrap = document.getElementById('chart_img')
+const Item_renderIntoImage = () => {
+	const canvas = document.getElementById('Item_Report_Chart')
+	const imgWrap = document.getElementById('Item_chart_img')
 	var img = new Image();
 	img.src = canvas.toDataURL()
 	imgWrap.appendChild(img)
