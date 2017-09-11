@@ -137,7 +137,7 @@
        </div>  
        <div class="w3-col l12 w3-col s12 w3-margin-top" >               
         <div class="w3-col l6 w3-col s6" style="padding:5px 2px 0 10px">
-          <span class="w3-left w3-small">Quantity : <input class=" " type="number" placeholder="count" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
+          <span class="w3-left w3-small">Quantity : <input class=" " type="number" placeholder="count" min="0" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
         </div>          
         <div class="w3-col l6 w3-col s6" style="padding:0px 10px 0 2px">                 
           <span class="w3-right w3-xlarge"><b>'.$row['item_price'].'<i class="fa fa-inr"></i></b></span><br>

@@ -190,6 +190,7 @@ session_start();
 											<td>'.$row['item_price'].' <i class="fa fa-inr"></i></td>
 											<td>'.$total.' <i class="fa fa-inr"></i></td>
 											<td>
+												<button type="button" class=" btn w3-medium fa fa-sticky-note-o" style="padding:0" title="Add Note" onclick="addNote_item(\''.$item.'\')" ></button>
 												<button type="button" class=" btn w3-medium fa fa-edit" style="padding:0" title="Edit Quantity" onclick="editOrder_item(\''.$item.'\')" ></button>
 												<button type="button" class=" btn w3-medium fa fa-remove" style="padding:0" title="Delete Item" onclick="delOrder_item(\''.$item.'\')" ></button>
 											</td>
@@ -478,6 +479,55 @@ session_start();
     					item_quantity:quantity,
     					table_id:table_id,
     					new_qty:new_qty,
+    					table_no:table_no
+    				},
+    				success:function(response) {
+    					location.reload();
+    					//alert(response);
+    				}
+    			});
+    		},
+    		cancel: function () {}
+    	}
+    });
+}
+</script>
+
+<!-- 	Script to add note to item in kot list............................
+-->	
+<script type="text/javascript">
+	function addNote_item(id)
+	{
+		
+		var item_data = id.split('|'); 
+		var item_id=item_data[0];
+		var quantity=item_data[1];
+		var table_id = $('#table_id').val(); 
+    	var table_no = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+    
+    
+    $.confirm({
+    	
+    	title: 'Add Note',
+    	content: '' +
+    	'<form action="" class="formName">' +
+    	'<div class="form-group">' +
+    	'<label class="w3-label w3-small">Add any special requirement :</label>' +
+    	'<textarea class="new_item_note form-control" id="new_item_note" name="new_item_note" cols="4" placeholder="Ex. Spicy, Sugar-free, Egg-less, etc. " required></textarea>' +
+    	'<br><span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm updation.]</b></span>' +
+    	'</div>' +
+    	'</form>',
+    	buttons: {
+    		Add: function () {
+    			var new_note = this.$content.find('.new_item_note').val();
+    			$.ajax({
+    				type:'post',
+    				url:'../waiter/addNote.php',
+    				data:{
+    					item_id:item_id,
+    					item_quantity:quantity,
+    					table_id:table_id,
+    					new_note:new_note,
     					table_no:table_no
     				},
     				success:function(response) {

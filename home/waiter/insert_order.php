@@ -1,5 +1,5 @@
 <?php 
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 include_once("../db_conn/conn.php");
 session_start();
@@ -27,9 +27,22 @@ else if(($_POST['food_quantity'])<1) {
 	}, 1200);
 </script>';
 }
+// else if(isset($_POST['item_note'])) {
+// 	echo '<div class="alert alert-danger w3-margin-bottom">
+// 	<strong>'.$_POST['item_note'].'</strong> 
+// </div>
+// <script>
+// 	window.setTimeout(function() {
+// 		$(".alert").fadeTo(500, 0).slideUp(500, function(){
+// 			$(this).remove(); 
+// 		});
+// 	}, 1200);
+// </script>';
+// }
 else{
 	$item_name=$_POST['search_food'];
 	$item_quantity=$_POST['food_quantity'];
+	$item_note=$_POST['item_note'];
 	$table_id=$_POST['table_id'];
 	$item_id="";
 	$item_price="";
@@ -76,7 +89,8 @@ $kot_array=json_decode($kot_items,true);
 $extra=array(
 	'item_id'=>$item_id,
 	'item_name' => $item_name,
-	'quantity' => $item_quantity
+	'quantity' => $item_quantity,
+	'item_note' => $item_note
 	);
 $kot_array[]=$extra;
 $new_item=json_encode($kot_array);

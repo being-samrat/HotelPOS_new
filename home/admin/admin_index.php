@@ -202,7 +202,7 @@ include_once("../db_conn/conn.php")
       <ol class="w3-small w3-text-red">
         <li style="margin-bottom: 5px;">Please fill all the input fields before submitting the form.</li>
         <li style="margin-bottom: 5px;">Printed Report includes Sales/day report and Menu-Ordered/day report within specified days along with TOP-5 and LEAST-5 Menu Items till now.</li>
-        <li style="margin-bottom: 5px;">It is recommended to perform print action from computer or any display device having screen size more than 500x500 dpi.</li>
+        <li style="margin-bottom: 5px;">It is recommended to perform print action from computer or any display device having screen size more than 500x500 dpi and not from mobile phones.</li>
       </ol>   
     </div> 
 

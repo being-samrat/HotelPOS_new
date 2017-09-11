@@ -75,7 +75,8 @@ else{
   foreach($kot_cart as $kot){
   	$extraCart=array(
   		'item_id'=>$kot['item_id'],
-  		'item_name'=>$kot['item_name'],
+      'item_name'=>$kot['item_name'],
+      'item_note'=>$kot['item_note'],
   		'quantity'=>$kot['quantity'],
 
   		);
@@ -151,7 +152,7 @@ else{
 		}
 
 		unset($_SESSION['cart']);
-		echo 'Added ';
+		echo 'Order sent';
 
 
 	}

@@ -157,6 +157,7 @@ $json_join=json_decode($join_tabs,true);
 									<td>'.$row['item_name'].'</td>
 									<td>'.$row['quantity'].'</td>
 									<td>
+										<button type="button" class=" btn w3-medium fa fa-sticky-note-o" style="padding:0" title="Add Note" onclick="addNote_item(\''.$item.'\')" ></button>
 										<button type="button" class=" btn w3-medium fa fa-edit" style="padding:0" title="Edit Quantity" onclick="editOrder_item(\''.$item.'\')" ></button>
 										<button type="button" class=" btn w3-medium fa fa-remove" style="padding:0" title="Delete Item" onclick="delOrder_item(\''.$item.'\')" ></button>
 									</td>
@@ -257,24 +258,32 @@ $json_join=json_decode($join_tabs,true);
 
 						</div>
 						<div class="modal-body">
-							<button id="createKOT_btn" type="button" class="form-control w3-button w3-round w3-red"><span class="fa fa-pencil"></span> Start taking Order</button>
+							<button id="createKOT_btn" type="button" class="form-control w3-button w3-round w3-red "><span class="fa fa-pencil"></span> Start taking Order</button>
 							
 							<form id="form_addOrder" action="insert_order.php" method="POST" style="display: none">
 
 								<input type="hidden" name="table_id" id="table_id" class="form-control w3-margin-bottom" value="<?php echo $_GET['table_id']; ?>" style="width: 80px;" readonly>
 								
 								<input type="text" name="search_food" autocomplete="off" id="search_food" class="form-control w3-margin-bottom" placeholder="Type Item Name">
-								<div id="search_foodList" class="w3-card-2">
-									
-								</div>
+								<div id="search_foodList" class="w3-card-2"></div>
 
-								<input type="number" name="food_quantity" id="food_quantity" class="form-control w3-left " style="width: 80px" placeholder="Count">
+								<input type="number" name="food_quantity" id="food_quantity" class="form-control w3-left w3-margin-bottom" style="width: 80px" placeholder="Count">														
+								
+								<br>
+								<br>
+								<hr>										
+								<a class="w3-small btn fa fa-sticky-note w3-text-red" data-toggle="collapse" data-parent="#accordion" href="#add_note" style="padding:0"><i>&nbsp;Add Note (optional)</i></a>
+								<br>											
+								<div id="add_note" class="collapse well">										
+									<i><label class="w3-small w3-text-grey">Special Requirement :</label></i>
+									<i><textarea class="form-control w3-margin-bottom" id="item_note" name="item_note" cols="4" placeholder="Ex.Spicy, Sugar-free, Egg-less, etc. "></textarea></i>
+								</div>																
+								<button class="btn w3-red w3-right " id="add_orderItem" name="add_orderItem" type="submit">Add <i class="fa fa-angle-double-right"></i>
+								</button>										
 
-								<button class="btn w3-red w3-margin-left" id="add_orderItem" name="add_orderItem" type="submit">Add <i class="fa fa-angle-double-right"></i>
-								</button>
 							</form>	
+							<br>
 							<div id="KOT_add" class="w3-margin-top"></div>
-							
 						</div>
 					</div>
 				</div>
@@ -369,6 +378,7 @@ $json_join=json_decode($join_tabs,true);
 		$("#form_addOrder :input").each( function() {
 			$('#food_quantity').val('');
 			$('#search_food').val('');
+			$('#item_note').val('');
 		});
 	}
 </script>
@@ -461,6 +471,55 @@ $("#per_table_order").load("per_table_order.php?table_id=<?php echo $table_id; ?
     				success:function(response) {
     					location.reload();
     					
+    				}
+    			});
+    		},
+    		cancel: function () {}
+    	}
+    });
+}
+</script>
+
+<!-- 	Script to add note to item in kot list............................
+-->	
+<script type="text/javascript">
+	function addNote_item(id)
+	{
+		
+		var item_data = id.split('|'); 
+		var item_id=item_data[0];
+		var quantity=item_data[1];
+		var table_id = $('#table_id').val(); 
+    	var table_no = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
+    
+    
+    $.confirm({
+    	
+    	title: 'Add Note',
+    	content: '' +
+    	'<form action="" class="formName">' +
+    	'<div class="form-group">' +
+    	'<label class="w3-label w3-small">Add any special requirement :</label>' +
+    	'<textarea class="new_item_note form-control" id="new_item_note" name="new_item_note" cols="4" placeholder="Ex. Spicy, Sugar-free, Egg-less, etc. " required></textarea>' +
+    	'<br><span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm updation.]</b></span>' +
+    	'</div>' +
+    	'</form>',
+    	buttons: {
+    		Add: function () {
+    			var new_note = this.$content.find('.new_item_note').val();
+    			$.ajax({
+    				type:'post',
+    				url:'addNote.php',
+    				data:{
+    					item_id:item_id,
+    					item_quantity:quantity,
+    					table_id:table_id,
+    					new_note:new_note,
+    					table_no:table_no
+    				},
+    				success:function(response) {
+    					location.reload();
+    					//alert(response);
     				}
     			});
     		},

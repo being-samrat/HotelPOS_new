@@ -157,7 +157,6 @@ include_once("../db_conn/conn.php");
 
   <!-- !PAGE CONTENT! -->
   <div class="col-lg-1 col-sm-2"></div>
-<?php echo $_SESSION['cart']; ?>
   <div class="w3-row-padding w3-margin-bottom w3-margin-left w3-col l10 s10" id="searched">
     <?php  
     $fetch_customer_menu_sql="SELECT * FROM menu_items WHERE status='$status' AND visible='1' ORDER BY item_id DESC";
@@ -198,7 +197,7 @@ include_once("../db_conn/conn.php");
        </div>  
        <div class="w3-col l12 w3-col s12 w3-margin-top" >               
         <div class="w3-col l6 w3-col s6" style="padding:5px 2px 0 10px">
-          <span class="w3-left w3-small">Quantity : <input class=" " type="number" placeholder="count" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
+          <span class="w3-left w3-small">Quantity : <input class=" " type="number" placeholder="count" min="0" id="quantity_'.$row['item_id'].'" value="1" style="width:35px"></span>
         </div>          
         <div class="w3-col l6 w3-col s6" style="padding:0px 10px 0 2px">                 
           <span class="w3-right w3-xlarge"><b>'.$row['item_price'].'<i class="fa fa-inr"></i></b></span><br>
@@ -225,17 +224,24 @@ $(document).ready(function(){
 });
 </script>
 <script type="text/javascript">
-
  function addCart(id)
  {
   var name=document.getElementById("name_"+id).value;
   var quantity=document.getElementById("quantity_"+id).value;
   var price=document.getElementById("price_"+id).value; 
   $.confirm({
-    title: 'Add to Basket!',
-    content: 'Want to add only '+quantity+' '+name+'!',
+    title: 'Add to Basket!<div class="w3-display-topright"><a class="btn" data-toggle="collapse" data-parent="#accordion" href="#add_note"><i class="fa fa-plus w3-small w3-text-black"> Note</i></a></div>',
+    content: 'Want to add only '+quantity+' '+name+'!'+
+      '<form action="" class="formName">' +
+      '<div class="form-group collapse well w3-margin-top" id="add_note">' +
+      '<label class="w3-label w3-small">Add any special requirement :</label>' +
+      '<textarea class="new_item_note form-control" id="new_item_note" name="new_item_note" cols="4" placeholder="Ex. Spicy, Sugar-free, Egg-less, etc. " required></textarea>' +
+      '' +
+      '</div>' +
+      '</form>',
     buttons: {
-      confirm: function () {
+      add: function () {
+      var new_note = this.$content.find('.new_item_note').val();
        $.ajax({
         type:'post',
         url:'addCart.php',
@@ -243,6 +249,7 @@ $(document).ready(function(){
           item_id:id,
           item_name:name,
           item_quantity:quantity,
+          new_note:new_note,
           item_price:price
         },
         success:function(response) {

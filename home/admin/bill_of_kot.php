@@ -105,18 +105,15 @@ else{
             $items= $row['kot_items'];
 
             $json=json_decode($items,true);
+
             foreach ($json as $row) {
               echo '
               <tr>
                 <td>'.$row['quantity'].'</td>
-                <td>'.$row['item_name'].'</td>
-
-              </tr>';
-
+                <td>'.$row['item_name'].'<br><i style="font-size:12px;font-weight:bold">[ NOTE: '.$row['item_note'].' ]</i></td>
+              </tr>';              
             }
           }
-
-
 
           $update_sql="UPDATE kot_table SET print_status='0' WHERE table_id='$table_id' AND table_no='$table_no'";
           

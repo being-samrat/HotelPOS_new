@@ -1,4 +1,6 @@
 <?PHP
+error_reporting(E_ERROR | E_PARSE);
+
 session_start();
 
 if (isset($_POST['item_id'])) 
@@ -7,13 +9,15 @@ if (isset($_POST['item_id']))
 	$item_id = $_POST['item_id'];
 	$item_quantity = $_POST['item_quantity'];
 	$item_price = $_POST['item_price'];
-
+	$new_note = $_POST['new_note'];
+// print_r($_POST);
+// die();
 	$cart_array=json_decode($_SESSION['cart'],true);
 
 	foreach ($cart_array as $key => $value) {
 		if (in_array($item_id, $value)) {			
 			$item_quantity += $cart_array[$key]['quantity'];// +=$item_quantity;
-			
+			$new_note= $cart_array[$key]['item_note'].' '.$new_note;
 			unset($cart_array[$key]);
 			}			
 		}
@@ -22,8 +26,10 @@ if (isset($_POST['item_id']))
 		'item_id'=>$item_id,
 		'item_name' => $item_name,
 		'quantity' => $item_quantity,
+		'item_note' => $new_note,
 		"item_price" => $item_price
 		);
+
 	$cart_array[]=$cart_items;
 	$_SESSION['cart']=json_encode($cart_array);
 		
