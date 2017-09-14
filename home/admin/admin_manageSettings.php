@@ -255,7 +255,7 @@ include_once("../db_conn/conn.php")
 									<h4 class="modal-title w3-xxlarge w3-text-red">Add Menu Item</h4>
 								</div>
 								<div class="modal-body">
-									<form id="form_addItem" action="insert_menuItem.php" method="POST">
+									<form id="form_addItem" action="insert_menuItem.php" method="POST" enctype="multipart/form-data">
 
 										<select class="form-control w3-col 4 w3-margin-bottom" name="cat_id" style="" id="cat_id" required>
 											<option class="w3-red" selected>Select Category</option>
@@ -273,6 +273,8 @@ include_once("../db_conn/conn.php")
 
 										<input type="number" name="new_itemPrice" id="new_itemPrice" class="form-control w3-left w3-margin-bottom" placeholder="Rs. " style="margin:0px; width: 120px;" required/><br><br>
 										
+										<input type="file" class="input" id="item_imageFile" name="item_imageFile"><span class="w3-small w3-text-red w3-margin-bottom">(Image size must be < 2MB)</span>
+
 										<hr>
 										<input type="checkbox" name="menuAC" value="1">&nbsp;<label>Check to make A/c Menu Item</label>
 
@@ -429,7 +431,7 @@ include_once("../db_conn/conn.php")
 
 				}
 			</script>
-			<script>
+			<!-- <script>
 				$("#add_menuItem").click( function() {
 					$.post( $("#form_addItem").attr("action"), 
 						$("#form_addItem :input").serializeArray(), 
@@ -450,7 +452,7 @@ include_once("../db_conn/conn.php")
 						$(this).val('');
 					});
 				}
-			</script>
+			</script> -->
 			
 		</body>
 		</html>

@@ -1,15 +1,22 @@
 
 <?php 
+error_reporting(E_ERROR | E_PARSE);
+
 // if(isset($_REQUEST))
 // {
 // $table_id= "-1";
 // $table_no= "-1";
+session_start();
 include_once("../db_conn/conn.php");
 $table_id = $_POST['table_id'];
 $table_no = $_POST['table_no'];
 $date=date("Y-m-d");
-
-$sql="INSERT INTO kot_table(kot_id,table_id,table_no,kot_items,date_time,print_status) VALUES ('','".$table_id."','".$table_no."','','".$date."','1')";
+$waiter="";
+if(isset($_SESSION['waiter']))
+{
+$waiter=$_SESSION['waiter'];
+}
+$sql="INSERT INTO kot_table(kot_id,table_id,table_no,kot_items,date_time,print_status,waiter) VALUES ('','".$table_id."','".$table_no."','','".$date."','1','".$waiter."')";
 $result=mysqli_query($conn,$sql);
 $table_name="";
 
@@ -32,7 +39,7 @@ if($result){
 	$table_name=mysqli_num_rows($order_status_result);
 	 if ($table_name == 0) 
 	{
-		$create_order="INSERT INTO order_table(order_id,table_id,table_no,total_kot,ordered_items,date_time,order_open) VALUES ('','".$table_id."','".$table_no."','','','".$date."','1')";
+		$create_order="INSERT INTO order_table(order_id,table_id,table_no,total_kot,ordered_items,date_time,order_open,waiter) VALUES ('','".$table_id."','".$table_no."','','','".$date."','1','".$waiter."')";
 		$create_order_result=mysqli_query($conn,$create_order);
 	}
 	else{

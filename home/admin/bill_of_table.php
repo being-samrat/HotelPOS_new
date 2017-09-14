@@ -150,7 +150,7 @@ date_default_timezone_set('Asia/Kolkata');
        $items="";
        $item_rate="";
        $item_id="";
-       
+       $waiter="";
 
        while($row=mysqli_fetch_assoc($fetch_orders_result))
        {
@@ -158,7 +158,7 @@ date_default_timezone_set('Asia/Kolkata');
         $items= $row['ordered_items'];
         $order_id= $row['order_id'];
         $table_no= $row['table_no'];
-
+        $waiter=$row['waiter'];
 
       }
       $json=json_decode($items,true);
@@ -167,9 +167,14 @@ date_default_timezone_set('Asia/Kolkata');
       ?>
 
       <?php $order_no=$order_id; ?>
-      GST   NO: #<?php echo $gst; ?><br>
-      Order No: #<?php echo $order_id; ?><br>
-      Order By: #<?php echo $order_by; ?><span style = "float:right"><?php echo date("d M Y [h:i a]"); ?></span><br>
+      GST   NO: #<?php echo $gst; ?>
+      <span style = "float:right">Order No: #<?php echo $order_id; ?></span><br>
+      Order By: #<?php echo $order_by; ?>
+    
+      <?php if($waiter!=''){ ?>
+      <br><span style = "float:left">Waiter : #<?php echo $waiter; ?></span>
+      <?php } ?>
+      <span style = "float:right"><?php echo date("d M Y [h:i a]"); ?></span><br>
 
       
     </div>

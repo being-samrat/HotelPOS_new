@@ -69,13 +69,22 @@ else{
     $kot_id= $_GET['kot_id'];
     $table_id= $_GET['table_id'];
     ?>
+    <?php 
+    $fetch_waiter="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
+    $fetch_waiter_result=mysqli_query($conn,$fetch_waiter);
 
-    <div>           
+    while($row=mysqli_fetch_assoc($fetch_waiter_result))
+    {
+     $waiter=$row['waiter'];
+
+   }
+   ?>
+   <div>           
      <div class = "col-sm-1 col-lg-4 col-md-1 "> 
-        <span class="w3-medium w3-text-red w3-margin-top w3-light-grey"><b>NOTE:</b><br>Do not refresh the page before print.<br>Refreshing the page will clear the KOT details.</span>
-     </div>
+      <span class="w3-medium w3-text-red w3-margin-top w3-light-grey"><b>NOTE:</b><br>Do not refresh the page before print.<br>Refreshing the page will clear the KOT details.</span>
+    </div>
 
-     <div class = " col-sm-12 col-lg-4 col-md-4" id = "container">
+    <div class = " col-sm-12 col-lg-4 col-md-4" id = "container">
 
 
       <h5 class = "text-center">KOT Details</h5>
@@ -84,6 +93,9 @@ else{
       <span class = "w3-right">Table No.# T<?php echo $table_no; ?></span><br>
       <br>
       <span class = "w3-left">Order By:<?php echo $order_by; ?></span>
+      <?php if($waiter!=''){ ?>
+      <br><span class = "w3-left">Waiter : #<?php echo $waiter; ?></span>
+      <?php } ?>
       <span class = "w3-right"><?php echo date("d/M/y [h:i a]"); ?></span>
       <table class="table borderless" >  
         <tbody>
@@ -91,14 +103,13 @@ else{
             <td></td>
             <td></td>
           </tr>
-          <?php 
+
+          <?php
           $fetch_orders="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
           $fetch_orders_result=mysqli_query($conn,$fetch_orders);
           $items="";
           $item_rate="";
           $item_id="";
-
-
           while($row=mysqli_fetch_assoc($fetch_orders_result))
           {
 
@@ -109,29 +120,34 @@ else{
             foreach ($json as $row) {
               echo '
               <tr>
-                <td>'.$row['quantity'].'</td>
-                <td>'.$row['item_name'].'<br><i style="font-size:12px;font-weight:bold">[ NOTE: '.$row['item_note'].' ]</i></td>
-              </tr>';              
+                <td>'.$row['quantity'].'</td>';
+                if($row['item_note']==''){ 
+                  echo '<td>'.$row['item_name'].'</td>';
+                } 
+                else{
+                  echo '<td>'.$row['item_name'].'<br><i style="font-size:12px;font-weight:bold">[ NOTE: '.$row['item_note'].' ]</i></td>';
+                }
+                echo '</tr>';              
+              }
             }
-          }
 
-          $update_sql="UPDATE kot_table SET print_status='0' WHERE table_id='$table_id' AND table_no='$table_no'";
-          
-          if(mysqli_query($conn,$update_sql)==TRUE){
-          $update_sql2="UPDATE hotel_tables SET kot_open='0' WHERE table_id='$table_id'";
-          mysqli_query($conn,$update_sql2);
-        }
+            $update_sql="UPDATE kot_table SET print_status='0' WHERE table_id='$table_id' AND table_no='$table_no'";
+
+            if(mysqli_query($conn,$update_sql)==TRUE){
+              $update_sql2="UPDATE hotel_tables SET kot_open='0' WHERE table_id='$table_id'";
+              mysqli_query($conn,$update_sql2);
+            }
 
 
-        mysqli_close($conn);
-        ?>
-      </tbody>
-    </table> 
-  </div>
-  <div class = "col-sm-3 col-lg-3 col-md-3">
-    <input name="b_print" id="b_print" type="button" class="w3-button w3-red w3-wide w3-margin-top" onClick="javascript:printdiv('container')" value=" Print"  > 
-  </div>
+            mysqli_close($conn);
+            ?>
+          </tbody>
+        </table> 
+      </div>
+      <div class = "col-sm-3 col-lg-3 col-md-3">
+        <input name="b_print" id="b_print" type="button" class="w3-button w3-red w3-wide w3-margin-top" onClick="javascript:printdiv('container')" value=" Print"  > 
+      </div>
 
-</div>
-</body>
-</html>
+    </div>
+  </body>
+  </html>

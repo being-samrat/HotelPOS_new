@@ -35,12 +35,19 @@ mysqli_query($conn, $Alter_tab);
 
 
 //.....................................script to add new column ........................................
-$addColumn_join="SELECT status FROM join_table";
+$addColumn_join="SELECT waiter FROM kot_table";
 $addColumn_join_res=mysqli_query($conn,$addColumn_join);
 if($addColumn_join_res==FALSE)
 {
-  $sql="ALTER TABLE join_table ADD joined BOOLEAN NOT NULL AFTER joint_tables; ";
-  mysqli_query($conn,$sql);
+	$kot_alt_sql="ALTER TABLE kot_table ADD waiter VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER parcel_id; ";
+	mysqli_query($conn,$kot_alt_sql);
 }
 
+$addColumn_waiter="SELECT waiter FROM order_table";
+$addColumn_waiter_res=mysqli_query($conn,$addColumn_waiter);
+if($addColumn_waiter_res==FALSE)
+{
+	$order_alt_sql="ALTER TABLE order_table ADD waiter VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER parcel_id; ";
+	mysqli_query($conn,$order_alt_sql);
+}
 ?>
