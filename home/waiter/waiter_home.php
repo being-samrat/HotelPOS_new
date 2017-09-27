@@ -79,8 +79,6 @@ if(!isset($_SESSION['waiter']))
           <div class="w3-col l4 w3-col s6 w3-margin-bottom ">
             <span class="w3-small w3-right w3-text-white w3-padding-tiny">
               <span>'.$ac_Stat.'</span>
-
-              <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
             </span>
             <div class="w3-container w3-padding-xlarge w3-card-8 w3-round-large" id="vacant_table_order" style="background-color:#79E40D;padding:0px">
               <div class="w3-center w3-circle w3-padding-tiny" id="'.$row['table_id'].'" style="border:4px solid white;"><span class="w3-large w3-text-white"><a class="btn w3-padding-tiny" href="waiter_home.php?table_id='.$row['table_id'].'&table_no='.$row['table_name'].'" style="margin:6px 0 6px 0;">#'.$row['table_name'].'</a></span></div>
@@ -127,8 +125,6 @@ if(!isset($_SESSION['waiter']))
           <span class="w3-badge tickBagde w3-small w3-green '.$show_checked.'">&#10004;</span>
           <span class="w3-small w3-right w3-text-white w3-padding-tiny">
             <span>'.$ac_Stat.'</span>
-
-            <a class="fa fa-refresh" onclick="clear_status('.$row['table_id'].','.$row['table_name'].')"></a>
           </span>
           <div class="w3-container w3-padding-xlarge '.$parent_joined_color.' w3-card-8 w3-round-large" id="occupied_table_order" style="padding:0px">
             <div class="w3-center w3-circle w3-padding-tiny" id="'.$row['table_id'].'" style="border:4px solid white;">
@@ -150,6 +146,7 @@ if(!isset($_SESSION['waiter']))
     <div class="w3-row-padding w3-margin-bottom" style="background-color: white;min-width: 300px">
       <header class="w3-container ">
         <h5><b><i class="fa fa-bookmark"></i> Order for Table No: </b></h5>
+        
       </header>
 
         <div id="per_table_order">

@@ -1,5 +1,5 @@
 <?php
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 session_start();
 include_once("../../db_conn/conn.php");
 
@@ -29,48 +29,48 @@ date_default_timezone_set('Asia/Kolkata');
 
 	<script type="text/javascript" src="../../assets/css/bootstrap/bootstrap.min.js"></script>
 	<style type="text/css" media="print">
-		body { blue;margin: 10mm 8mm 10mm 8mm;
+	body { blue;margin: 10mm 8mm 10mm 8mm;
+	}
+	html {background-color: #FFFFFF;margin: 0px; 
+	}
+	.menu_table{
+		padding:2px;
+	}
+
+	@page {size:auto letter; 
+		margin: 0mm; }
+
+	</style>
+
+	<script>
+
+		function printdiv(printpage)
+		{
+			var headstr = "<html><head></head><body>";
+
+			var footstr = "</body>";
+
+			var newstr = document.all.item(printpage).innerHTML;
+
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = headstr+newstr+footstr;
+			window.print();
+			document.body.innerHTML = oldstr;
+			return false;
+
+
 		}
-		html {background-color: #FFFFFF;margin: 0px; 
-		}
-		.menu_table{
-			padding:2px;
-		}
+	</script>
 
-		@page {size:auto letter; 
-			margin: 0mm; }
+</head>
 
-		</style>
+<body style="font-family:Segoe UI;letter-spacing:1px;">		
+	<div>           
+		<div class = "col-sm-1 col-lg-2 col-md-1 "> 
+			<a name="dashboard" id="dashboard" type="btn" title="return to Dashboard" onclick="location.href = '../admin_index.php';" class="w3-button w3-text-red w3-card w3-large w3-margin-top fa fa-arrow-left"> Back</a>
+		</div>
 
-		<script>
-
-			function printdiv(printpage)
-			{
-				var headstr = "<html><head></head><body>";
-
-				var footstr = "</body>";
-
-				var newstr = document.all.item(printpage).innerHTML;
-
-				var oldstr = document.body.innerHTML;
-				document.body.innerHTML = headstr+newstr+footstr;
-				window.print();
-				document.body.innerHTML = oldstr;
-				return false;
-
-
-			}
-		</script>
-
-	</head>
-
-	<body style="font-family:Segoe UI;letter-spacing:1px;">		
-		<div>           
-			<div class = "col-sm-1 col-lg-2 col-md-1 "> 
-				<a name="dashboard" id="dashboard" type="btn" title="return to Dashboard" onclick="location.href = '../admin_index.php';" class="w3-button w3-text-red w3-card w3-large w3-margin-top fa fa-arrow-left"> Back</a>
-			</div>
-
-			<div class = "col-sm-12 col-lg-8 col-md-3 w3-padding" id ="container">
+		<div class = "col-sm-12 col-lg-8 col-md-3 w3-padding" id ="container">
 
 <!-- 				........................Headers of Hotel.............................
 -->	
@@ -175,103 +175,103 @@ date_default_timezone_set('Asia/Kolkata');
 
 
  <!-- .........................menuitem ranks table........................................
--->
-<div class="col-lg-12 " style="">
-	<hr>
-	<label class="w3-large"><i class="fa fa-certificate"></i> Menuitem Ranks</label>
-	<div>
-		<div class="w3-col l12">
-			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
-				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-up"></i> TOP 5 Items(Non-A/c)</label>	<!-- .....non AC top 5........ -->
-				<?php 
-				$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
-				$result = mysqli_query($conn,$sql);
-				$count=0;    
-				echo '<table class="table table-striped w3-white table-bordered table-condensed" style="margin-top: 0px">';   
-				while($row = mysqli_fetch_array( $result))
-				{
-					$count++;
-					echo '
-					<tr class="w3-small">
-						<td class="w3-center">'.$count.'</td>
-						<td class="w3-center">'.$row['item_name'].'</td>
-						<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
-					</tr>
-					';
-				}
-				echo '</table>';
-				?>
-			</div>
-			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
-				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-up"></i> TOP 5 Items(A/c)</label>	<!-- .....AC top 5........ -->
-				<?php 
-				$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
-				$result = mysqli_query($conn,$sql);
-				$count=0;    
-				echo '<table class="table table-striped table-condensed w3-white table-bordered" style="margin-top: 0px">';   
-				while($row = mysqli_fetch_array( $result))
-				{
-					$count++;
-					echo '
-					<tr class="w3-small">
-						<td class="w3-center">'.$count.'</td>
-						<td class="w3-center">'.$row['item_name'].'</td>
-						<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
-					</tr>
-					';
-				}
-				echo '</table>'; 
-				?>
-			</div>
-		</div>
-		<div class="w3-col l12">
-			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
-				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-down"></i> LOWEST 5 Items(Non-A/c)</label>	<!-- .....non AC lowest 5........ -->	
-				<?php 
-				$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count LIMIT 5";
-				$result = mysqli_query($conn,$sql);
-				$count=0;    
-				echo '<table class="table table-striped w3-white table-condensed table-bordered" style="margin-top: 0px">';   
-				while($row = mysqli_fetch_array( $result))
-				{
-					$count++;
-					echo '
-					<tr class="w3-small">
-						<td class="w3-center">'.$count.'</td>
-						<td class="w3-center">'.$row['item_name'].'</td>
-						<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
-					</tr>
-					';
-				}
-				echo '</table>'; 
-				?>
-			</div>
-			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
-				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-down"></i> LOWEST 5 Items(A/c)</label>	<!-- .....AC lowest 5........ -->
-				<?php 
-				$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count LIMIT 5";
-				$result = mysqli_query($conn,$sql);
-				$count=0; 
-				echo '<table class="table table-striped w3-white table-condensed table-bordered" style="margin-top: 0px">';   
-				while($row = mysqli_fetch_array( $result))
-				{
-					$count++;
-					echo '
-					<tr class="w3-small">
-						<td class="w3-center">'.$count.'</td>
-						<td class="w3-center">'.$row['item_name'].'</td>
-						<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
-					</tr>
-					';
-				}
-				echo '</table>'; 
-				?>
-			</div>
-		</div>
-	</div>
+ -->
+ <div class="col-lg-12 " style="">
+ 	<hr>
+ 	<label class="w3-large"><i class="fa fa-certificate"></i> Menuitem Ranks</label>
+ 	<div>
+ 		<div class="w3-col l12">
+ 			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
+ 				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-up"></i> TOP 5 Items(Non-A/c)</label>	<!-- .....non AC top 5........ -->
+ 				<?php 
+ 				$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
+ 				$result = mysqli_query($conn,$sql);
+ 				$count=0;    
+ 				echo '<table class="table table-striped w3-white table-bordered table-condensed" style="margin-top: 0px">';   
+ 				while($row = mysqli_fetch_array( $result))
+ 				{
+ 					$count++;
+ 					echo '
+ 					<tr class="w3-small">
+ 					<td class="w3-center">'.$count.'</td>
+ 					<td class="w3-center">'.$row['item_name'].'</td>
+ 					<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+ 					</tr>
+ 					';
+ 				}
+ 				echo '</table>';
+ 				?>
+ 			</div>
+ 			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
+ 				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-up"></i> TOP 5 Items(A/c)</label>	<!-- .....AC top 5........ -->
+ 				<?php 
+ 				$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count DESC LIMIT 5";
+ 				$result = mysqli_query($conn,$sql);
+ 				$count=0;    
+ 				echo '<table class="table table-striped table-condensed w3-white table-bordered" style="margin-top: 0px">';   
+ 				while($row = mysqli_fetch_array( $result))
+ 				{
+ 					$count++;
+ 					echo '
+ 					<tr class="w3-small">
+ 					<td class="w3-center">'.$count.'</td>
+ 					<td class="w3-center">'.$row['item_name'].'</td>
+ 					<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+ 					</tr>
+ 					';
+ 				}
+ 				echo '</table>'; 
+ 				?>
+ 			</div>
+ 		</div>
+ 		<div class="w3-col l12">
+ 			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
+ 				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-down"></i> LOWEST 5 Items(Non-A/c)</label>	<!-- .....non AC lowest 5........ -->	
+ 				<?php 
+ 				$sql="SELECT * FROM menu_items WHERE status='0' AND visible='1' ORDER BY ordered_count LIMIT 5";
+ 				$result = mysqli_query($conn,$sql);
+ 				$count=0;    
+ 				echo '<table class="table table-striped w3-white table-condensed table-bordered" style="margin-top: 0px">';   
+ 				while($row = mysqli_fetch_array( $result))
+ 				{
+ 					$count++;
+ 					echo '
+ 					<tr class="w3-small">
+ 					<td class="w3-center">'.$count.'</td>
+ 					<td class="w3-center">'.$row['item_name'].'</td>
+ 					<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+ 					</tr>
+ 					';
+ 				}
+ 				echo '</table>'; 
+ 				?>
+ 			</div>
+ 			<div class="w3-col l6 s6" style="padding: 0 10px 0 10px">
+ 				<label class="w3-small w3-text-grey"><i class="fa fa-thumbs-down"></i> LOWEST 5 Items(A/c)</label>	<!-- .....AC lowest 5........ -->
+ 				<?php 
+ 				$sql="SELECT * FROM menu_items WHERE status='1' AND visible='1' ORDER BY ordered_count LIMIT 5";
+ 				$result = mysqli_query($conn,$sql);
+ 				$count=0; 
+ 				echo '<table class="table table-striped w3-white table-condensed table-bordered" style="margin-top: 0px">';   
+ 				while($row = mysqli_fetch_array( $result))
+ 				{
+ 					$count++;
+ 					echo '
+ 					<tr class="w3-small">
+ 					<td class="w3-center">'.$count.'</td>
+ 					<td class="w3-center">'.$row['item_name'].'</td>
+ 					<td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+ 					</tr>
+ 					';
+ 				}
+ 				echo '</table>'; 
+ 				?>
+ 			</div>
+ 		</div>
+ 	</div>
 
 
-</div>	
+ </div>	
 
 <!-- .....................................menu item rank table end...................................
 -->
@@ -319,10 +319,10 @@ date_default_timezone_set('Asia/Kolkata');
   							$totalSale=$row['sum(revenue)'];
   							echo '
   							<tr>
-  								<td class="w3-center" style="">'.$count.'</td>
-  								<td class="w3-center">'.$row['dated'].'</td>
+  							<td class="w3-center" style="">'.$count.'</td>
+  							<td class="w3-center">'.$row['dated'].'</td>
 
-  								<td class="w3-center">'.$totalSale.' <i class="fa fa-inr"></i></td>
+  							<td class="w3-center">'.$totalSale.' <i class="fa fa-inr"></i></td>
   							</tr>
   							';
   						}
@@ -342,7 +342,95 @@ date_default_timezone_set('Asia/Kolkata');
   	<hr>
 
  <!-- .........................per day sale table end........................................
+ -->
+
+
+<!-- .........................Menu sold table........................................
 -->
+
+<div class="col-lg-12 " style="">
+
+	<hr>
+	<label class="w3-large"><i class="fa fa-coffee"></i> Menu Items Sold Table </label>
+	<b><span class="w3-right">[<?php echo $_GET['report_fromDate']." to ".$_GET['report_toDate'] ?>]</span></b>
+	<div class="w3-col l12 s12" style="padding: 0 10px 0 10px">
+		<table class="table table-bordered table-striped table-responsive col-md-6 " style="font-size: 12px">
+			<tr>
+				<td class="w3-center" style="font-weight: bold;">Sr.No</td>
+				<td class="w3-center" style="font-weight: bold;">Items Sold</td>
+				<td class="w3-center" style="font-weight: bold;">Net Quantity</td>
+			</tr>
+			
+			<?php
+			
+			$fromD=$_GET['report_fromDate'];
+			$toD=$_GET['report_toDate'];
+			
+			$allItem_array=array();
+			
+			$Dated_ordersql="SELECT * FROM order_table WHERE date_time BETWEEN '".$fromD."' AND '".$toD."' " ;
+            $Dated_orderRES=mysqli_query($conn,$Dated_ordersql);//-------------------get total no of  sold item  
+            while($row=mysqli_fetch_array($Dated_orderRES))
+            {
+            	$data=$row['ordered_items'];
+            	$data_array=json_decode($data,true);
+            	$item_id="";
+            	$item_quantity="";            	
+            	
+            	foreach ($data_array as $key) {
+            		$item_id=$key['item_id'];
+            		$item_name=$key['item_name'];
+            		$item_quantity=$key['quantity'];
+
+            		if(in_array($item_id, $allItem_array)){
+            			foreach($new_arr as $item => $val) {
+							
+            				if(in_array($item_id,$val)){
+								$item_quantity += $new_arr[$item]['total'];// +=$item_quantity;								
+								unset($new_arr[$item]);
+							}
+							
+						}
+						$extra_array=array(
+							'item_id' => $item_id,
+							'item_name' => $item_name,
+							'total'	=>	$item_quantity
+						);
+						$allItem_array[]=$item_id;
+					}
+					else{
+						$extra_array=array(
+							'item_id' => $item_id,
+							'item_name' => $item_name,
+							'total'	=>	$item_quantity
+						);
+						$allItem_array[]=$item_id;
+					}
+					$new_arr[]=$extra_array;
+					
+				}
+  			}  
+  			$count=0;
+  			foreach ($new_arr as $key) {
+  				$count++;
+  					echo '
+  							<tr>
+  							<td class="w3-center" style="">'.$count.'</td>
+  							<td class="w3-center">'.$key['item_name'].'</td>
+
+  							<td class="w3-center">'.$key['total'].'</td>
+  							</tr>
+  							';
+  			}		
+
+  			?>
+  		</table>			
+  	</div>
+  </div>				
+  <hr>
+
+ <!-- ........................Menu sold table end........................................
+ -->
 </div>
 
 <div class = "col-sm-1 col-lg-2 col-md-1" id="print_action" style="display: none;">

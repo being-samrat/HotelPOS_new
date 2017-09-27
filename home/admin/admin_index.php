@@ -21,6 +21,7 @@ include_once("../db_conn/conn.php")
   <link rel="stylesheet" href="../assets/css/font awesome/font-awesome.css">
   <link rel="stylesheet" href="../assets/css/w3.css">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/alert/jquery-confirm.css">
   <script type="text/javascript" src="../assets/css/bootstrap/jquery-3.1.1.js"></script>
   <script type="text/javascript" src="report/js/jquery.min.js"></script>
   <script type="text/javascript" src="report/js/Chart.min.js"></script>
@@ -29,6 +30,7 @@ include_once("../db_conn/conn.php")
   <script type="text/javascript" src="report/js/saleReport.js"></script>
   <script type="text/javascript" src="report/js/Chart.js"></script>
   <script type="text/javascript" src="../assets/css/bootstrap/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../assets/css/alert/jquery-confirm.js"></script>
 
 </head>
 
@@ -146,9 +148,9 @@ include_once("../db_conn/conn.php")
               $count++;
               echo '
               <tr>
-                <td class="w3-center" style="">'.$count.'</td>
-                <td class="w3-center">'.$row['item_name'].'</td>
-                <td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
+              <td class="w3-center" style="">'.$count.'</td>
+              <td class="w3-center">'.$row['item_name'].'</td>
+              <td class="text-right"><i>'.$row['ordered_count'].' times</i></td>
               </tr>
               ';
             }
@@ -197,17 +199,54 @@ include_once("../db_conn/conn.php")
          </div>
          <div class="w3-col l6">
         <!--                 ................here general imp note to print report....................
-      -->  
-      <label class="w3-small w3-text-red">NOTE:</label>
-      <ol class="w3-small w3-text-red">
-        <li style="margin-bottom: 5px;">Please fill all the input fields before submitting the form.</li>
-        <li style="margin-bottom: 5px;">Printed Report includes Sales/day report and Menu-Ordered/day report within specified days along with TOP-5 and LEAST-5 Menu Items till now.</li>
-        <li style="margin-bottom: 5px;">It is recommended to perform print action from computer or any display device having screen size more than 500x500 dpi and not from mobile phones.</li>
-      </ol>   
-    </div> 
+        -->  
+        <label class="w3-small w3-text-red">NOTE:</label>
+        <ol class="w3-small w3-text-red">
+          <li style="margin-bottom: 5px;">Please fill all the input fields before submitting the form.</li>
+          <li style="margin-bottom: 5px;">Printed Report includes Sales/day report and Menu-Ordered/day report within specified days along with TOP-5 and LEAST-5 Menu Items till now.</li>
+          <li style="margin-bottom: 5px;">It is recommended to perform print action from computer or any display device having screen size more than 500x500 dpi and not from mobile phones.</li>
+        </ol>   
+      </div> 
 
+    </div>
   </div>
 </div>
+</div>
+<hr class="w3-border">
+<div class="w3-panel">
+  <div class="w3-row-padding" style="margin:0 -16px">
+    <div class="w3-col l12">
+      <h5><b><i class="fa fa-line-chart"></i> Invoice report </b></h5>
+
+      <div class="w3-col l3 w3-margin-top"> 
+       <div id="invoice_Report" class="w3-margin-top">
+        <div class="w3-col l6"">
+          <label class="w3-small w3-text-grey">From Date : </label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px;" name="invoice_fromDate" id="invoice_fromDate" required>
+        </div>
+
+        <div class="w3-col l6">
+          <label class="w3-small w3-text-grey">To Date:</label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px;" name="invoice_toDate" id="invoice_toDate" required>
+        </div>           
+
+
+        <a class="w3-card w3-button w3-right w3-margin-top w3-text-red w3-small" name="getInvoice_btn" id="getInvoice_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
+      </div>  
+
+    </div>
+    <div class="w3-col l9 w3-padding-left">
+      <div class="well w3-col l12"> 
+        <h4 class="w3-center w3-large">Invoice Table</h4>   
+        <div id="invoiceReport_table" class="w3-col l12 w3-margin-top" style="overflow: hidden;overflow-x: scroll;">
+          <div class="w3-center ">
+          <label class="w3-small w3-text-red">Please Select the Dates beside this column to get all Invoice bills within the dates.</label>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--           ..................ending of report forms.................. -->
 </div>
 </div>
 <hr class="w3-border">
@@ -222,36 +261,36 @@ include_once("../db_conn/conn.php")
           <button class="btn w3-button w3-red" id="saleReport_btn">Sales Report</button>
         </div>
         <div id="item_countReport" class="Charts w3-margin-top" style="display:none">
-            <div class="w3-col l12 w3-padding">
-             <select class="form-control w3-margin-right" name="Report_menu" id="Report_menu">
-              <option class="w3-red" selected><b>Choose Menu Item</b></option>
-              <?php                 
-              $sqlmenu="SELECT * FROM menu_items WHERE visible=1";
-              $menuresult=mysqli_query($conn,$sqlmenu);
+          <div class="w3-col l12 w3-padding">
+           <select class="form-control w3-margin-right" name="Report_menu" id="Report_menu">
+            <option class="w3-red" selected><b>Choose Menu Item</b></option>
+            <?php                 
+            $sqlmenu="SELECT * FROM menu_items WHERE visible=1";
+            $menuresult=mysqli_query($conn,$sqlmenu);
 
-              while($menuresultrow = mysqli_fetch_array( $menuresult))
-              {
-                echo '<option value="'.$menuresultrow['item_name'].'">'.$menuresultrow['item_name'].'</option>';
-              }   
-              ?>  
-            </select>
-          </div>
-          <div class="w3-col l6">
-            <label class="w3-small w3-text-grey">From Date : </label>
-            <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_fromDate" id="item_fromDate" required>
-          </div>
+            while($menuresultrow = mysqli_fetch_array( $menuresult))
+            {
+              echo '<option value="'.$menuresultrow['item_name'].'">'.$menuresultrow['item_name'].'</option>';
+            }   
+            ?>  
+          </select>
+        </div>
+        <div class="w3-col l6">
+          <label class="w3-small w3-text-grey">From Date : </label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_fromDate" id="item_fromDate" required>
+        </div>
 
-          <div class="w3-col l6">
-            <label class="w3-small w3-text-grey">To Date:</label>
-            <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_toDate" id="item_toDate" required>
-          </div>
-                   
-       
-         <a class="w3-card w3-button w3-margin-top w3-right w3-text-red w3-small" name="getItem_btn" id="getItem_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
-       
-     </div>            
+        <div class="w3-col l6">
+          <label class="w3-small w3-text-grey">To Date:</label>
+          <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="item_toDate" id="item_toDate" required>
+        </div>
 
-     <div id="sale_Report" class="Charts w3-margin-top" style="display:none">
+
+        <a class="w3-card w3-button w3-margin-top w3-right w3-text-red w3-small" name="getItem_btn" id="getItem_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
+
+      </div>            
+
+      <div id="sale_Report" class="Charts w3-margin-top" style="display:none">
         <div class="w3-col l6">
           <label class="w3-small w3-text-grey">From Date : </label>
           <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_fromDate" id="sale_fromDate" required>
@@ -262,27 +301,26 @@ include_once("../db_conn/conn.php")
           <input class="form-control w3-margin-right" type="date" style="font-size: 12px" name="sale_toDate" id="sale_toDate" required>
         </div>           
 
-                  
-       <a class="w3-card w3-button w3-right w3-margin-top w3-text-red w3-small" name="getSale_btn" id="getSale_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
-   </div>  
 
- </div>
-</div>
-<!--           ..................ending of report forms.................. -->
+        <a class="w3-card w3-button w3-right w3-margin-top w3-text-red w3-small" name="getSale_btn" id="getSale_btn" style="padding:5px">Get Report <i class="fa fa-arrow-right"></i></a>                 
+      </div>  
 
-<div class="w3-twothird" style="margin-right: 0">
-  <h5></h5>
-  <div class="well" style="overflow: hidden;overflow-x: scroll;">  
+    </div>
+  </div>
+  <!--           ..................ending of report forms.................. -->
 
-    <h4 class="w3-center w3-large" id="Report_title"></h4>
-    <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
-    </canvas>
-    <div id="saleReport_table"></div>
+  <div class="w3-twothird" style="margin-right: 0">
+    <h5></h5>
+    <div class="well" style="overflow: hidden;overflow-x: scroll;">  
+
+      <h4 class="w3-center w3-large" id="Report_title"></h4>
+      <canvas id="Report_Chart" width="500px" height="500px" style="height: auto;">
+      </canvas>
+      <div id="saleReport_table"></div>
+    </div>
   </div>
 </div>
 </div>
-</div>
-<hr>
 
 <!--   <div class="w3-container">
     <h5>Countries</h5>
@@ -435,6 +473,62 @@ $(document).ready(function()
   });
 });
 });
+</script>
+<script>
+  $(document).ready(function()
+{
+  $("#getInvoice_btn").click(function(){ 
+    var from = $("#invoice_fromDate").val();  
+    var to = $("#invoice_toDate").val();  
+    var data = {
+      from:from,
+      to:to
+    };
+    
+    $.ajax({  
+      url:"report/getInvoice_Report.php",  
+      method:"GET",
+      data:data,  
+      success:function(data)  
+      {  
+        $("#invoiceReport_table").html(data);
+        //alert(data);
+      },
+      error:function(data){
+        console.log(data);
+      } 
+    });  
+  });
+});
+</script>
+<script type="text/javascript">
+
+  function deleteInvoice(order_no){
+   
+    $.confirm({
+      title: '<label class="w3-label w3-large">Delete Invoice No.#'+order_no+'</label>',
+      content: 'This action will delete this invoice permanantly. Are you sure you want to proceed?',
+      buttons: {
+        confirm: function () {
+          var data = 'order_no='+ order_no;
+          $.ajax({
+          url:"report/deleteInvoice.php", //the page containing php script
+          type: "POST", //request type
+          data: data,
+          cache: false,
+          success:function(html){
+            $.alert(html);  
+            $("#getInvoice_btn").click();        
+          }
+      });},
+    cancel: function () {
+
+        }
+      }
+    });
+
+  }
+
 </script>
 </body>
 </html>

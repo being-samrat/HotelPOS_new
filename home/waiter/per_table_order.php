@@ -5,68 +5,68 @@ include_once("../db_conn/conn.php");
 ?>
 
 <style>  
-	.searchUL{  
-		background-color:#E4E4E4;  
-		cursor:pointer;  
-	}  
-	.searchLI{  
-		padding:8px;  
-	}  
+.searchUL{  
+	background-color:#E4E4E4;  
+	cursor:pointer;  
+}  
+.searchLI{  
+	padding:8px;  
+}  
 </style>  
 <style>
 
-	/* Include the padding and border in an element's total width and height */
-	* {
-		box-sizing: border-box;
-	}
+/* Include the padding and border in an element's total width and height */
+* {
+	box-sizing: border-box;
+}
 
-	/* Remove margins and padding from the list */
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style: none; 
-	}
+/* Remove margins and padding from the list */
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none; 
+}
 
-	/* Style the list items */
-	ul li {
-		cursor: pointer;
-		position: relative;
+/* Style the list items */
+ul li {
+	cursor: pointer;
+	position: relative;
 
-		background: #eee;
-		font-size: 18px;
-		transition: 0.2s;
+	background: #eee;
+	font-size: 18px;
+	transition: 0.2s;
 
-		/* make the list items unselectable */
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-	}
-	.unselectable {
-		-moz-user-select: -moz-none;
-		-khtml-user-select: none;
-		-webkit-user-select: none;
-		-o-user-select: none;
-		user-select: none
-	}
-	/* Set all odd list items to a different color (zebra-stripes) */
-	ul li:nth-child(odd) {
-		background: #f9f9f9;
-	}
-	.todolist{
-		background-color:#FFF;
-		padding:20px 20px 10px 20px;
-		margin-top:30px;
-	}
+	/* make the list items unselectable */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.unselectable {
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none
+}
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+	background: #f9f9f9;
+}
+.todolist{
+	background-color:#FFF;
+	padding:20px 20px 10px 20px;
+	margin-top:30px;
+}
 
-	#done-items li{
-		padding:5px;
-		border-bottom:1px solid #ddd;
-		font-size: 14px;
-	}
-	#done-items li:last-child{
-		border-bottom:none;
-	}
+#done-items li{
+	padding:5px;
+	border-bottom:1px solid #ddd;
+	font-size: 14px;
+}
+#done-items li:last-child{
+	border-bottom:none;
+}
 </style>
 <?php  
 
@@ -102,7 +102,7 @@ $json_join=json_decode($join_tabs,true);
 <div class="col-sm-12 w3-margin-bottom">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="w3-col l12 well">				
+			<div class="w3-col l12 well" style="margin-bottom: -2px">				
 
 				<div class="w3-center w3-xlarge">
 					<?php 
@@ -146,7 +146,7 @@ $json_join=json_decode($join_tabs,true);
 
 								$items= $row['ordered_items'];
 							}
-
+							$count=0;
 							$json=json_decode($items,true);
 							foreach ($json as $row) {
 								$count++;
@@ -154,13 +154,13 @@ $json_join=json_decode($join_tabs,true);
 								$item= implode('|', $item);
 								echo '
 								<tr>
-									<td>'.$row['item_name'].'</td>
-									<td>'.$row['quantity'].'</td>
-									<td>
-										<button type="button" class=" btn w3-medium fa fa-sticky-note-o" style="padding:0" title="Add Note" onclick="addNote_item(\''.$item.'\')" ></button>
-										<button type="button" class=" btn w3-medium fa fa-edit" style="padding:0" title="Edit Quantity" onclick="editOrder_item(\''.$item.'\')" ></button>
-										<button type="button" class=" btn w3-medium fa fa-remove" style="padding:0" title="Delete Item" onclick="delOrder_item(\''.$item.'\')" ></button>
-									</td>
+								<td>'.$row['item_name'].'</td>
+								<td>'.$row['quantity'].'</td>
+								<td>
+								<button type="button" class=" btn w3-medium fa fa-sticky-note-o" style="padding:0" title="Add Note" onclick="addNote_item(\''.$item.'\')" ></button>
+								<button type="button" class=" btn w3-medium fa fa-edit" style="padding:0" title="Edit Quantity" onclick="editOrder_item(\''.$item.'\')" ></button>
+								<button type="button" class=" btn w3-medium fa fa-remove" style="padding:0" title="Delete Item" onclick="delOrder_item(\''.$item.'\')" ></button>
+								</td>
 
 								</tr>';
 
@@ -180,11 +180,11 @@ $json_join=json_decode($join_tabs,true);
 									$join_total=$j_items['item_price'] * $j_items['quantity'];
 									echo '
 									<tr>
-										<td>'.$j_items['item_name'].'</td>
-										<td>'.$j_items['quantity'].'</td>
-										<td>'.$j_items['item_price'].' <i class="fa fa-inr"></i></td>
-										<td>'.$join_total.' <i class="fa fa-inr"></i></td>
-										
+									<td>'.$j_items['item_name'].'</td>
+									<td>'.$j_items['quantity'].'</td>
+									<td>'.$j_items['item_price'].' <i class="fa fa-inr"></i></td>
+									<td>'.$join_total.' <i class="fa fa-inr"></i></td>
+
 									</tr>';
 
 								}
@@ -197,13 +197,54 @@ $json_join=json_decode($join_tabs,true);
 					</table>
 					
 				</div>
-			</div>
+				
+				<?php
+				$kot_status="SELECT * FROM kot_table WHERE table_id='$table_id' AND print_status='1'";
+				$kot_status_result=mysqli_query($conn,$kot_status);
 
+				$kot_id="";
+				while($row = mysqli_fetch_array( $kot_status_result))
+				{
+
+					$kot_id=$row['kot_id'];
+
+				}
+
+				$fetch_print="SELECT * FROM hotel_tables WHERE table_id='$table_id'";
+				$fetch_print_result=mysqli_query($conn,$fetch_print);
+
+				while($row = mysqli_fetch_array( $fetch_print_result))
+				{
+					$print_kot="";
+					$print_bill="";
+					
+					if (($row['occupied']==1)) {
+
+						$print_bill="";
+					}else{
+						$print_bill="disabled";
+					}
+
+					if (($row['kot_open']==1)) {
+							
+						$print_kot="";
+					}else{
+						$print_kot="disabled";
+					}
+				}
+				?>
+				<div class="w3-col l12 w3-right w3-small" id="print_waiter">
+					<a class="btn w3-border-bottom w3-border-left w3-small w3-border-right w3-light-red w3-button w3-text-red" target="_blank" href="../admin/bill_of_kot.php?kot_id=<?php echo $kot_id; ?>&table_no=<?php echo $table_no; ?>&table_id=<?php echo $table_id; ?>" style="margin-top:0;margin-left:20px;padding:5px" <?php echo $print_kot ?> onclick="location.reload();"><span class="fa fa-sticky-note"> KOT</span></a>
+
+					<a class="btn w3-border-bottom w3-border-left w3-small w3-border-right w3-button w3-light-red w3-text-red" target="_blank" href="../admin/bill_of_table.php?table_id=<?php echo $table_id; ?>&table_no=<?php echo $table_no; ?>" style="margin-top:0;padding:5px" <?php echo $print_bill ?> onclick="location.reload();"><span class="fa fa-print"> Bill</span></a>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 
 	<div class="w3-row-padding w3-margin-bottom">
-		<div class="w3-col l12 w3-col s12 ">
+		<div class="w3-col l12 w3-col s12 w3-margin-top">
 			<button type="button" class=" btn w3-round w3-text-red w3-left" data-toggle="modal" data-target="#takeOrder" id="takeObtn"><span class="fa fa-plus"></span> Take Order</button>
 
 			<button type="button" class=" btn w3-round w3-text-red w3-right" data-toggle="modal" data-target="#shiftTable"><span class="fa fa-reply"></span> Shift Table</button>
@@ -294,6 +335,7 @@ $json_join=json_decode($join_tabs,true);
 		</div>
 	</div>
 	<?php } ?>
+	
 	<script>
 		$(document).ready(function() {
 
@@ -491,40 +533,40 @@ $("#per_table_order").load("per_table_order.php?table_id=<?php echo $table_id; ?
 		var quantity=item_data[1];
 		var table_id = $('#table_id').val(); 
     	var table_no = $('#table_no_ip').val(); //where #table could be an input with the name of the table you want to truncate
-    
-    
-    $.confirm({
-    	
-    	title: 'Add Note',
-    	content: '' +
-    	'<form action="" class="formName">' +
-    	'<div class="form-group">' +
-    	'<label class="w3-label w3-small">Add any special requirement :</label>' +
-    	'<textarea class="new_item_note form-control" id="new_item_note" name="new_item_note" cols="4" placeholder="Ex. Spicy, Sugar-free, Egg-less, etc. " required></textarea>' +
-    	'<br><span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm updation.]</b></span>' +
-    	'</div>' +
-    	'</form>',
-    	buttons: {
-    		Add: function () {
-    			var new_note = this.$content.find('.new_item_note').val();
-    			$.ajax({
-    				type:'post',
-    				url:'addNote.php',
-    				data:{
-    					item_id:item_id,
-    					item_quantity:quantity,
-    					table_id:table_id,
-    					new_note:new_note,
-    					table_no:table_no
-    				},
-    				success:function(response) {
-    					location.reload();
+
+
+    	$.confirm({
+
+    		title: 'Add Note',
+    		content: '' +
+    		'<form action="" class="formName">' +
+    		'<div class="form-group">' +
+    		'<label class="w3-label w3-small">Add any special requirement :</label>' +
+    		'<textarea class="new_item_note form-control" id="new_item_note" name="new_item_note" cols="4" placeholder="Ex. Spicy, Sugar-free, Egg-less, etc. " required></textarea>' +
+    		'<br><span class="w3-small w3-text-red"><b>[NOTE: Please print the KOT for this table before confirm updation.]</b></span>' +
+    		'</div>' +
+    		'</form>',
+    		buttons: {
+    			Add: function () {
+    				var new_note = this.$content.find('.new_item_note').val();
+    				$.ajax({
+    					type:'post',
+    					url:'addNote.php',
+    					data:{
+    						item_id:item_id,
+    						item_quantity:quantity,
+    						table_id:table_id,
+    						new_note:new_note,
+    						table_no:table_no
+    					},
+    					success:function(response) {
+    						location.reload();
     					//alert(response);
     				}
     			});
-    		},
-    		cancel: function () {}
-    	}
-    });
-}
+    			},
+    			cancel: function () {}
+    		}
+    	});
+    }
 </script>
