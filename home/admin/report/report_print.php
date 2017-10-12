@@ -289,7 +289,7 @@ date_default_timezone_set('Asia/Kolkata');
 		<table class="table table-bordered table-striped table-responsive col-md-6 " style="font-size: 12px">
 			<tr>
 				<td class="w3-center" style="font-weight: bold;">Sr.No</td>
-				<td class="w3-center" style="font-weight: bold;">Dated</td>
+				<td class="w3-center" style="font-weight: bold;">Dated <span class="w3-tiny">(YYYY-MM-DD)</span></td>
 				<td class="w3-center" style="font-weight: bold;">Net Sale (<i class="fa fa-inr"></i>)</td>
 			</tr>
 			<?php  
@@ -304,6 +304,7 @@ date_default_timezone_set('Asia/Kolkata');
 			$today=date("Y-m-d");
 
 			$totalSale = "0";
+			$Net_saleAmount=0;
 			$count=0;
 			for($i=0;$i<$between_dates;$i++){						
 				$TotalOrderSale_sql="SELECT *,sum(revenue) FROM order_bill WHERE dated='".$from."'" ;
@@ -325,6 +326,7 @@ date_default_timezone_set('Asia/Kolkata');
   							<td class="w3-center">'.$totalSale.' <i class="fa fa-inr"></i></td>
   							</tr>
   							';
+  							$Net_saleAmount = $Net_saleAmount +$totalSale;
   						}
   					}
 
@@ -336,6 +338,10 @@ date_default_timezone_set('Asia/Kolkata');
 
   				}
   				?>
+  				<tr>
+  					<td colspan="2" class="text-right"><label>NET SALE:</label></td>
+  					<td class="w3-center"><label><?php echo $Net_saleAmount; ?> <i class="fa fa-inr"></i></label></td>
+  				</tr>
   			</table>			
   		</div>
   	</div>				
