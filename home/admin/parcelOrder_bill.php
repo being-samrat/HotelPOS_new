@@ -132,7 +132,7 @@ date_default_timezone_set('Asia/Kolkata');
       <?php $order_no=$order_id; ?>
       GST   NO: #<?php echo $gst;?><br>
       Order No: #<?php echo $order_id; ?><br>
-      Order By: #<?php echo $parcelBy; ?><span style = "float:right"><?php echo date("d M y [h:i a]"); ?></span><br>      
+      Order By: #<?php echo $parcelBy; ?><span style = " float:right"><?php echo date("d M y [h:i a]"); ?></span><br>      
     </div>
 
     <br>
